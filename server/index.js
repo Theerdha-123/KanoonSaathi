@@ -701,6 +701,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// ─── Serve React Frontend (Production) ─────────────────────────────────────────
+
+if (IS_PROD) {
+  const distPath = join(__dirname, '..', 'dist');
+  app.use(express.static(distPath));
+
+  // Catch-all: send React app for any non-API route (SPA routing)
+  app.get('*', (req, res) => {
+    res.sendFile(join(distPath, 'index.html'));
+  });
+}
+
 // ─── Start Server ───────────────────────────────────────────────────────────────
 
 const DB_PROVIDER = process.env.DB_PROVIDER || 'sqlite';
