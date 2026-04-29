@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.env
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/backups/
+.git
+.gitignore
+*.md
+scratch/
+kanoon.pdf
+KanoonSaathi.jsx
+.gemini/

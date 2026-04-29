@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF6B00"/>
+      <stop offset="100%" stop-color="#FF9500"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Scale base -->
+  <line x1="256" y1="120" x2="256" y2="380" stroke="white" stroke-width="16" stroke-linecap="round"/>
+  <line x1="120" y1="380" x2="392" y2="380" stroke="white" stroke-width="16" stroke-linecap="round"/>
+  <!-- Bridge -->
+  <line x1="140" y1="200" x2="372" y2="200" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <!-- Left pan -->
+  <path d="M 140 200 Q 110 280 80 200" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="110" cy="270" rx="50" ry="14" fill="white" opacity="0.8"/>
+  <!-- Right pan -->
+  <path d="M 372 200 Q 402 280 432 200" fill="none" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="402" cy="270" rx="50" ry="14" fill="white" opacity="0.8"/>
+  <!-- Base detail -->
+  <line x1="200" y1="380" x2="312" y2="380" stroke="white" stroke-width="20" stroke-linecap="round"/>
+</svg>

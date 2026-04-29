@@ -1,0 +1,38 @@
+# render.yaml — Render Deployment Configuration
+# Deploy: connect your GitHub repo on https://dashboard.render.com
+
+services:
+  - type: web
+    name: kanoonsaathi
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: AI_PROVIDER
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: JWT_SECRET
+        generateValue: true  # Auto-generate secure random value
+      - key: DB_PROVIDER
+        value: sqlite
+      - key: ADMIN_EMAIL
+        value: admin@kanoonsaathi.in
+      - key: ADMIN_PASSWORD
+        sync: false  # Set manually
+      - key: CORS_ORIGIN
+        sync: false  # Set to your domain
+      - key: ENABLE_BACKUPS
+        value: "true"
+      - key: BACKUP_INTERVAL_HOURS
+        value: "12"
+    disk:
+      name: kanoonsaathi-data
+      mountPath: /app/data
+      sizeGB: 1
+    healthCheckPath: /api/health
