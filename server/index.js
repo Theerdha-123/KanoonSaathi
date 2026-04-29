@@ -708,7 +708,7 @@ if (IS_PROD) {
   app.use(express.static(distPath));
 
   // Catch-all: send React app for any non-API route (SPA routing)
-  app.get('*', (req, res) => {
+  app.get('/*splat', (req, res) => {
     res.sendFile(join(distPath, 'index.html'));
   });
 }
