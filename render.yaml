@@ -11,8 +11,6 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3001
       - key: AI_PROVIDER
         value: gemini
       - key: GEMINI_API_KEY

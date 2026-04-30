@@ -10,7 +10,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { mkdirSync } from 'fs';
+import { mkdirSync, statSync } from 'fs';
 import { backupDatabase } from './backup.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -294,11 +294,13 @@ export function getAllUsers(limit = 100, offset = 0) {
 // ─── Database Status ─────────────────────────────────────────────────────────
 
 export function getDbStatus() {
+  let sizeBytes = 0;
+  try { sizeBytes = statSync(DB_PATH).size; } catch {}
   return {
     connected: true,
     provider: 'sqlite',
     path: DB_PATH,
-    sizeBytes: (() => { try { const { statSync } = require('fs'); return statSync(DB_PATH).size; } catch { return 0; } })(),
+    sizeBytes,
   };
 }
 

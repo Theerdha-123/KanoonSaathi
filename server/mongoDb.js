@@ -108,14 +108,14 @@ const DraftUsage = mongoose.model('DraftUsage', draftUsageSchema);
 
 // ─── User Management ─────────────────────────────────────────────────────────
 
-export function createUser({ name, email, phone, password, role = 'user', state = null, language = 'en' }) {
+export async function createUser({ name, email, phone, password, role = 'user', state = null, language = 'en' }) {
   const hash = bcrypt.hashSync(password, 10);
   try {
     const user = new User({ name, email: email.toLowerCase(), phone, password_hash: hash, role, state, language });
-    const saved = user.save(); // intentionally not awaited for compatibility — caller can await
-    return saved.then(u => ({ id: u._id.toString(), name: u.name, email: u.email }));
+    const saved = await user.save();
+    return { id: saved._id.toString(), name: saved.name, email: saved.email };
   } catch (e) {
-    if (e.code === 11000) throw new Error('Account already exists');
+    if (e.code === 11000 || e.message?.includes('duplicate')) throw new Error('Account already exists');
     throw e;
   }
 }

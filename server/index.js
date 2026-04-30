@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { existsSync } from 'fs';
 import multer from 'multer';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import {
@@ -24,6 +25,11 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const IS_PROD = process.env.NODE_ENV === 'production';
 
+// Trust proxy for Render/Cloudflare (required for rate limiting)
+if (IS_PROD) {
+  app.set('trust proxy', 1);
+}
+
 // ─── Security Middleware ────────────────────────────────────────────────────────
 
 // Security headers (CSP, XSS protection, etc.)
@@ -32,13 +38,13 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,   // Allow image loading
 }));
 
-// CORS — locked down in production
+// CORS — flexible by default, can be locked down via CORS_ORIGIN
 const corsOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',')
-  : (IS_PROD ? [] : ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173']);
+  : true; // Allow all origins if not specified (simplifies initial deployment)
 
 app.use(cors({
-  origin: IS_PROD ? corsOrigins : true,
+  origin: corsOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
@@ -228,44 +234,78 @@ function mockAIResponse(userMessage) {
 
 // ─── Auth API Endpoints ─────────────────────────────────────────────────────────
 
-app.post('/api/auth/signup', (req, res) => {
+app.post('/api/auth/signup', async (req, res) => {
   try {
     const { name, email, phone, password, state, language } = req.body;
+    console.log(`📝 Signup attempt: ${email}`);
+    
     if (!name || !email || !password) return res.status(400).json({ error: 'Name, email, and password are required' });
     if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
-    const user = createUser({ name: name.trim(), email, phone, password, state, language });
-    const loginResult = loginUser(email, password);
+    
+    await createUser({ name: name.trim(), email, phone, password, state, language });
+    console.log(`✅ User created: ${email}. Attempting auto-login...`);
+    
+    const loginResult = await loginUser(email, password);
+    if (!loginResult) {
+      console.error(`❌ Auto-login failed for ${email}`);
+      return res.status(500).json({ error: 'Account created but auto-login failed. Please login manually.' });
+    }
+    
+    console.log(`✨ Signup successful: ${email}`);
     res.json(loginResult);
   } catch (e) {
+    console.error(`❌ Signup error for ${req.body.email}:`, e.message);
     res.status(400).json({ error: e.message });
   }
 });
 
-app.post('/api/auth/login', (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
-  const result = loginUser(email, password);
-  if (!result) return res.status(401).json({ error: 'Invalid email or password' });
-  res.json(result);
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log(`🔑 Login attempt: ${email}`);
+    
+    if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
+    
+    const result = await loginUser(email, password);
+    if (!result) {
+      console.warn(`⚠️ Invalid login: ${email}`);
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    
+    console.log(`✅ Login successful: ${email} (${result.user.role})`);
+    res.json(result);
+  } catch (e) {
+    console.error(`❌ Login error for ${req.body.email}:`, e.message);
+    res.status(500).json({ error: 'Login failed. Please try again.' });
+  }
 });
 
-app.get('/api/auth/me', authMiddleware, (req, res) => {
-  const user = getUserById(req.userId);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json({ user });
+app.get('/api/auth/me', authMiddleware, async (req, res) => {
+  try {
+    const user = await getUserById(req.userId);
+    if (!user) {
+      console.warn(`⚠️ Session verify: User ${req.userId} not found`);
+      return res.status(404).json({ error: 'User not found' });
+    }
+    console.log(`👤 Session verified: ${user.email}`);
+    res.json({ user });
+  } catch (e) {
+    console.error('❌ Session verification error:', e.message);
+    res.status(500).json({ error: 'Session verification failed' });
+  }
 });
 
-app.put('/api/auth/profile', authMiddleware, (req, res) => {
+app.put('/api/auth/profile', authMiddleware, async (req, res) => {
   const { name, phone, state, language } = req.body;
-  const user = updateUserProfile(req.userId, { name, phone, state, language });
+  const user = await updateUserProfile(req.userId, { name, phone, state, language });
   res.json({ user });
 });
 
-app.post('/api/auth/reset-password', (req, res) => {
+app.post('/api/auth/reset-password', async (req, res) => {
   const { email, newPassword } = req.body;
   if (!email || !newPassword) return res.status(400).json({ error: 'Email and new password required' });
   if (newPassword.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
-  const ok = resetUserPassword(email, newPassword);
+  const ok = await resetUserPassword(email, newPassword);
   if (!ok) return res.status(404).json({ error: 'No account with that email' });
   res.json({ success: true });
 });
@@ -630,54 +670,54 @@ Be empathetic. Many users are scared — reassure them about their rights.`;
 
 // ─── Admin Dashboard API ────────────────────────────────────────────────────────
 
-app.get('/api/admin/overview', adminMiddleware, (req, res) => {
-  res.json(getOverviewStats());
+app.get('/api/admin/overview', adminMiddleware, async (req, res) => {
+  res.json(await getOverviewStats());
 });
 
-app.get('/api/admin/top-queries', adminMiddleware, (req, res) => {
+app.get('/api/admin/top-queries', adminMiddleware, async (req, res) => {
   const limit = parseInt(req.query.limit) || 20;
-  res.json(getTopQueries(limit));
+  res.json(await getTopQueries(limit));
 });
 
-app.get('/api/admin/top-law-searches', adminMiddleware, (req, res) => {
+app.get('/api/admin/top-law-searches', adminMiddleware, async (req, res) => {
   const limit = parseInt(req.query.limit) || 20;
-  res.json(getTopLawSearches(limit));
+  res.json(await getTopLawSearches(limit));
 });
 
-app.get('/api/admin/usage-by-language', adminMiddleware, (req, res) => {
-  res.json(getUsageByLanguage());
+app.get('/api/admin/usage-by-language', adminMiddleware, async (req, res) => {
+  res.json(await getUsageByLanguage());
 });
 
-app.get('/api/admin/usage-by-state', adminMiddleware, (req, res) => {
-  res.json(getUsageByState());
+app.get('/api/admin/usage-by-state', adminMiddleware, async (req, res) => {
+  res.json(await getUsageByState());
 });
 
-app.get('/api/admin/usage-by-feature', adminMiddleware, (req, res) => {
-  res.json(getUsageByFeature());
+app.get('/api/admin/usage-by-feature', adminMiddleware, async (req, res) => {
+  res.json(await getUsageByFeature());
 });
 
-app.get('/api/admin/draft-usage', adminMiddleware, (req, res) => {
-  res.json(getDraftUsageStats());
+app.get('/api/admin/draft-usage', adminMiddleware, async (req, res) => {
+  res.json(await getDraftUsageStats());
 });
 
-app.get('/api/admin/page-views', adminMiddleware, (req, res) => {
-  res.json(getPageViewStats());
+app.get('/api/admin/page-views', adminMiddleware, async (req, res) => {
+  res.json(await getPageViewStats());
 });
 
-app.get('/api/admin/query-timeline', adminMiddleware, (req, res) => {
+app.get('/api/admin/query-timeline', adminMiddleware, async (req, res) => {
   const days = parseInt(req.query.days) || 30;
-  res.json(getQueryTimeline(days));
+  res.json(await getQueryTimeline(days));
 });
 
-app.get('/api/admin/recent-queries', adminMiddleware, (req, res) => {
+app.get('/api/admin/recent-queries', adminMiddleware, async (req, res) => {
   const limit = parseInt(req.query.limit) || 50;
-  res.json(getRecentQueries(limit));
+  res.json(await getRecentQueries(limit));
 });
 
-app.get('/api/admin/users', adminMiddleware, (req, res) => {
+app.get('/api/admin/users', adminMiddleware, async (req, res) => {
   const limit = parseInt(req.query.limit) || 100;
   const offset = parseInt(req.query.offset) || 0;
-  res.json(getAllUsers(limit, offset));
+  res.json(await getAllUsers(limit, offset));
 });
 
 app.get('/api/provider', (req, res) => {
@@ -703,14 +743,18 @@ app.get('/api/health', (req, res) => {
 
 // ─── Serve React Frontend (Production) ─────────────────────────────────────────
 
-if (IS_PROD) {
-  const distPath = join(__dirname, '..', 'dist');
+const distPath = join(__dirname, '..', 'dist');
+if (existsSync(distPath)) {
   app.use(express.static(distPath));
 
   // Catch-all: send React app for any non-API route (SPA routing)
-  app.get('/*splat', (req, res) => {
+  // Express 5 requires named parameter syntax for catch-all
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    if (req.method !== 'GET') return next();
     res.sendFile(join(distPath, 'index.html'));
   });
+  console.log('   🌐 Serving frontend from dist/');
 }
 
 // ─── Start Server ───────────────────────────────────────────────────────────────
