@@ -28,6 +28,23 @@
   --red-bg: rgba(231,76,60,0.08);
   --red-border: rgba(231,76,60,0.25);
 
+  /* Recommended Colour System — 4 Categories */
+  --cat-authority-navy: #154360;
+  --cat-authority-blue: #2980B9;
+  --cat-authority-tint: #EBF5FB;
+
+  --cat-urgent-red: #922B21;
+  --cat-urgent-alert: #E74C3C;
+  --cat-urgent-tint: #FDEDEC;
+
+  --cat-rights-green: #1D8348;
+  --cat-rights-mid: #27AE60;
+  --cat-rights-tint: #E9F7EF;
+
+  --cat-financial-amber: #7E5109;
+  --cat-financial-mid: #D68910;
+  --cat-financial-tint: #FEF5E7;
+
   --border-subtle: rgba(255,255,255,0.07);
   --border-medium: rgba(255,255,255,0.1);
 
@@ -63,6 +80,12 @@
   --border-medium: rgba(0,0,0,0.12);
   
   --accent-bg: rgba(255,107,0,0.1);
+
+  /* Light mode category tints (more subtle/readable backgrounds) */
+  --cat-authority-tint: #F0F7FF;
+  --cat-urgent-tint: #FFF0F0;
+  --cat-rights-tint: #F0FFF4;
+  --cat-financial-tint: #FFF8E1;
 }
 
 :root[data-font-size="large"] body {
