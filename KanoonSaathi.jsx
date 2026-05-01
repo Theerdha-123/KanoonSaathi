@@ -2,49 +2,49 @@ import { useState, useRef, useEffect } from "react";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const SCENARIOS = [
-  { id:"theft",    icon:"📱", title:"Phone / Vehicle Stolen",            tag:"IPC 379",    color:"#E74C3C", situation:"Your phone, bike, car or wallet was stolen.",                                                    laws:["IPC Section 379 — Theft (up to 3 yrs imprisonment)","IPC Section 411 — Receiving stolen property"],                                                                                 steps:["Go to nearest police station immediately","File FIR under IPC 379 — police CANNOT legally refuse","Get FIR copy free of charge — demand it","For vehicle: also report to RTO with FIR copy","Block your SIM & bank cards immediately","File at cybercrime.gov.in if phone was misused for fraud"],                                                              punishment:"Thief gets up to 3 years imprisonment + fine.",                                         helpline:"Police: 100 | Cyber Crime: 1930" },
-  { id:"builder",  icon:"🏗️", title:"Builder Fraud / Flat Possession",   tag:"RERA",       color:"#D68910", situation:"Builder took money but didn't give possession, changed plans, or disappeared.",               laws:["RERA Act 2016 — Section 18 (Delayed Possession)","IPC Section 420 — Cheating (up to 7 yrs)","RERA Section 12 — False advertisement liability"],                                        steps:["Collect all payment receipts and booking agreement","File complaint on your State RERA portal (e.g. maharera.mahaonline.gov.in)","Pay Rs.1,000 filing fee — no lawyer needed","Builder must respond within 60 days","Simultaneously file FIR at police station under IPC 420","Claim full refund + SBI MCLR interest rate compensation"],                                 punishment:"Builder jailed up to 3 years + fined up to 10% of project cost.",               helpline:"State RERA website | Consumer: 1915" },
-  { id:"food",     icon:"🤢", title:"Food Poisoning / Unsafe Food",       tag:"FSS Act",    color:"#D68910", situation:"Restaurant or packaged food made you sick or contained harmful substances.",                   laws:["FSS Act 2006 — Section 59 (Adulteration, up to 6 yrs)","FSS Act — Section 63 (Unsafe food)","Consumer Protection Act 2019"],                                                           steps:["Preserve the food sample in a sealed bag as evidence","Take medical treatment and keep all bills/receipts","File complaint with district Food Safety Officer","Call FSSAI helpline: 1800-112-100 (free)","File consumer complaint at edaakhil.nic.in for compensation","For serious illness: also file FIR at police station"],                                          punishment:"Restaurant owner gets up to 6 years jail + Rs.5 lakh fine.",                    helpline:"FSSAI: 1800-112-100 | Consumer: 1915" },
-  { id:"flight",   icon:"✈️", title:"Flight Cancelled / Delayed",         tag:"DGCA",       color:"#2980B9", situation:"Your flight was cancelled, delayed, or you were denied boarding.",                             laws:["DGCA Civil Aviation Requirements (CAR)","Consumer Protection Act 2019","Montreal Convention (International flights)"],                                                               steps:["Screenshot everything — cancellation notice, boarding pass","Demand meals/refreshments if delay is 2+ hours","Demand full refund OR alternate flight if cancelled (your choice)","Get Rs.5,000–10,000 compensation if denied boarding","File complaint at complaints.aviation.in","File consumer complaint at edaakhil.nic.in if airline ignores"],                         punishment:"Airline fined + ordered to pay compensation by DGCA/Consumer Forum.",           helpline:"DGCA: 1800-111-3039 | Consumer: 1915" },
-  { id:"salary",   icon:"💸", title:"Salary Not Paid / Workplace Rights", tag:"Labour Law", color:"#D68910", situation:"Employer not paying salary, making illegal deductions, or violating your workplace rights.",   laws:["Payment of Wages Act 1936 — Section 5","Minimum Wages Act 1948","IPC Section 406 — Criminal Breach of Trust"],                                                                     steps:["Email employer demanding salary with a 7-day written deadline","File complaint with Labour Commissioner of your district","Call Labour Helpline: 14567 (free, pan-India)","File complaint at shramsuvidha.gov.in online","For criminal non-payment: file FIR under IPC 406","Approach Labour Court — claim unpaid wages + 10x compensation"],                                    punishment:"Employer imprisoned up to 6 months + must pay 10x unpaid amount.",              helpline:"Labour: 14567 | EPF: 1800-118-005" },
-  { id:"scam",     icon:"💻", title:"Online Scam / UPI Fraud",            tag:"IT Act",     color:"#E74C3C", situation:"You were cheated online — UPI fraud, fake website, investment scam, fake job offer.",         laws:["IT Act 2000 — Section 66D (Online cheating, up to 3 yrs)","IT Act — Section 66C (Identity theft)","IPC Section 420 — Cheating (up to 7 yrs)"],                                     steps:["Call 1930 IMMEDIATELY — they can sometimes freeze the transaction","File at cybercrime.gov.in within 24 hours for best chance of recovery","Contact your bank immediately to freeze/reverse the transaction","Screenshot all chats, payment receipts, and fake websites","File FIR at nearest Cyber Crime Police Station","Track complaint on National Cyber Crime Portal"],          punishment:"Scammer gets up to 3–7 years imprisonment + fine equal to amount cheated.",    helpline:"Cyber Crime: 1930 | Bank: Your 24x7 helpline" },
-  { id:"rti",      icon:"📋", title:"How to File RTI",                    tag:"RTI Act",    color:"#2980B9", situation:"You want information from any government office about work done, funds used, or your complaint status.", laws:["RTI Act 2005 — Section 3 (Every citizen can file)","RTI Act — Section 7 (30-day response deadline)","RTI Act — Section 20 (Rs.250/day penalty on PIO)"],              steps:["Go to rtionline.gov.in (central govt) or your State RTI portal","Select the Ministry or Department you need info from","Write specific, clear questions — one topic per question works best","Pay Rs.10 fee online (BPL card holders get it FREE)","PIO must respond within 30 days","No response? File First Appeal, then Second Appeal to CIC/SIC"],                          punishment:"PIO fined Rs.250/day up to Rs.25,000 total for ignoring your RTI.",            helpline:"RTI Portal: rtionline.gov.in" },
+  { id:"theft",    icon:"📱", title:"Phone / Vehicle Stolen",            tag:"IPC 379",    color:"#FF6B00", situation:"Your phone, bike, car or wallet was stolen.",                                                    laws:["IPC Section 379 — Theft (up to 3 yrs imprisonment)","IPC Section 411 — Receiving stolen property"],                                                                                 steps:["Go to nearest police station immediately","File FIR under IPC 379 — police CANNOT legally refuse","Get FIR copy free of charge — demand it","For vehicle: also report to RTO with FIR copy","Block your SIM & bank cards immediately","File at cybercrime.gov.in if phone was misused for fraud"],                                                              punishment:"Thief gets up to 3 years imprisonment + fine.",                                         helpline:"Police: 100 | Cyber Crime: 1930" },
+  { id:"builder",  icon:"🏗️", title:"Builder Fraud / Flat Possession",   tag:"RERA",       color:"#C0392B", situation:"Builder took money but didn't give possession, changed plans, or disappeared.",               laws:["RERA Act 2016 — Section 18 (Delayed Possession)","IPC Section 420 — Cheating (up to 7 yrs)","RERA Section 12 — False advertisement liability"],                                        steps:["Collect all payment receipts and booking agreement","File complaint on your State RERA portal (e.g. maharera.mahaonline.gov.in)","Pay Rs.1,000 filing fee — no lawyer needed","Builder must respond within 60 days","Simultaneously file FIR at police station under IPC 420","Claim full refund + SBI MCLR interest rate compensation"],                                 punishment:"Builder jailed up to 3 years + fined up to 10% of project cost.",               helpline:"State RERA website | Consumer: 1915" },
+  { id:"food",     icon:"🤢", title:"Food Poisoning / Unsafe Food",       tag:"FSS Act",    color:"#B8860B", situation:"Restaurant or packaged food made you sick or contained harmful substances.",                   laws:["FSS Act 2006 — Section 59 (Adulteration, up to 6 yrs)","FSS Act — Section 63 (Unsafe food)","Consumer Protection Act 2019"],                                                           steps:["Preserve the food sample in a sealed bag as evidence","Take medical treatment and keep all bills/receipts","File complaint with district Food Safety Officer","Call FSSAI helpline: 1800-112-100 (free)","File consumer complaint at edaakhil.nic.in for compensation","For serious illness: also file FIR at police station"],                                          punishment:"Restaurant owner gets up to 6 years jail + Rs.5 lakh fine.",                    helpline:"FSSAI: 1800-112-100 | Consumer: 1915" },
+  { id:"flight",   icon:"✈️", title:"Flight Cancelled / Delayed",         tag:"DGCA",       color:"#0047AB", situation:"Your flight was cancelled, delayed, or you were denied boarding.",                             laws:["DGCA Civil Aviation Requirements (CAR)","Consumer Protection Act 2019","Montreal Convention (International flights)"],                                                               steps:["Screenshot everything — cancellation notice, boarding pass","Demand meals/refreshments if delay is 2+ hours","Demand full refund OR alternate flight if cancelled (your choice)","Get Rs.5,000–10,000 compensation if denied boarding","File complaint at complaints.aviation.in","File consumer complaint at edaakhil.nic.in if airline ignores"],                         punishment:"Airline fined + ordered to pay compensation by DGCA/Consumer Forum.",           helpline:"DGCA: 1800-111-3039 | Consumer: 1915" },
+  { id:"salary",   icon:"💸", title:"Salary Not Paid / Workplace Rights", tag:"Labour Law", color:"#5B2D8E", situation:"Employer not paying salary, making illegal deductions, or violating your workplace rights.",   laws:["Payment of Wages Act 1936 — Section 5","Minimum Wages Act 1948","IPC Section 406 — Criminal Breach of Trust"],                                                                     steps:["Email employer demanding salary with a 7-day written deadline","File complaint with Labour Commissioner of your district","Call Labour Helpline: 14567 (free, pan-India)","File complaint at shramsuvidha.gov.in online","For criminal non-payment: file FIR under IPC 406","Approach Labour Court — claim unpaid wages + 10x compensation"],                                    punishment:"Employer imprisoned up to 6 months + must pay 10x unpaid amount.",              helpline:"Labour: 14567 | EPF: 1800-118-005" },
+  { id:"scam",     icon:"💻", title:"Online Scam / UPI Fraud",            tag:"IT Act",     color:"#1A5276", situation:"You were cheated online — UPI fraud, fake website, investment scam, fake job offer.",         laws:["IT Act 2000 — Section 66D (Online cheating, up to 3 yrs)","IT Act — Section 66C (Identity theft)","IPC Section 420 — Cheating (up to 7 yrs)"],                                     steps:["Call 1930 IMMEDIATELY — they can sometimes freeze the transaction","File at cybercrime.gov.in within 24 hours for best chance of recovery","Contact your bank immediately to freeze/reverse the transaction","Screenshot all chats, payment receipts, and fake websites","File FIR at nearest Cyber Crime Police Station","Track complaint on National Cyber Crime Portal"],          punishment:"Scammer gets up to 3–7 years imprisonment + fine equal to amount cheated.",    helpline:"Cyber Crime: 1930 | Bank: Your 24x7 helpline" },
+  { id:"rti",      icon:"📋", title:"How to File RTI",                    tag:"RTI Act",    color:"#2E4057", situation:"You want information from any government office about work done, funds used, or your complaint status.", laws:["RTI Act 2005 — Section 3 (Every citizen can file)","RTI Act — Section 7 (30-day response deadline)","RTI Act — Section 20 (Rs.250/day penalty on PIO)"],              steps:["Go to rtionline.gov.in (central govt) or your State RTI portal","Select the Ministry or Department you need info from","Write specific, clear questions — one topic per question works best","Pay Rs.10 fee online (BPL card holders get it FREE)","PIO must respond within 30 days","No response? File First Appeal, then Second Appeal to CIC/SIC"],                          punishment:"PIO fined Rs.250/day up to Rs.25,000 total for ignoring your RTI.",            helpline:"RTI Portal: rtionline.gov.in" },
   { id:"medical",  icon:"🏥", title:"Medical Negligence / Hospital",      tag:"IPC 304A",   color:"#E74C3C", situation:"Doctor was negligent, hospital overcharged, or emergency treatment was refused.",              laws:["IPC Section 304A — Medical Negligence (up to 2 yrs)","Consumer Protection Act 2019 (hospitals fully covered)","Clinical Establishments Act 2010"],                                  steps:["Get ALL medical records, prescriptions, bills immediately","Get second medical opinion documenting the negligence clearly","File consumer complaint at edaakhil.nic.in for compensation","File complaint with State Medical Council against the doctor","For death cases: file FIR under IPC 304A at police station","Emergency refusal: complain to District Collector the same day"], punishment:"Doctor imprisoned 2 years + fined. Medical license can be cancelled.",          helpline:"NHRC: 14433 | Consumer: 1915 | Emergency: 112" },
-  { id:"fir",      icon:"🚔", title:"Police Refusing FIR / Illegal Arrest",tag:"CrPC 154",  color:"#2980B9", situation:"Police refused to register your FIR or arrested you without proper reason.",                   laws:["CrPC Section 154 — FIR cannot be refused for cognizable offence","Article 22 — Right to lawyer from moment of arrest","IPC Section 166 — Police dereliction of duty"],               steps:["If refused: send written complaint by Speed Post to SP/SSP","Approach Judicial Magistrate directly under CrPC Section 156(3)","File complaint with State Human Rights Commission","Illegal arrest: file Habeas Corpus petition in High Court","Demand written memo of arrest and reason in writing","Call DLSA for free legal aid: 15100"],                                      punishment:"Police officer imprisoned up to 1 year + departmental action.",                 helpline:"Police: 100 | NHRC: 14433 | Free Legal Aid: 15100" },
-  { id:"consumer", icon:"🛒", title:"Defective Product / Refund Refused", tag:"CPA 2019",   color:"#27AE60", situation:"Got a defective product, seller refuses refund, or you were overcharged.",                    laws:["Consumer Protection Act 2019 — Section 35","Product Liability — CPA Section 82","Legal Metrology Act (selling above MRP)"],                                                          steps:["Keep all receipts, bills, packaging as evidence","Write formally to seller demanding refund with a 15-day deadline","File free complaint at edaakhil.nic.in (no lawyer needed)","Call National Consumer Helpline: 1915 for guidance","District Forum handles claims up to Rs.1 crore","Forum can award compensation, replacement + punitive damages"],                        punishment:"Seller fined up to Rs.10 lakhs + imprisoned up to 2 years.",                   helpline:"Consumer: 1915 | edaakhil.nic.in" },
-  { id:"dowry",    icon:"⚖️", title:"Dowry Harassment / Domestic Violence",tag:"IPC 498A",  color:"#E74C3C", situation:"Facing dowry demands, physical or mental cruelty from husband or in-laws.",                   laws:["IPC Section 498A — Cruelty by husband/relatives (up to 3 yrs)","Dowry Prohibition Act 1961","Protection of Women from Domestic Violence Act 2005"],                                  steps:["Call Mahila Helpline: 181 (free, 24x7, confidential)","File FIR at nearest police station under IPC 498A","Approach Women's Cell at police station","File application under PWDV Act for protection order + maintenance","Approach National Commission for Women at ncw.nic.in","Get free legal aid from DLSA: 15100"],                                                         punishment:"Husband/in-laws get up to 3 years imprisonment + fine under IPC 498A.",        helpline:"Mahila: 181 | Police: 100 | NCW: 7827170170" },
-  { id:"tax",      icon:"💰", title:"Tax Notice / TDS Not Deposited",     tag:"Income Tax", color:"#2980B9", situation:"Received an income tax notice or employer didn't deposit your TDS.",                          laws:["Income Tax Act — Section 276C (Tax evasion)","TDS Rules — Section 194 (Employer obligation)","Taxpayer Charter — Right to be heard before any action"],                            steps:["Never ignore a tax notice — always respond by the stated deadline","Check Form 26AS at incometax.gov.in to verify your TDS was deposited","Employer didn't deposit TDS? Complain to the jurisdictional TDS Officer","For unreasonable notice: file your response at the incometax.gov.in portal","Appeal to CIT(Appeals) within 30 days if you are not satisfied","Complain to CBDT Grievance Portal if harassed by a tax officer"],                                   punishment:"Employer not depositing TDS: up to 7 years imprisonment + fine.",              helpline:"Income Tax: 1800-103-0025 | incometax.gov.in" },
-  { id:"gst_hotel", icon:"🏨", title:"Hotel / Restaurant Illegal GST Charge", tag:"GST + CPA", color:"#D68910", situation:"A hotel or restaurant added SGST/CGST on your bill illegally, charged above MRP on items, or forced service charge.", laws:["CGST Act 2017 — GST Rate Slabs for Restaurants","CCPA Guidelines 2022 — Service Charge Banned","Legal Metrology Act 2009 — MRP overcharge illegal","Consumer Protection Act 2019 — Sec 35"], steps:["First, know when GST IS and IS NOT applicable (see below)","Ask the hotel/restaurant for itemised bill before paying","Politely but firmly refuse to pay service charge — it is NOT mandatory","If they insist, pay under protest and write 'Paid under Protest' on the bill","Take a photo of the full bill as evidence","File complaint at consumerhelpline.gov.in or call 1915","For GST overcharge: file complaint at GST helpline 1800-103-4786","For MRP overcharge on bottled water/packaged items: call 1800-11-4000 (Legal Metrology)"], punishment:"Restaurant: consumer forum can order refund + compensation. GST fraud: penalty up to 100% of tax evaded. Repeated MRP violation: Rs.50,000 fine.", helpline:"Consumer: 1915 | GST: 1800-103-4786 | Legal Metrology: 1800-11-4000" },
-  { id:"railway",   icon:"🚂", title:"TTE Misconduct / Train Travel Rights",  tag:"Railway Act", color:"#2980B9", situation:"TTE demanding extra money beyond official penalty, behaving rudely, not giving receipt, or you need to know your rights as a train passenger.", laws:["Railway Act 1989 — Section 137 (Ticketless travel penalty)","Railway Act — Section 138 (Wrong class penalty)","Prevention of Corruption Act 1988 — TTE bribery","IPC Section 294/504 — TTE vulgar/abusive behaviour"], steps:["Know your right: TTE can only charge official penalty (Rs.250 + excess fare) — nothing more","If TTE demands extra money: firmly say 'I will pay only the official penalty. Please give me an EFR receipt'","Always demand EFR (Excess Fare Receipt) — TTE must provide it by law","Note the TTE's name, badge number, time, and train/compartment details","Record audio/video discreetly if TTE is misbehaving or demanding bribe","File complaint at railmadad.indianrailways.gov.in or call 139 (Railway Helpline) — available 24x7","Report to Station Master at next stop","For bribery: additionally file complaint at Railway Vigilance / ACB"], punishment:"TTE demanding bribe: 3–7 years imprisonment under PC Act. Vulgar/abusive conduct: departmental action + IPC 294/504 charges.", helpline:"Railway Helpline: 139 | RailMadad: railmadad.indianrailways.gov.in | GRP: 1512" },
+  { id:"fir",      icon:"🚔", title:"Police Refusing FIR / Illegal Arrest",tag:"CrPC 154",  color:"#2C3E50", situation:"Police refused to register your FIR or arrested you without proper reason.",                   laws:["CrPC Section 154 — FIR cannot be refused for cognizable offence","Article 22 — Right to lawyer from moment of arrest","IPC Section 166 — Police dereliction of duty"],               steps:["If refused: send written complaint by Speed Post to SP/SSP","Approach Judicial Magistrate directly under CrPC Section 156(3)","File complaint with State Human Rights Commission","Illegal arrest: file Habeas Corpus petition in High Court","Demand written memo of arrest and reason in writing","Call DLSA for free legal aid: 15100"],                                      punishment:"Police officer imprisoned up to 1 year + departmental action.",                 helpline:"Police: 100 | NHRC: 14433 | Free Legal Aid: 15100" },
+  { id:"consumer", icon:"🛒", title:"Defective Product / Refund Refused", tag:"CPA 2019",   color:"#138808", situation:"Got a defective product, seller refuses refund, or you were overcharged.",                    laws:["Consumer Protection Act 2019 — Section 35","Product Liability — CPA Section 82","Legal Metrology Act (selling above MRP)"],                                                          steps:["Keep all receipts, bills, packaging as evidence","Write formally to seller demanding refund with a 15-day deadline","File free complaint at edaakhil.nic.in (no lawyer needed)","Call National Consumer Helpline: 1915 for guidance","District Forum handles claims up to Rs.1 crore","Forum can award compensation, replacement + punitive damages"],                        punishment:"Seller fined up to Rs.10 lakhs + imprisoned up to 2 years.",                   helpline:"Consumer: 1915 | edaakhil.nic.in" },
+  { id:"dowry",    icon:"⚖️", title:"Dowry Harassment / Domestic Violence",tag:"IPC 498A",  color:"#9B1D20", situation:"Facing dowry demands, physical or mental cruelty from husband or in-laws.",                   laws:["IPC Section 498A — Cruelty by husband/relatives (up to 3 yrs)","Dowry Prohibition Act 1961","Protection of Women from Domestic Violence Act 2005"],                                  steps:["Call Mahila Helpline: 181 (free, 24x7, confidential)","File FIR at nearest police station under IPC 498A","Approach Women's Cell at police station","File application under PWDV Act for protection order + maintenance","Approach National Commission for Women at ncw.nic.in","Get free legal aid from DLSA: 15100"],                                                         punishment:"Husband/in-laws get up to 3 years imprisonment + fine under IPC 498A.",        helpline:"Mahila: 181 | Police: 100 | NCW: 7827170170" },
+  { id:"tax",      icon:"💰", title:"Tax Notice / TDS Not Deposited",     tag:"Income Tax", color:"#1A6B3A", situation:"Received an income tax notice or employer didn't deposit your TDS.",                          laws:["Income Tax Act — Section 276C (Tax evasion)","TDS Rules — Section 194 (Employer obligation)","Taxpayer Charter — Right to be heard before any action"],                            steps:["Never ignore a tax notice — always respond by the stated deadline","Check Form 26AS at incometax.gov.in to verify your TDS was deposited","Employer didn't deposit TDS? Complain to the jurisdictional TDS Officer","For unreasonable notice: file your response at the incometax.gov.in portal","Appeal to CIT(Appeals) within 30 days if you are not satisfied","Complain to CBDT Grievance Portal if harassed by a tax officer"],                                   punishment:"Employer not depositing TDS: up to 7 years imprisonment + fine.",              helpline:"Income Tax: 1800-103-0025 | incometax.gov.in" },
+  { id:"gst_hotel", icon:"🏨", title:"Hotel / Restaurant Illegal GST Charge", tag:"GST + CPA", color:"#C87941", situation:"A hotel or restaurant added SGST/CGST on your bill illegally, charged above MRP on items, or forced service charge.", laws:["CGST Act 2017 — GST Rate Slabs for Restaurants","CCPA Guidelines 2022 — Service Charge Banned","Legal Metrology Act 2009 — MRP overcharge illegal","Consumer Protection Act 2019 — Sec 35"], steps:["First, know when GST IS and IS NOT applicable (see below)","Ask the hotel/restaurant for itemised bill before paying","Politely but firmly refuse to pay service charge — it is NOT mandatory","If they insist, pay under protest and write 'Paid under Protest' on the bill","Take a photo of the full bill as evidence","File complaint at consumerhelpline.gov.in or call 1915","For GST overcharge: file complaint at GST helpline 1800-103-4786","For MRP overcharge on bottled water/packaged items: call 1800-11-4000 (Legal Metrology)"], punishment:"Restaurant: consumer forum can order refund + compensation. GST fraud: penalty up to 100% of tax evaded. Repeated MRP violation: Rs.50,000 fine.", helpline:"Consumer: 1915 | GST: 1800-103-4786 | Legal Metrology: 1800-11-4000" },
+  { id:"railway",   icon:"🚂", title:"TTE Misconduct / Train Travel Rights",  tag:"Railway Act", color:"#1565C0", situation:"TTE demanding extra money beyond official penalty, behaving rudely, not giving receipt, or you need to know your rights as a train passenger.", laws:["Railway Act 1989 — Section 137 (Ticketless travel penalty)","Railway Act — Section 138 (Wrong class penalty)","Prevention of Corruption Act 1988 — TTE bribery","IPC Section 294/504 — TTE vulgar/abusive behaviour"], steps:["Know your right: TTE can only charge official penalty (Rs.250 + excess fare) — nothing more","If TTE demands extra money: firmly say 'I will pay only the official penalty. Please give me an EFR receipt'","Always demand EFR (Excess Fare Receipt) — TTE must provide it by law","Note the TTE's name, badge number, time, and train/compartment details","Record audio/video discreetly if TTE is misbehaving or demanding bribe","File complaint at railmadad.indianrailways.gov.in or call 139 (Railway Helpline) — available 24x7","Report to Station Master at next stop","For bribery: additionally file complaint at Railway Vigilance / ACB"], punishment:"TTE demanding bribe: 3–7 years imprisonment under PC Act. Vulgar/abusive conduct: departmental action + IPC 294/504 charges.", helpline:"Railway Helpline: 139 | RailMadad: railmadad.indianrailways.gov.in | GRP: 1512" },
 ];
 
 const HELPLINES = [
-  { icon:"🚨", name:"Police Emergency",      number:"100",          color:"#2980B9", desc:"Crime, threat, any emergency" },
-  { icon:"⚖️", name:"Universal Emergency",   number:"112",          color:"#2980B9", desc:"All emergencies — fastest response" },
+  { icon:"🚨", name:"Police Emergency",      number:"100",          color:"#C0392B", desc:"Crime, threat, any emergency" },
+  { icon:"⚖️", name:"Universal Emergency",   number:"112",          color:"#8B0000", desc:"All emergencies — fastest response" },
   { icon:"🚑", name:"Ambulance",             number:"108",          color:"#E74C3C", desc:"Medical emergency" },
-  { icon:"🔥", name:"Fire Brigade",          number:"101",          color:"#2980B9", desc:"Fire & rescue" },
-  { icon:"👩", name:"Mahila Helpline",       number:"181",          color:"#E74C3C", desc:"Women in distress, domestic violence" },
-  { icon:"👶", name:"Child Helpline",        number:"1098",         color:"#E74C3C", desc:"Child abuse, missing children" },
-  { icon:"💻", name:"Cyber Crime",           number:"1930",         color:"#E74C3C", desc:"UPI fraud, online scam — call ASAP" },
-  { icon:"🛒", name:"Consumer Helpline",     number:"1915",         color:"#D68910", desc:"Consumer complaints & guidance" },
-  { icon:"🍱", name:"FSSAI Food Safety",     number:"1800-112-100", color:"#D68910", desc:"Unsafe food, adulteration" },
-  { icon:"✈️", name:"DGCA Aviation",         number:"1800-111-3039",color:"#2980B9", desc:"Flight delays, baggage, cancellations" },
-  { icon:"💼", name:"Labour Helpline",       number:"14567",        color:"#27AE60", desc:"Salary issues, workplace rights" },
-  { icon:"🏦", name:"Bank Ombudsman",        number:"14448",        color:"#D68910", desc:"Banking fraud & complaints" },
-  { icon:"📋", name:"Anti-Corruption",       number:"1064",         color:"#2980B9", desc:"Bribery, corruption reports" },
-  { icon:"⚖️", name:"Free Legal Aid (DLSA)", number:"15100",        color:"#27AE60", desc:"Free lawyer for those who need it" },
-  { icon:"👴", name:"Senior Citizen",        number:"14567",        color:"#E74C3C", desc:"Elder abuse, pension issues" },
-  { icon:"🧠", name:"Mental Health (iCall)", number:"9152987821",   color:"#E74C3C", desc:"Psychological support helpline" },
-  { icon:"🚂", name:"Railway Helpline",      number:"139",          color:"#2980B9", desc:"Train complaints, TTE misconduct, emergencies" },
-  { icon:"👮", name:"GRP Railway Police",    number:"1512",         color:"#2980B9", desc:"Crime on train or railway station" },
-  { icon:"🚉", name:"RailMadad Grievance",   number:"railmadad.indianrailways.gov.in", color:"#2980B9", desc:"Online complaint portal for all railway issues" },
+  { icon:"🔥", name:"Fire Brigade",          number:"101",          color:"#FF6B00", desc:"Fire & rescue" },
+  { icon:"👩", name:"Mahila Helpline",       number:"181",          color:"#9B1D20", desc:"Women in distress, domestic violence" },
+  { icon:"👶", name:"Child Helpline",        number:"1098",         color:"#FF9500", desc:"Child abuse, missing children" },
+  { icon:"💻", name:"Cyber Crime",           number:"1930",         color:"#1A5276", desc:"UPI fraud, online scam — call ASAP" },
+  { icon:"🛒", name:"Consumer Helpline",     number:"1915",         color:"#138808", desc:"Consumer complaints & guidance" },
+  { icon:"🍱", name:"FSSAI Food Safety",     number:"1800-112-100", color:"#B8860B", desc:"Unsafe food, adulteration" },
+  { icon:"✈️", name:"DGCA Aviation",         number:"1800-111-3039",color:"#0047AB", desc:"Flight delays, baggage, cancellations" },
+  { icon:"💼", name:"Labour Helpline",       number:"14567",        color:"#5B2D8E", desc:"Salary issues, workplace rights" },
+  { icon:"🏦", name:"Bank Ombudsman",        number:"14448",        color:"#1A6B3A", desc:"Banking fraud & complaints" },
+  { icon:"📋", name:"Anti-Corruption",       number:"1064",         color:"#2E4057", desc:"Bribery, corruption reports" },
+  { icon:"⚖️", name:"Free Legal Aid (DLSA)", number:"15100",        color:"#FF6B00", desc:"Free lawyer for those who need it" },
+  { icon:"👴", name:"Senior Citizen",        number:"14567",        color:"#6B4423", desc:"Elder abuse, pension issues" },
+  { icon:"🧠", name:"Mental Health (iCall)", number:"9152987821",   color:"#5B2D8E", desc:"Psychological support helpline" },
+  { icon:"🚂", name:"Railway Helpline",      number:"139",          color:"#1565C0", desc:"Train complaints, TTE misconduct, emergencies" },
+  { icon:"👮", name:"GRP Railway Police",    number:"1512",         color:"#2C3E50", desc:"Crime on train or railway station" },
+  { icon:"🚉", name:"RailMadad Grievance",   number:"railmadad.indianrailways.gov.in", color:"#1565C0", desc:"Online complaint portal for all railway issues" },
 ];
 
 // ─── WOMEN'S SAFETY APPS & HELPLINES ─────────────────────────────────────────
 const WOMEN_APPS = [
   {
     icon:"📱", name:"Himmat Plus", by:"Delhi Police", type:"App",
-    color:"#E74C3C",
+    color:"#C0392B",
     number:"N/A (App-based)", playstore:"Available on Google Play & App Store",
     desc:"Official Delhi Police app for women's safety. Press SOS button to send location + alert to police control room and 5 emergency contacts simultaneously. Works even on a locked phone.",
     howto:"Download → Register with mobile number → Add 5 emergency contacts → Press SOS in danger.",
@@ -52,7 +52,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"🆘", name:"112 India (Dial 112)", by:"Ministry of Home Affairs", type:"App + Call",
-    color:"#E74C3C",
+    color:"#8B0000",
     number:"112", playstore:"112 India App — Google Play & App Store",
     desc:"India's official emergency response app. Replaces 100, 101, 108. Automatically shares your GPS location with nearest police/fire/ambulance. Women's SOS feature sends alert with live location.",
     howto:"Call 112 OR use app SOS. Location shared automatically. Free, works on 2G.",
@@ -60,7 +60,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"👩", name:"Mahila Helpline 181", by:"Ministry of Women & Child Development", type:"Helpline",
-    color:"#E74C3C",
+    color:"#9B1D20",
     number:"181", playstore:"Free call from any phone, 24x7",
     desc:"24x7 confidential helpline for women in distress. Provides immediate support, connects to police, shelter homes, legal aid, medical help. Works pan-India. Calls are free and confidential.",
     howto:"Call 181 from any phone. Describe your situation. They will dispatch help or guide you.",
@@ -68,7 +68,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"🛡️", name:"iCall", by:"TISS (Tata Institute of Social Sciences)", type:"App + Helpline",
-    color:"#E74C3C",
+    color:"#5B2D8E",
     number:"9152987821", playstore:"iCall App — Google Play",
     desc:"Free mental health counselling for women and all. Psychologists available for counselling on trauma, abuse, depression, anxiety from domestic violence or harassment.",
     howto:"Call helpline or book appointment via app. Sessions are free and confidential.",
@@ -76,7 +76,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"📍", name:"Nirbhaya App / She-Cab", by:"Various State Govts", type:"App",
-    color:"#E74C3C",
+    color:"#FF6B00",
     number:"Varies by state", playstore:"Search 'Nirbhaya' on Play Store for your state version",
     desc:"State-level women's safety apps (Maharashtra, UP, Karnataka have their own versions). GPS tracking shared with police and family. Fake call feature to escape uncomfortable situations.",
     howto:"Download state-specific version. Register. Set emergency contacts. Press SOS when needed.",
@@ -84,7 +84,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"⚖️", name:"NCW (National Commission for Women)", by:"Govt of India", type:"Online + App",
-    color:"#E74C3C",
+    color:"#1A6B3A",
     number:"7827170170", playstore:"ncw.nic.in | WhatsApp: 7217735372",
     desc:"National Commission for Women handles complaints of violation of women's rights. File complaints online. Also has a dedicated WhatsApp number for quick reporting of crimes against women.",
     howto:"Visit ncw.nic.in → File complaint online OR WhatsApp at 7217735372 with details and evidence.",
@@ -92,7 +92,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"🏠", name:"One Stop Centre (Sakhi)", by:"Ministry of WCD", type:"Centre + Helpline",
-    color:"#E74C3C",
+    color:"#B8860B",
     number:"181 (connects to OSC)", playstore:"Present in every district of India",
     desc:"Integrated support centres for women affected by violence. Provides medical aid, police assistance, legal aid, psycho-social counselling and temporary shelter — all under one roof, free of cost.",
     howto:"Call 181 to be directed to nearest One Stop Centre. Available 24x7. All services free.",
@@ -116,7 +116,7 @@ const WOMEN_APPS = [
   },
   {
     icon:"📞", name:"POCSO e-Box", by:"NCPCR (Govt of India)", type:"Online Portal",
-    color:"#E74C3C",
+    color:"#FF9500",
     number:"1098 (Child Helpline)", playstore:"eboxncpcr.gov.in",
     desc:"Online portal to report child sexual abuse under POCSO Act. Anonymous reporting allowed. NCPCR takes direct action. Useful for school teachers, parents and children to report abuse.",
     howto:"Visit eboxncpcr.gov.in → Fill complaint form → Anonymous reporting allowed → NCPCR acts within 24 hours.",
@@ -126,20 +126,20 @@ const WOMEN_APPS = [
 
 // ─── DISABILITY LAWS ──────────────────────────────────────────────────────────
 const DISABILITY_LAWS = [
-  { icon:"♿", color:"#27AE60", title:"Right to Equal Opportunities", article:"RPwD Act 2016 — Sec 20", desc:"Persons with benchmark disabilities have the right to equal opportunity in education, employment, and public services. Government establishments must reserve 4% of posts for persons with disabilities.", action:"If discriminated in hiring: file complaint with Chief Commissioner for Persons with Disabilities at ccdisabilities.nic.in or call 1800-11-4515 (free)." },
-  { icon:"🏫", color:"#27AE60", title:"Right to Inclusive Education", article:"RPwD Act 2016 — Sec 16 & 17", desc:"Every child with a disability has the right to free inclusive education in neighbourhood schools up to age 18. Schools must provide reasonable accommodation — scribes, extra time, accessible buildings.", action:"If school denies admission or accommodation: write to District Education Officer citing RPwD Act 2016. Approach State Commissioner for Disabilities if ignored." },
-  { icon:"🏛️", color:"#27AE60", title:"Accessibility in Public Places", article:"RPwD Act 2016 — Sec 40–46", desc:"All government buildings, public transport, websites, and services must be made accessible to persons with disabilities. Ramps, tactile paths, accessible toilets and lifts are mandatory.", action:"Report inaccessible government buildings to District Magistrate or State Commissioner for Disabilities. RTI can be filed to check compliance status." },
-  { icon:"💼", color:"#27AE60", title:"Reservation in Government Jobs", article:"RPwD Act 2016 — Sec 34", desc:"4% reservation in all government establishments: 1% each for blindness/low vision, deaf/hard of hearing, locomotor disability, and other disabilities including autism/intellectual disability.", action:"If your application is rejected despite disability quota: file complaint with Chief Commissioner at ccdisabilities.nic.in. Approach CAT for government job disputes." },
-  { icon:"🚌", color:"#27AE60", title:"Right to Accessible Transport", article:"RPwD Act + MoRTH Guidelines", desc:"All public transport — trains, buses, metros, airports — must be accessible to persons with disabilities. Indian Railways provides free escort, 75% concession, and wheelchair assistance.", action:"Book accessible coach at IRCTC. For accessibility complaints: Indian Railways helpline 139. Metro: contact station manager. DGCA for airport accessibility." },
-  { icon:"💊", color:"#27AE60", title:"Right to Healthcare & Rehabilitation", article:"RPwD Act 2016 — Sec 25", desc:"Government must provide free medicines, free or subsidised assistive devices, and rehabilitation services at government hospitals to persons with disabilities.", action:"Visit nearest government hospital or District Disability Rehabilitation Centre (DDRC). BPL persons with disabilities get all assistive devices free under ADIP scheme." },
-  { icon:"💰", color:"#27AE60", title:"Disability Pension & Financial Support", article:"NSAP + State Schemes", desc:"Persons with 40%+ disability are entitled to disability pension under state government schemes. Many states provide Rs.500–2,000/month. PwDs also get income tax deduction under Section 80U.", action:"Apply at District Social Welfare Office. Carry disability certificate (from government hospital). Deduction under Income Tax Sec 80U: Rs.75,000 (40-80% disability) or Rs.1.25 lakh (80%+ disability)." },
-  { icon:"📜", color:"#27AE60", title:"UDID — Unique Disability ID Card", article:"RPwD Act 2016 + UDID Scheme", desc:"Every person with disability should have a UDID (Unique Disability ID) card — a national card that identifies disability type, percentage and entitlements. Required for all government benefits.", action:"Apply online at swavlambancard.gov.in. Visit nearest government hospital for disability assessment. Card is free. Required to claim all schemes, reservations and concessions." },
-  { icon:"🔒", color:"#27AE60", title:"Protection from Abuse & Exploitation", article:"RPwD Act 2016 — Sec 92", desc:"Any person who intentionally insults, intimidates, exploits, abuses or denies rights of a person with disability: 6 months to 5 years imprisonment + fine. Offences against women with disabilities carry enhanced punishment.", action:"File FIR at nearest police station. Also file complaint with State Commissioner for Persons with Disabilities. NHRC can be approached for rights violations." },
-  { icon:"🧠", color:"#27AE60", title:"Rights of Persons with Mental Illness", article:"Mental Healthcare Act 2017", desc:"Persons with mental illness have the right to dignified treatment, confidentiality, right to information about diagnosis, right to refuse treatment and right to access mental health care at government hospitals.", action:"For violations: file complaint with Mental Health Review Board or State Mental Health Authority. Unlawful admission to psychiatric facility: approach District Court." },
+  { icon:"♿", color:"#1A8FBF", title:"Right to Equal Opportunities", article:"RPwD Act 2016 — Sec 20", desc:"Persons with benchmark disabilities have the right to equal opportunity in education, employment, and public services. Government establishments must reserve 4% of posts for persons with disabilities.", action:"If discriminated in hiring: file complaint with Chief Commissioner for Persons with Disabilities at ccdisabilities.nic.in or call 1800-11-4515 (free)." },
+  { icon:"🏫", color:"#138808", title:"Right to Inclusive Education", article:"RPwD Act 2016 — Sec 16 & 17", desc:"Every child with a disability has the right to free inclusive education in neighbourhood schools up to age 18. Schools must provide reasonable accommodation — scribes, extra time, accessible buildings.", action:"If school denies admission or accommodation: write to District Education Officer citing RPwD Act 2016. Approach State Commissioner for Disabilities if ignored." },
+  { icon:"🏛️", color:"#8B0000", title:"Accessibility in Public Places", article:"RPwD Act 2016 — Sec 40–46", desc:"All government buildings, public transport, websites, and services must be made accessible to persons with disabilities. Ramps, tactile paths, accessible toilets and lifts are mandatory.", action:"Report inaccessible government buildings to District Magistrate or State Commissioner for Disabilities. RTI can be filed to check compliance status." },
+  { icon:"💼", color:"#5B2D8E", title:"Reservation in Government Jobs", article:"RPwD Act 2016 — Sec 34", desc:"4% reservation in all government establishments: 1% each for blindness/low vision, deaf/hard of hearing, locomotor disability, and other disabilities including autism/intellectual disability.", action:"If your application is rejected despite disability quota: file complaint with Chief Commissioner at ccdisabilities.nic.in. Approach CAT for government job disputes." },
+  { icon:"🚌", color:"#C0392B", title:"Right to Accessible Transport", article:"RPwD Act + MoRTH Guidelines", desc:"All public transport — trains, buses, metros, airports — must be accessible to persons with disabilities. Indian Railways provides free escort, 75% concession, and wheelchair assistance.", action:"Book accessible coach at IRCTC. For accessibility complaints: Indian Railways helpline 139. Metro: contact station manager. DGCA for airport accessibility." },
+  { icon:"💊", color:"#E74C3C", title:"Right to Healthcare & Rehabilitation", article:"RPwD Act 2016 — Sec 25", desc:"Government must provide free medicines, free or subsidised assistive devices, and rehabilitation services at government hospitals to persons with disabilities.", action:"Visit nearest government hospital or District Disability Rehabilitation Centre (DDRC). BPL persons with disabilities get all assistive devices free under ADIP scheme." },
+  { icon:"💰", color:"#1A6B3A", title:"Disability Pension & Financial Support", article:"NSAP + State Schemes", desc:"Persons with 40%+ disability are entitled to disability pension under state government schemes. Many states provide Rs.500–2,000/month. PwDs also get income tax deduction under Section 80U.", action:"Apply at District Social Welfare Office. Carry disability certificate (from government hospital). Deduction under Income Tax Sec 80U: Rs.75,000 (40-80% disability) or Rs.1.25 lakh (80%+ disability)." },
+  { icon:"📜", color:"#FF6B00", title:"UDID — Unique Disability ID Card", article:"RPwD Act 2016 + UDID Scheme", desc:"Every person with disability should have a UDID (Unique Disability ID) card — a national card that identifies disability type, percentage and entitlements. Required for all government benefits.", action:"Apply online at swavlambancard.gov.in. Visit nearest government hospital for disability assessment. Card is free. Required to claim all schemes, reservations and concessions." },
+  { icon:"🔒", color:"#2C3E50", title:"Protection from Abuse & Exploitation", article:"RPwD Act 2016 — Sec 92", desc:"Any person who intentionally insults, intimidates, exploits, abuses or denies rights of a person with disability: 6 months to 5 years imprisonment + fine. Offences against women with disabilities carry enhanced punishment.", action:"File FIR at nearest police station. Also file complaint with State Commissioner for Persons with Disabilities. NHRC can be approached for rights violations." },
+  { icon:"🧠", color:"#9B1D20", title:"Rights of Persons with Mental Illness", article:"Mental Healthcare Act 2017", desc:"Persons with mental illness have the right to dignified treatment, confidentiality, right to information about diagnosis, right to refuse treatment and right to access mental health care at government hospitals.", action:"For violations: file complaint with Mental Health Review Board or State Mental Health Authority. Unlawful admission to psychiatric facility: approach District Court." },
 ];
 
 const LAW_DB = {
-  common:     { id:"common",     icon:"👨‍👩‍👧", title:"Common Citizens",       color:"#E74C3C", desc:"Fundamental rights, IPC sections & Constitution Articles", laws:[
+  common:     { id:"common",     icon:"👨‍👩‍👧", title:"Common Citizens",       color:"#FF6B00", desc:"Fundamental rights, IPC sections & Constitution Articles", laws:[
     { name:"Article 21 — Right to Life & Personal Liberty", section:"Art. 21",  desc:"No person shall be deprived of their life or personal liberty except as per procedure established by law. Covers dignity, health, education.", actionable:"File Habeas Corpus petition in High Court if illegally detained." },
     { name:"Article 14 — Right to Equality",                section:"Art. 14",  desc:"The State shall not deny equality before law to any person. No discrimination on basis of religion, race, caste, sex or birthplace.", actionable:"File writ petition if discriminated against by any government body." },
     { name:"IPC Section 420 — Cheating",                    section:"IPC 420",  desc:"Whoever cheats and dishonestly induces any person to deliver property — up to 7 years imprisonment + fine. Most commonly used fraud section.", actionable:"File FIR at nearest police station with all proof: messages, receipts, agreements." },
@@ -151,7 +151,7 @@ const LAW_DB = {
     { name:"IT Act 66C — Identity Theft",                   section:"IT 66C",   desc:"Fraudulent use of another's identity (Aadhaar, PAN, OTP) — up to 3 years + Rs.1 lakh fine.", actionable:"File complaint at cybercrime.gov.in immediately. Call 1930." },
     { name:"IT Act 66D — Online Impersonation Fraud",        section:"IT 66D",   desc:"Cheating by impersonation using computers — up to 3 years + Rs.1 lakh fine. Covers UPI fraud, phishing.", actionable:"Call 1930 immediately. File at cybercrime.gov.in within 24 hours." },
   ]},
-  consumer:   { id:"consumer",   icon:"🛒", title:"Consumer Rights",        color:"#27AE60", desc:"Protection against defective goods, service deficiency & unfair trade", laws:[
+  consumer:   { id:"consumer",   icon:"🛒", title:"Consumer Rights",        color:"#138808", desc:"Protection against defective goods, service deficiency & unfair trade", laws:[
     { name:"Consumer Protection Act 2019 — Who is a Consumer", section:"CPA Sec 2(7)",  desc:"Anyone buying goods or hiring services for personal use (not resale) is a consumer with full legal protection.", actionable:"File complaint in Consumer Forum — no lawyer needed for claims under Rs.1 crore." },
     { name:"Consumer Protection Act — How to File Complaint",   section:"CPA Sec 35",   desc:"District Commission handles claims up to Rs.1 crore. State: up to Rs.10 crore. National: above Rs.10 crore.", actionable:"File online at edaakhil.nic.in. Call National Consumer Helpline: 1915." },
     { name:"GST Overcharge — Service Charge Not Mandatory",     section:"GST Rules",    desc:"Restaurant service charge is NOT mandatory by law. Charging GST above MRP is illegal.", actionable:"Refuse service charge. Complain to GST helpline 1800-103-4786." },
@@ -159,21 +159,21 @@ const LAW_DB = {
     { name:"Product Liability — CPA Section 82",                section:"CPA Sec 82",   desc:"Manufacturer liable for harm from a defective product — even if the consumer was unaware of the defect.", actionable:"File complaint against manufacturer in Consumer Forum. Claim full compensation for injuries." },
     { name:"MRP Rules — Selling Above MRP is a Crime",          section:"LMA 2009",     desc:"Selling any product above its printed MRP is a criminal offence. Retailer fined up to Rs.25,000 for first offence.", actionable:"Complain to District Legal Metrology Officer or call 1800-11-4000." },
   ]},
-  tourist:    { id:"tourist",    icon:"✈️", title:"Tourist & Travel",       color:"#2980B9", desc:"DGCA rules, passenger rights & travel fraud protection", laws:[
+  tourist:    { id:"tourist",    icon:"✈️", title:"Tourist & Travel",       color:"#0047AB", desc:"DGCA rules, passenger rights & travel fraud protection", laws:[
     { name:"DGCA — Flight Delay Compensation",     section:"DGCA CAR",         desc:"Delay 2+ hrs: meals/refreshments mandatory. Delay 6+ hrs: full refund or alternate flight. Denied boarding: Rs.5,000–10,000.", actionable:"Demand compensation at counter. File at complaints.aviation.in or call 1800-111-3039." },
     { name:"DGCA — Lost or Damaged Baggage",       section:"DGCA Baggage",     desc:"Domestic: up to Rs.350/kg. International: up to USD 1,000 under Montreal Convention.", actionable:"File PIR (Property Irregularity Report) at airport immediately. Keep all boarding passes." },
     { name:"DGCA — Flight Cancellation Rights",    section:"DGCA Sec 4",       desc:"Cancellation without 2-week notice: full refund within 7 days OR alternate flight at no extra cost — your choice.", actionable:"Demand refund in writing. If refused, file at dgca.gov.in." },
     { name:"Hotel Fraud — Cheating + Consumer Act",section:"IPC 420 + CPA",   desc:"Different room online vs actual, hidden charges, or refused booked room — criminal cheating + consumer deficiency.", actionable:"Take photos as evidence. File consumer complaint AND FIR if money was lost." },
     { name:"Tourist Harassment — IPC 354/509",     section:"IPC 354/509",      desc:"Eve teasing and physical harassment of tourists — up to 3 years imprisonment.", actionable:"Call 112 or 1090 (Women Helpline). File FIR at nearest police station." },
   ]},
-  govt:       { id:"govt",       icon:"🏛️", title:"Govt Employees",         color:"#2980B9", desc:"Service rules, RTI, pension rights & whistleblower protection", laws:[
+  govt:       { id:"govt",       icon:"🏛️", title:"Govt Employees",         color:"#8B0000", desc:"Service rules, RTI, pension rights & whistleblower protection", laws:[
     { name:"RTI Act 2005 — Filing an RTI Application",          section:"RTI Sec 6",    desc:"Any citizen can request information from any public authority. PIO must respond within 30 days (48 hours for life/liberty matters).", actionable:"Write to PIO. Pay Rs.10 fee. File online at rtionline.gov.in." },
     { name:"CCS Conduct Rules — Protection from Dismissal",     section:"CCS Rules",    desc:"Government employees cannot be dismissed without a proper inquiry. Natural justice must be followed — written charges + chance to defend.", actionable:"If dismissed unfairly, approach CAT (Central Administrative Tribunal)." },
     { name:"Whistleblower Protection Act 2014",                 section:"WPA 2014",     desc:"Employees exposing corruption are protected from victimization. Identity kept strictly confidential.", actionable:"File complaint at CVC — cvc.gov.in. Your identity is protected by law." },
     { name:"CCS Pension Rules 1972",                            section:"CCS Pension",  desc:"Pension entitled after 10 years qualifying service. Cannot be denied without valid legal process.", actionable:"If pension denied, approach CAT or file RTI to pension department for status." },
     { name:"Article 311 — Protection from Dismissal",           section:"Art. 311",     desc:"No civil servant shall be dismissed or reduced in rank without inquiry and a reasonable opportunity to defend themselves.", actionable:"File writ petition in High Court if Art. 311 protections are violated." },
   ]},
-  private:    { id:"private",    icon:"💼", title:"Private Employees",      color:"#D68910", desc:"Labour laws, PF, gratuity & workplace rights", laws:[
+  private:    { id:"private",    icon:"💼", title:"Private Employees",      color:"#5B2D8E", desc:"Labour laws, PF, gratuity & workplace rights", laws:[
     { name:"Minimum Wages Act 1948",                section:"MWA 1948",  desc:"Every employer must pay state-notified minimum wages. Non-payment is criminal — up to 6 months imprisonment.", actionable:"File complaint with Labour Commissioner. Call Labour Helpline: 14567." },
     { name:"Payment of Gratuity Act 1972",          section:"PGA Sec 4", desc:"5 years continuous service entitles you to gratuity: 15 days salary per year. Must be paid within 30 days of leaving.", actionable:"Apply in Form I to employer. If refused, complain to Labour Commissioner." },
     { name:"EPF Act 1952 — PF Rights",              section:"EPF Act",   desc:"Employer must contribute 12% of basic salary to PF. Employee can withdraw for medical, home purchase, marriage.", actionable:"Check at epfindia.gov.in. File grievance at epfigms.gov.in if employer not depositing." },
@@ -182,7 +182,7 @@ const LAW_DB = {
     { name:"Maternity Benefit Act 2017",            section:"MBA 2017",  desc:"26 weeks paid maternity leave for first 2 children. Dismissal of pregnant woman is illegal.", actionable:"Write to employer citing MBA 2017. Complain to Labour Commissioner if denied." },
   ]},
 
-  labour: { id:"labour", icon:"🏗️", title:"Labour Laws & Rights", color:"#27AE60", desc:"Comprehensive rights for all workers — wages, job security, safety, PF, ESI, trade unions & more", laws:[
+  labour: { id:"labour", icon:"🏗️", title:"Labour Laws & Rights", color:"#D35400", desc:"Comprehensive rights for all workers — wages, job security, safety, PF, ESI, trade unions & more", laws:[
     { name:"Minimum Wages Act 1948 — Right to Fair Pay", section:"MWA 1948 Sec 3", desc:"Every employer — factory, shop, farm, construction — must pay the minimum wage notified by the state government. Paying below minimum wage is a criminal offence. State wage rates differ by industry and skill level.", actionable:"Check your state's current minimum wage at labour.gov.in. File complaint with the Minimum Wages Inspector / Labour Commissioner. Call Labour Helpline: 14567. Penalty on employer: up to 6 months jail + Rs.500 fine." },
     { name:"Payment of Wages Act 1936 — Salary on Time", section:"PWA Sec 5", desc:"All wages must be paid by the 7th of the following month (10th if workforce exceeds 1,000). No unauthorised deductions allowed. Deductions permitted only for PF, ESI, advance repayment, and fines under standing orders.", actionable:"If salary delayed: write formally to employer. File complaint with Payment of Wages Authority (Labour Commissioner). Recover unpaid wages + 10x compensation as damages." },
     { name:"Equal Remuneration Act 1976 — Equal Pay", section:"ERA Sec 4", desc:"Men and women performing the same or similar work in the same establishment must receive equal remuneration. Discrimination in hiring on basis of sex is also prohibited. Violation: fine up to Rs.10,000 + imprisonment.", actionable:"File complaint with Labour Commissioner citing ERA 1976. Approach Labour Court for wage recovery + compensation for discrimination." },
@@ -202,34 +202,34 @@ const LAW_DB = {
     { name:"Unorganised Workers' Social Security Act 2008", section:"UWSS Act", desc:"Workers in the unorganised sector (domestic workers, street vendors, agricultural workers, home-based workers) are entitled to social security schemes: health insurance, life insurance, old age pension, maternity benefit.", actionable:"Register at e-shram.gov.in (eShram portal) — free, get eShram card. Access Pradhan Mantri Shram Yogi Maan-dhan (PM-SYM) pension scheme. Call eShram helpline: 14434." },
     { name:"Inter-State Labour Portability — eShram Card", section:"eShram + Labour Codes", desc:"The eShram card (Unorganised Worker ID) gives migrant and unorganised workers a portable national identity for accessing all central government labour schemes anywhere in India. Over 29 crore workers registered.", actionable:"Register free at eshram.gov.in with Aadhaar + bank account. Automatically enrolled in PMSBY (Rs.2 lakh accident insurance free for 1 year). Call: 14434." },
   ]},
-  food:       { id:"food",       icon:"🍱", title:"Food Safety (FSS Act)",  color:"#D68910", desc:"FSSAI regulations, adulteration laws & food consumer rights", laws:[
+  food:       { id:"food",       icon:"🍱", title:"Food Safety (FSS Act)",  color:"#B8860B", desc:"FSSAI regulations, adulteration laws & food consumer rights", laws:[
     { name:"FSS Act 2006 — Adulteration Penalty",            section:"FSSA Sec 59",  desc:"Selling adulterated food causing injury: up to 6 years + Rs.5 lakh fine. If death results: life imprisonment.", actionable:"File complaint with district Food Safety Officer. Call FSSAI: 1800-112-100." },
     { name:"FSS Act — Unsafe Food Penalty",                  section:"FSSA Sec 63",  desc:"Selling contaminated or injurious food: up to 6 months imprisonment + Rs.1 lakh fine.", actionable:"Preserve food sample as evidence. Report at foscos.fssai.gov.in." },
     { name:"FSSAI — Restaurant Licensing & Hygiene",         section:"FSSAI Reg",    desc:"Every food business must have FSSAI license. Food handlers must have health certificates.", actionable:"Report unhygienic restaurant to FSSAI. Verify license at fssai.gov.in." },
     { name:"Restaurant Service Charge — Not Mandatory",      section:"CPA + GST",    desc:"Service charge is voluntary. Restaurants cannot force you to pay it under any circumstances.", actionable:"Refuse service charge. Complain to CCPA at consumerhelpline.gov.in or call 1915." },
     { name:"Packaged Food Labelling — Legal Metrology Act",  section:"LMA 2009",     desc:"All packaged food must display MRP, net weight, manufacturing/expiry dates and ingredients. Selling without these is illegal.", actionable:"Report to Legal Metrology Inspector or FSSAI if mandatory labels are missing." },
   ]},
-  realestate: { id:"realestate", icon:"🏠", title:"Real Estate (RERA)",     color:"#D68910", desc:"RERA Act 2016 — homebuyer protection from builder fraud", laws:[
+  realestate: { id:"realestate", icon:"🏠", title:"Real Estate (RERA)",     color:"#C0392B", desc:"RERA Act 2016 — homebuyer protection from builder fraud", laws:[
     { name:"RERA Act 2016 — Delayed Possession",            section:"RERA Sec 18", desc:"Builder fails agreed possession date: buyer gets full refund with SBI MCLR interest + compensation.", actionable:"File on State RERA portal. Rs.1,000 fee. No lawyer needed. Builder must respond in 60 days." },
     { name:"RERA — False Advertisement Liability",           section:"RERA Sec 12", desc:"Builder responsible for all brochure/advertisement promises. Cannot change plans without buyer's written consent.", actionable:"File RERA complaint using brochure as evidence. Claim compensation for false promises." },
     { name:"RERA — 5-Year Structural Defect Warranty",      section:"RERA Sec 14", desc:"Structural defects within 5 years of possession must be repaired free of charge.", actionable:"Write to builder citing RERA Sec 14. If ignored, file RERA complaint." },
     { name:"RERA — Mandatory Project Registration",         section:"RERA Sec 3",  desc:"Every project (8+ flats or 500 sq.m+) must be registered with RERA before selling.", actionable:"Verify registration before buying. Unregistered project? Complain to RERA Authority." },
     { name:"IPC 420 — Builder Criminal Fraud",              section:"IPC 420",     desc:"Builder collects money with no intention to complete project: criminal cheating — up to 7 years.", actionable:"File FIR AND RERA complaint simultaneously. Attach all payment receipts." },
   ]},
-  tax:        { id:"tax",        icon:"💰", title:"Tax Laws",                color:"#2980B9", desc:"Income tax rights, GST, TDS & taxpayer protections", laws:[
+  tax:        { id:"tax",        icon:"💰", title:"Tax Laws",                color:"#1A6B3A", desc:"Income tax rights, GST, TDS & taxpayer protections", laws:[
     { name:"Income Tax — Section 80C Deductions",      section:"ITA Sec 80C", desc:"Deduction up to Rs.1.5 lakh/year on PPF, ELSS, LIC, NSC, home loan principal, tuition fees.", actionable:"Invest before March 31. Claim deduction while filing your ITR." },
     { name:"Income Tax — Section 80D Health Insurance",section:"ITA Sec 80D", desc:"Deduction up to Rs.25,000 for health insurance (Rs.50,000 for senior citizens). Extra Rs.25,000 for parents.", actionable:"Keep premium receipts. Claim deduction while filing Income Tax Return." },
     { name:"GST Anti-Profiteering Rules",               section:"GST Sec 171", desc:"Businesses must pass GST rate reductions to consumers. Non-compliance is anti-profiteering and punishable.", actionable:"File complaint at naa.gov.in (National Anti-Profiteering Authority)." },
     { name:"Income Tax — Tax Evasion Penalty",         section:"ITA Sec 276C",desc:"Wilful tax evasion Rs.25 lakh+: 6 months–7 years imprisonment. Below Rs.25 lakh: 3 months–2 years.", actionable:"Report tax evasion at 1800-103-0025 or incometaxindia.gov.in." },
     { name:"TDS — Employer Must Give Form 16",          section:"ITA Sec 194", desc:"Employer must deduct TDS and deposit with govt. Form 16 must be given by June 15 each year.", actionable:"Demand Form 16. Check Form 26AS at incometax.gov.in. Complain to TDS Officer if not deposited." },
   ]},
-  rti:        { id:"rti",        icon:"📋", title:"RTI Act 2005",            color:"#2980B9", desc:"Right to Information — hold any government body accountable", laws:[
+  rti:        { id:"rti",        icon:"📋", title:"RTI Act 2005",            color:"#2E4057", desc:"Right to Information — hold any government body accountable", laws:[
     { name:"RTI Act — Who Can File",                  section:"RTI Sec 3",  desc:"Every Indian citizen has right to information from any public authority. No reason needed to be stated.", actionable:"Write to PIO. Pay Rs.10 (BPL: FREE). File at rtionline.gov.in." },
     { name:"RTI Act — 30-Day Response Deadline",      section:"RTI Sec 7",  desc:"PIO must respond within 30 days (48 hours for life/liberty). Non-response = deemed refusal, triggers right to appeal.", actionable:"No response in 30 days: file First Appeal, then Second Appeal to CIC/SIC." },
     { name:"RTI Act — Penalty on PIO",                section:"RTI Sec 20", desc:"PIO ignoring RTI without cause: Rs.250/day up to Rs.25,000 + possible disciplinary action.", actionable:"In Second Appeal, request CIC/SIC to impose daily penalty on the PIO." },
     { name:"RTI — Exempt Information Clause",          section:"RTI Sec 8",  desc:"National security, Cabinet papers, personal privacy are exempt — but public interest can override this.", actionable:"If PIO claims exemption unjustly, challenge in First Appeal citing public interest." },
   ]},
-  animal:     { id:"animal",     icon:"🐾", title:"Animal Rights (PCA)",     color:"#27AE60", desc:"Prevention of Cruelty to Animals Act & wildlife laws", laws:[
+  animal:     { id:"animal",     icon:"🐾", title:"Animal Rights (PCA)",     color:"#6B4423", desc:"Prevention of Cruelty to Animals Act & wildlife laws", laws:[
     { name:"PCA Act 1960 — Animal Cruelty Offences",       section:"PCA Sec 11",      desc:"Beating, torturing, overloading or confining animals causing pain — punishable with fine and imprisonment.", actionable:"File FIR. Contact SPCA or AWB at awbi.gov.in. Call NGO helpline: 9540043212." },
     { name:"PCA Act — Stray Animal Protection (ABC Rules)",section:"ABC Rules 2001",  desc:"Killing or poisoning stray dogs/cats is illegal. Municipalities must follow ABC Rules — no culling allowed.", actionable:"File FIR against anyone poisoning strays. Complain to AWB and municipality." },
     { name:"Wildlife Protection Act 1972",                 section:"WPA 1972",        desc:"Hunting, poaching or trading protected wild animals: up to 7 years + Rs.10,000 fine for Schedule I species.", actionable:"Report to forest department or call WCCB: 011-26714002." },
@@ -242,7 +242,7 @@ const LAW_DB = {
     { name:"Drugs & Cosmetics Act 1940 — Spurious Drugs",   section:"D&C Act",   desc:"Expired, spurious, or unlicensed drugs: up to 10 years imprisonment.", actionable:"Report to State Drug Controller or at drugcontrollergeneral.in." },
     { name:"Organ Trafficking — THO Act 1994",              section:"THO Act",   desc:"Buying/selling human organs illegal: 5–10 years imprisonment + Rs.20 lakh fine.", actionable:"Report to police and State Health Department immediately." },
   ]},
-  fir:        { id:"fir",        icon:"🚔", title:"FIR & Police Rights",      color:"#2980B9", desc:"Your rights when filing FIR, during arrest & in custody", laws:[
+  fir:        { id:"fir",        icon:"🚔", title:"FIR & Police Rights",      color:"#2C3E50", desc:"Your rights when filing FIR, during arrest & in custody", laws:[
     { name:"CrPC Section 154 — FIR Cannot Be Refused",      section:"CrPC 154",   desc:"Police MUST register FIR for cognizable offences. Refusal is illegal and punishable.", actionable:"Refused? Speed Post complaint to SP/SSP. Approach Magistrate under CrPC 156(3)." },
     { name:"CrPC Section 41 — Rights During Arrest",        section:"CrPC 41",    desc:"Police must inform you of the reason for arrest. Must inform your family immediately.", actionable:"Demand reason for arrest. Ask to inform family. Don't sign any blank papers." },
     { name:"Article 22 — Constitutional Right to Lawyer",   section:"Art. 22",    desc:"Every arrested person has right to a lawyer from the very moment of arrest.", actionable:"Ask for lawyer immediately. Can't afford one? Call DLSA: 15100 for free legal aid." },
@@ -250,7 +250,7 @@ const LAW_DB = {
     { name:"IPC Section 166 — Police Misconduct",           section:"IPC 166",    desc:"Police officer disobeying law to cause injury to any person — up to 1 year imprisonment.", actionable:"Complain to SP, DGP, or State/National Human Rights Commission." },
   ]},
 
-  ed: { id:"ed", icon:"💸", title:"Enforcement Directorate (ED)", color:"#2980B9", desc:"PMLA, FEMA, money laundering & your rights during ED raids and investigations", laws:[
+  ed: { id:"ed", icon:"💸", title:"Enforcement Directorate (ED)", color:"#7D3C98", desc:"PMLA, FEMA, money laundering & your rights during ED raids and investigations", laws:[
     { name:"PMLA 2002 — What is Money Laundering", section:"PMLA Sec 3", desc:"Anyone who directly or indirectly deals with proceeds of crime — converting, transferring, or concealing — is guilty of money laundering. Punishment: 3 to 7 years imprisonment + fine.", actionable:"If accused, engage a lawyer immediately. Do not sign any statement without legal counsel present." },
     { name:"PMLA — ED Power of Arrest", section:"PMLA Sec 19", desc:"ED officer can arrest a person if they have reason to believe the person is guilty of money laundering. Arrested person must be informed of grounds of arrest.", actionable:"Demand written grounds of arrest. Right to consult a lawyer applies immediately under Art. 22. Inform your family at once." },
     { name:"PMLA — Attachment of Property", section:"PMLA Sec 5", desc:"ED can provisionally attach property believed to be proceeds of crime for up to 180 days. Order must be confirmed by Adjudicating Authority.", actionable:"File a representation before the Adjudicating Authority within 180 days. Hire a lawyer experienced in PMLA." },
@@ -260,7 +260,7 @@ const LAW_DB = {
     { name:"Official Secrets Act 1923 — ED Context", section:"OSA 1923", desc:"Sharing sensitive financial or government information with foreign entities can attract prosecution under Official Secrets Act alongside PMLA.", actionable:"Never share sensitive financial/government documents with unauthorized persons. Seek legal advice if summoned." },
   ]},
 
-  education: { id:"education", icon:"🎓", title:"Education Laws", color:"#27AE60", desc:"RTE Act, anti-ragging, fee regulation, UGC rules & student rights", laws:[
+  education: { id:"education", icon:"🎓", title:"Education Laws", color:"#1A8FBF", desc:"RTE Act, anti-ragging, fee regulation, UGC rules & student rights", laws:[
     { name:"Right to Education Act 2009 — Free Education (6–14 years)", section:"RTE Sec 3", desc:"Every child aged 6 to 14 years has the fundamental right to free and compulsory education in a neighbourhood school. No child can be denied admission.", actionable:"Approach Block Education Officer if admission is denied. File RTI to verify 25% reserved seats in private schools." },
     { name:"RTE Act — No Capitation Fee / Screening Tests", section:"RTE Sec 13", desc:"Schools cannot charge capitation fee (donation) for admission. No screening test or interview of child or parent is allowed for Class 1 admission.", actionable:"File FIR under IPC 384 (extortion) + complaint to District Education Officer if capitation fee is demanded." },
     { name:"UGC Anti-Ragging Regulations 2009", section:"UGC Reg 2009", desc:"Ragging is a criminal offence in all its forms. Colleges must have Anti-Ragging Committee. Punishment: suspension, expulsion, FIR, imprisonment up to 3 years.", actionable:"Report to Anti-Ragging Helpline: 1800-180-5522. File complaint with college Anti-Ragging Committee. File FIR at police station." },
@@ -271,7 +271,7 @@ const LAW_DB = {
     { name:"Scholarships — Right to Receive on Time", section:"NEM Policy", desc:"Delay in scholarship disbursement is a denial of rights. Government scholarship funds must reach students through DBT (Direct Benefit Transfer) on time.", actionable:"File RTI to trace scholarship status. File complaint with National Scholarship Portal or approach District Education Officer." },
   ]},
 
-  cbi: { id:"cbi", icon:"🔍", title:"CBI — Central Bureau of Investigation", color:"#2980B9", desc:"CBI jurisdiction, how it works, and your rights during a CBI investigation", laws:[
+  cbi: { id:"cbi", icon:"🔍", title:"CBI — Central Bureau of Investigation", color:"#212F3D", desc:"CBI jurisdiction, how it works, and your rights during a CBI investigation", laws:[
     { name:"DSPE Act 1946 — CBI's Legal Authority", section:"DSPE Act 1946", desc:"CBI (Central Bureau of Investigation) derives its power from the Delhi Special Police Establishment Act 1946. It can investigate only cases referred by Central Govt, High Courts, or Supreme Court.", actionable:"CBI cannot automatically investigate a state-level crime. Approach High Court to direct CBI investigation if state police is ineffective." },
     { name:"CBI Jurisdiction — Consent of States Required", section:"DSPE Sec 6", desc:"CBI needs the consent of the respective State Government before investigating a crime in that state — unless directed by a court. Without consent, CBI's investigation is invalid.", actionable:"If CBI is investigating in your state without consent or court order — challenge jurisdiction in High Court." },
     { name:"How to File a Complaint with CBI", section:"CBI Guidelines", desc:"Any citizen can file a complaint with CBI directly. CBI investigates corruption by central government employees, bank fraud above Rs.100 crore, major economic offences, and national security cases.", actionable:"File complaint at cbi.gov.in or at the nearest CBI Anti-Corruption Branch. Provide detailed facts and evidence." },
@@ -280,7 +280,7 @@ const LAW_DB = {
     { name:"CBI — Arrest & Custody Rights", section:"CrPC + D.K. Basu", desc:"CBI arrests follow the same CrPC rules as regular police. D.K. Basu Guidelines apply — grounds of arrest must be given in writing, family must be informed.", actionable:"All standard rights of arrest apply. Demand arrest memo. Call a lawyer immediately. File Habeas Corpus if illegally detained." },
   ]},
 
-  arai: { id:"arai", icon:"🚗", title:"ARAI & Automotive Laws", color:"#D68910", desc:"ARAI regulations, Motor Vehicles Act, vehicle safety, emissions & your rights as a vehicle owner", laws:[
+  arai: { id:"arai", icon:"🚗", title:"ARAI & Automotive Laws", color:"#A93226", desc:"ARAI regulations, Motor Vehicles Act, vehicle safety, emissions & your rights as a vehicle owner", laws:[
     { name:"Motor Vehicles Act 1988 — Vehicle Registration Mandatory", section:"MVA Sec 39", desc:"Every motor vehicle must be registered with the Regional Transport Office (RTO) before being used on public roads. Driving unregistered vehicle: fine up to Rs.5,000 + impoundment.", actionable:"Register your vehicle at your local RTO within 30 days of purchase. Carry RC (Registration Certificate) while driving at all times." },
     { name:"ARAI Homologation — Type Approval for Vehicles", section:"ARAI Reg/CMV Rules", desc:"Every vehicle model sold in India must get ARAI (Automotive Research Association of India) type approval certifying it meets safety and emission standards. Selling unapproved vehicle models is illegal.", actionable:"Check ARAI approval status of your vehicle at araiindia.com. Report unapproved vehicles to Ministry of Road Transport (parivahan.gov.in)." },
     { name:"BS6 Emission Standards — Mandatory from April 2020", section:"CMVR 1989 + BS6", desc:"All new vehicles sold after April 1, 2020 must meet Bharat Stage 6 (BS6) emission norms. BS4 vehicles cannot be sold as new. Older registered vehicles can still run.", actionable:"Check your vehicle's emission compliance certificate. Get PUC (Pollution Under Control) certificate renewed every 6 months." },
@@ -291,7 +291,7 @@ const LAW_DB = {
     { name:"MVA — Helmet & Seat Belt Laws", section:"MVA Sec 129 & 194B", desc:"Wearing helmet on 2-wheeler is compulsory for rider AND pillion. Seat belt compulsory for all car occupants. Fine: Rs.1,000 per offence.", actionable:"Always wear helmet/seat belt. ISI marked helmets only. Refusing to pay fine at roadside is your right — get a court challan instead." },
   ]},
 
-  armedforces: { id:"armedforces", icon:"🎖️", title:"Armed Forces — Civilian Guide", color:"#2980B9", desc:"Army, Navy & Air Force laws — how civilians must behave, their rights & applicable sections", laws:[
+  armedforces: { id:"armedforces", icon:"🎖️", title:"Armed Forces — Civilian Guide", color:"#4A5568", desc:"Army, Navy & Air Force laws — how civilians must behave, their rights & applicable sections", laws:[
     { name:"Army Act 1950 — Civilian Interaction Rules", section:"Army Act 1950", desc:"The Army Act governs military personnel discipline. Civilians who obstruct, insult or attack military personnel on duty commit a serious offence punishable under IPC.", actionable:"Always cooperate with military personnel at checkpoints. Do not obstruct them on duty. Any civilian complaint about military misconduct goes to the Station Commander or Ministry of Defence." },
     { name:"IPC Section 353 — Assault on Public Servant on Duty", section:"IPC 353", desc:"Assaulting, obstructing, or using criminal force against any public servant (including military/armed forces personnel) while performing their duty: up to 2 years imprisonment + fine.", actionable:"Never physically resist or assault armed forces personnel on duty. If you believe they acted illegally, file a formal written complaint to their commanding officer or NHRC." },
     { name:"Official Secrets Act 1923 — Military Photography Ban", section:"OSA Sec 3", desc:"Photographing or sketching military installations, airfields, ports, or cantonments without permission is a serious criminal offence. Punishment: up to 14 years imprisonment.", actionable:"Never photograph military bases, cantonments, border posts or naval installations. If you accidentally capture them, delete immediately. Downloading leaked military documents is also an offence." },
@@ -302,7 +302,7 @@ const LAW_DB = {
     { name:"IPC Section 131 — Abetting Military Mutiny", section:"IPC 131", desc:"Any civilian who attempts to seduce or entice any member of the armed forces from their duty or allegiance commits a very serious offence — life imprisonment possible.", actionable:"Never share anti-national content targeting armed forces. Never encourage military personnel to disobey orders. Such acts are treated as serious national security offences." },
   ]},
 
-  bsf: { id:"bsf", icon:"🛡️", title:"BSF & Border Security Laws", color:"#2980B9", desc:"BSF Act, border area rules, civilian conduct near borders & your rights", laws:[
+  bsf: { id:"bsf", icon:"🛡️", title:"BSF & Border Security Laws", color:"#1E5631", desc:"BSF Act, border area rules, civilian conduct near borders & your rights", laws:[
     { name:"BSF Act 1968 — BSF's Legal Authority", section:"BSF Act 1968", desc:"Border Security Force operates under the BSF Act 1968. BSF has jurisdiction to arrest, search, and seize in border areas. They protect India's borders with Pakistan and Bangladesh.", actionable:"Always carry valid identity proof near international borders. Cooperate with BSF checkpoints. Filing complaints against BSF personnel: write to DIG/IG BSF of the respective sector." },
     { name:"BSF Jurisdiction — 50 km Border Belt Powers", section:"BSF Act + CRPC", desc:"BSF has policing powers in the 50 km belt along international borders — they can arrest persons for cognizable offences, conduct searches, and seize contraband.", actionable:"Residents of border areas: always carry Aadhaar or voter ID. Do not travel in border belts at night without valid reason. Report smuggling activities to BSF: 14419." },
     { name:"Passport Entry into Prohibited Areas — ILP", section:"ILP Rules 1963", desc:"Entry into some border states (Arunachal Pradesh, Manipur, Nagaland, Mizoram) requires an Inner Line Permit (ILP) for Indian citizens from other states.", actionable:"Apply for ILP online before visiting these states. Travelling without ILP: detention and deportation. Apply at ilp.gov.in or respective state government websites." },
@@ -312,7 +312,7 @@ const LAW_DB = {
     { name:"Right to Peaceful Border Tourism", section:"MHA Guidelines", desc:"Certain border tourism destinations (Wagah, Nathu La, Longewala, etc.) are open to Indian civilians with prior registration. Photography restrictions apply near military/BSF posts.", actionable:"Register for border tourism through official state tourism or MHA portals. Never photograph border posts, watch towers or barriers. Follow all BSF guide instructions." },
   ]},
 
-  railways: { id:"railways", icon:"🚂", title:"Railways — Passenger Rights & Laws", color:"#2980B9", desc:"Railway Act 1989, TC powers & limits, ticketless travel penalties, passenger rights & how to complain against railway staff", laws:[
+  railways: { id:"railways", icon:"🚂", title:"Railways — Passenger Rights & Laws", color:"#1565C0", desc:"Railway Act 1989, TC powers & limits, ticketless travel penalties, passenger rights & how to complain against railway staff", laws:[
     { name:"Railway Act 1989 — Travelling Without Ticket", section:"Railway Act Sec 137", desc:"Travelling without a valid ticket, or with a ticket for a lower class, or beyond the station for which the ticket is held — punishable with fine of Rs.250 OR up to 10x the fare for the distance travelled, whichever is more. The Travelling Ticket Examiner (TTE/TC) has full authority to collect the excess fare + penalty.", actionable:"Always carry a valid ticket. If caught without ticket: pay the penalty amount + excess fare on the spot and get a written receipt. Do NOT argue or refuse — it worsens the situation. You can contest in court later." },
     { name:"Railway Act — Travelling in Wrong Class", section:"Railway Act Sec 138", desc:"Travelling in a higher class than what your ticket authorises — TTE will charge the difference in fare + an excess charge of Rs.250. Example: travelling in AC coach with Sleeper ticket.", actionable:"Pay the excess fare + penalty on the spot. Demand a proper written receipt with the TTE's details. If TTE refuses to give receipt: note his badge number and report to Station Master." },
     { name:"TTE / TC Power to Check Tickets", section:"Railway Act Sec 8 + 134", desc:"The Travelling Ticket Examiner (TTE/TC) is an authorised railway servant. He has the legal power to examine tickets of all passengers, ask for identity proof to verify wait-listed/RAC passengers, and issue penalties for irregularities.", actionable:"Always cooperate with TTE ticket checking. Carry valid photo ID along with your ticket (mandatory for reserved travel). Obstruction of TTE on duty is a railway offence." },
@@ -374,7 +374,7 @@ Be warm, empathetic and empowering. Many users cannot afford lawyers — make th
 // ─── WHAT IF SITUATIONS ───────────────────────────────────────────────────────
 const WHAT_IF = [
   {
-    id:"threatened", icon:"😡", color:"#E74C3C", tag:"IPC 503/506",
+    id:"threatened", icon:"😡", color:"#C0392B", tag:"IPC 503/506",
     title:"Someone is Threatening You",
     situation:"A person is verbally threatening you, sending threat messages, or saying they'll harm you or your family.",
     doNow:["Stay calm — do NOT retaliate physically","Move to a safe, public location immediately","Record or screenshot the threat if via phone/message","Note the person's name, description, time, location, witnesses","Call 100 (Police) or 112 (Emergency) if you feel in immediate danger","File FIR at nearest police station citing IPC 506 (criminal intimidation)"],
@@ -384,7 +384,7 @@ const WHAT_IF = [
     helpline:"Police: 100 | Emergency: 112 | Women: 181"
   },
   {
-    id:"ragging", icon:"🎓", color:"#27AE60", tag:"UGC Anti-Ragging",
+    id:"ragging", icon:"🎓", color:"#1A8FBF", tag:"UGC Anti-Ragging",
     title:"You Are Being Ragged",
     situation:"You are being ragged in college, hostel, workplace, or on the road by seniors, colleagues or strangers.",
     doNow:["Leave the situation immediately — your safety comes first","Do NOT stay silent — ragging thrives on silence","Call Anti-Ragging Helpline: 1800-180-5522 (free, 24x7)","Report to your college Anti-Ragging Committee the same day","File FIR at nearest police station — ragging is a criminal offence","Collect names, dates, witnesses — document everything"],
@@ -394,7 +394,7 @@ const WHAT_IF = [
     helpline:"Anti-Ragging: 1800-180-5522 | Police: 100 | Women: 181"
   },
   {
-    id:"weapon_road", icon:"🔪", color:"#E74C3C", tag:"IPC 397 / Arms Act",
+    id:"weapon_road", icon:"🔪", color:"#8B0000", tag:"IPC 397 / Arms Act",
     title:"Someone Threatens You with a Weapon on Road",
     situation:"A person on the road, in a vehicle, or at a public place is threatening you with a knife, rod, gun or any weapon.",
     doNow:["Do NOT argue or engage — your life is more important than any property","Back away slowly towards a crowded or lit area","Call 112 or 100 immediately — stay on the line","Shout for help loudly to attract attention from bystanders","Note the vehicle number, description of person, direction they went","File FIR with full description — police take weapon threats very seriously"],
@@ -1353,7 +1353,6 @@ export default function KanoonSaathi() {
   const [copied,      setCopied]      = useState(false);
   const [lang,        setLang]        = useState("en");
   const [langOpen,    setLangOpen]    = useState(false);
-  const [selPillar,   setSelPillar]   = useState(null); // Filter by 4 pillars
 
   // ── BOOKMARKS — persisted in localStorage ─────────────────────────────────
   const [bookmarks, setBookmarks] = useState(() => {
@@ -1483,17 +1482,10 @@ export default function KanoonSaathi() {
     return <div key={i} dangerouslySetInnerHTML={{ __html:bold||"&nbsp;" }} style={{ marginBottom:2,fontSize:14,lineHeight:1.65 }} />;
   });
 
-  const cats = Object.values(LAW_DB).filter(c => {
-    const matchesQuery = !query || c.title.toLowerCase().includes(query.toLowerCase()) ||
-      c.laws.some(l => l.section.toLowerCase().includes(query.toLowerCase()) || l.name.toLowerCase().includes(query.toLowerCase()));
-    const matchesPillar = !selPillar || (
-      selPillar === "urgent"    ? c.color === "#E74C3C" :
-      selPillar === "authority" ? c.color === "#2980B9" :
-      selPillar === "rights"    ? c.color === "#27AE60" :
-      selPillar === "financial" ? c.color === "#D68910" : true
-    );
-    return matchesQuery && matchesPillar;
-  });
+  const cats = Object.values(LAW_DB).filter(c =>
+    !query || c.title.toLowerCase().includes(query.toLowerCase()) ||
+    c.laws.some(l => l.section.toLowerCase().includes(query.toLowerCase()) || l.name.toLowerCase().includes(query.toLowerCase()))
+  );
   const scs = SCENARIOS.filter(s =>
     !query || s.title.toLowerCase().includes(query.toLowerCase()) ||
     s.tag.toLowerCase().includes(query.toLowerCase()) || s.situation.toLowerCase().includes(query.toLowerCase())
@@ -1762,29 +1754,11 @@ export default function KanoonSaathi() {
         <p style={{ fontSize:"clamp(13px,1.8vw,15px)",color:"rgba(240,237,232,0.48)",maxWidth:500,margin:"0 auto 28px",lineHeight:1.8,direction:activeLang.dir }}>
           {t.heroSub}
         </p>
-        <div style={{ display:"flex",maxWidth:540,margin:"0 auto 16px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.09)",borderRadius:11,overflow:"hidden" }}>
+        <div style={{ display:"flex",maxWidth:540,margin:"0 auto 20px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.09)",borderRadius:11,overflow:"hidden" }}>
           <input style={{ flex:1,padding:"12px 15px",background:"transparent",border:"none",color:"#F0EDE8",fontSize:13,fontFamily:"inherit",outline:"none" }}
-            value={query} onChange={e => { setQuery(e.target.value); if(e.target.value) setSelPillar(null); }}
+            value={query} onChange={e => setQuery(e.target.value)}
             placeholder={t.searchPH} dir={activeLang.dir} />
           <button style={{ padding:"12px 18px",background:"linear-gradient(135deg,#FF6B00,#FF9500)",border:"none",color:"#fff",cursor:"pointer",fontSize:13,fontFamily:"inherit" }}>🔍</button>
-        </div>
-
-        {/* Pillar Pills */}
-        <div style={{ display:"flex",gap:8,justifyContent:"center",flexWrap:"wrap",marginBottom:24,animation:"fadeUp 0.5s ease 0.2s both" }}>
-          {[
-            { id: "urgent",    icon: "🚨", color: "#E74C3C", label: "Urgent" },
-            { id: "authority", icon: "🏛️", color: "#2980B9", label: "Authority" },
-            { id: "rights",    icon: "⚖️", color: "#27AE60", label: "Rights" },
-            { id: "financial", icon: "💰", color: "#D68910", label: "Financial" },
-          ].map(p => {
-            const active = selPillar === p.id;
-            return (
-              <button key={p.id} onClick={() => { setSelPillar(active ? null : p.id); setTab("categories"); if(!active) setTimeout(() => document.getElementById("main")?.scrollIntoView({ behavior:"smooth" }), 100); }}
-                style={{ display:"flex",alignItems:"center",gap:6,padding:"7px 14px",borderRadius:20,background:active ? p.color : `${p.color}12`,border:`1px solid ${p.color}35`,color:active ? "#fff" : p.color,fontSize:11,fontWeight:700,cursor:"pointer",transition:"all 0.2s",boxShadow: active ? `0 4px 12px ${p.color}40` : "none" }}>
-                <span>{p.icon}</span> {p.label}
-              </button>
-            );
-          })}
         </div>
         <div style={{ display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap" }}>
           <button style={{ padding:"12px 28px",borderRadius:9,background:"linear-gradient(135deg,#FF6B00,#FF9500)",border:"none",color:"#fff",fontWeight:600,fontSize:14,cursor:"pointer",fontFamily:"inherit",animation:"glow 3s infinite" }}
@@ -1798,18 +1772,12 @@ export default function KanoonSaathi() {
         </div>
       </div>
 
-      {/* 4 Pillars Guide */}
-      <div style={{ display:"flex",justifyContent:"center",gap:24,padding:"24px 24px",borderTop:"1px solid rgba(255,255,255,0.05)",borderBottom:"1px solid rgba(255,255,255,0.05)",marginBottom:44,flexWrap:"wrap",position:"relative",zIndex:1,background:"rgba(255,255,255,0.01)" }}>
-        {[
-          { title:"Authority", sub:"Law & Govt", color:"#2980B9", icon:"🏛️" },
-          { title:"Urgent",    sub:"Safety & Help", color:"#E74C3C", icon:"🚨" },
-          { title:"Rights",    sub:"Equity & Care", color:"#27AE60", icon:"⚖️" },
-          { title:"Financial", sub:"Property & Tax", color:"#D68910", icon:"💰" },
-        ].map((p,i) => (
-          <div key={i} style={{ textAlign:"center",minWidth:100,animation:`fadeUp 0.4s ease ${i*0.1}s both` }}>
-            <div style={{ fontSize:18,marginBottom:4 }}>{p.icon}</div>
-            <div style={{ fontSize:15,fontWeight:700,color:p.color,letterSpacing:"0.5px" }}>{p.title}</div>
-            <div style={{ fontSize:10,color:"rgba(240,237,232,0.32)",marginTop:2 }}>{p.sub}</div>
+      {/* Stats */}
+      <div style={{ display:"flex",justifyContent:"center",gap:40,padding:"20px 24px",borderTop:"1px solid rgba(255,255,255,0.05)",borderBottom:"1px solid rgba(255,255,255,0.05)",marginBottom:44,flexWrap:"wrap",position:"relative",zIndex:1 }}>
+        {[["180+","Laws & Sections"],["20","Categories"],["9","What If Guides"],["10","Women Safety"],["10","Disability Rights"]].map(([n,l]) => (
+          <div key={n} style={{ textAlign:"center" }}>
+            <div style={{ fontSize:24,fontWeight:700,background:"linear-gradient(90deg,#FF6B00,#FFD700)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent" }}>{n}</div>
+            <div style={{ fontSize:11,color:"rgba(240,237,232,0.32)",marginTop:2 }}>{l}</div>
           </div>
         ))}
       </div>
@@ -1851,50 +1819,28 @@ export default function KanoonSaathi() {
 
       {/* ── CATEGORIES ── */}
       {tab==="categories" && (
-        <div style={{ maxWidth:1140, margin:"0 auto", padding:"0 28px 48px", position:"relative", zIndex:1 }}>
-          <div style={{ textAlign:"center", fontSize:22, fontWeight:700, marginBottom:5 }}>Browse by Legal Category</div>
-          <div style={{ textAlign:"center", color:"rgba(240,237,232,0.36)", fontSize:13, marginBottom:32 }}>
-            {query ? `Results for "${query}"` : "Explore laws organized by our 4 core legal pillars"}
+        <>
+          <div style={{ textAlign:"center",fontSize:22,fontWeight:700,marginBottom:5,position:"relative",zIndex:1 }}>Browse by Legal Category</div>
+          <div style={{ textAlign:"center",color:"rgba(240,237,232,0.36)",fontSize:13,marginBottom:28,position:"relative",zIndex:1 }}>
+            {query ? `Results for "${query}" — ${cats.length} categories` : "Click any category to explore all laws, sections & your rights"}
           </div>
-
-          {/* Grouped Category UI */}
-          {[
-            { title: "Urgent & Safety", color: "#E74C3C", icon: "🚨", key: "urgent", desc: "Emergency laws, medical rights, and immediate safety protocols." },
-            { title: "Authority & Governance", color: "#2980B9", icon: "🏛️", key: "authority", desc: "Police procedures, FIRs, RTI, and government accountability." },
-            { title: "Your Rights & Equity", color: "#27AE60", icon: "⚖️", key: "rights", desc: "Consumer rights, labour laws, education, and social justice." },
-            { title: "Financial & Property", color: "#D68910", icon: "💰", key: "financial", desc: "Banking, tax, real estate, and consumer financial protection." },
-          ].map(group => {
-            const filtered = cats.filter(c => c.color === group.color);
-            if (filtered.length === 0) return null;
-            return (
-              <div key={group.key} style={{ marginBottom:48, animation:"fadeUp 0.4s ease" }}>
-                <div style={{ display:"flex", alignItems:"flex-start", gap:14, marginBottom:20, borderBottom:"1px solid rgba(255,255,255,0.06)", paddingBottom:14 }}>
-                   <div style={{ width:44, height:44, borderRadius:11, background:`${group.color}16`, border:`1px solid ${group.color}35`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>{group.icon}</div>
-                   <div>
-                     <div style={{ fontSize:19, fontWeight:700, color:group.color, marginBottom:3 }}>{group.title}</div>
-                     <div style={{ fontSize:12, color:"rgba(240,237,232,0.45)" }}>{group.desc}</div>
-                   </div>
-                </div>
-                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:14 }}>
-                  {filtered.map((cat, idx) => (
-                    <div key={cat.id} style={{ background:"rgba(255,255,255,0.02)", border:`1px solid ${cat.color}20`, borderRadius:14, padding:18, cursor:"pointer", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
-                      onMouseEnter={e => { e.currentTarget.style.background=`${cat.color}0D`; e.currentTarget.style.borderColor=`${cat.color}45`; e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow=`0 10px 30px ${cat.color}1A`; }}
-                      onMouseLeave={e => { e.currentTarget.style.background="rgba(255,255,255,0.02)"; e.currentTarget.style.borderColor=`${cat.color}20`; e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}
-                      onClick={() => { setSelCat(cat.id); setScreen("category"); }}>
-                      <div style={{ fontSize:28, marginBottom:10 }}>{cat.icon}</div>
-                      <div style={{ fontSize:15, fontWeight:700, marginBottom:5, color:cat.color }}>{cat.title}</div>
-                      <div style={{ fontSize:11, color:"rgba(240,237,232,0.4)", marginBottom:12, lineHeight:1.6 }}>{cat.desc}</div>
-                      <div style={{ display:"flex", flexWrap:"wrap", gap:4 }}>
-                        {cat.laws.slice(0,3).map((l,i) => <span key={i} style={{ fontSize:9, padding:"2px 7px", borderRadius:4, background:`${cat.color}10`, color:cat.color, border:`1px solid ${cat.color}25` }}>{l.section}</span>)}
-                        {cat.laws.length>3 && <span style={{ fontSize:9, padding:"2px 7px", borderRadius:4, background:"rgba(255,255,255,0.05)", color:"rgba(240,237,232,0.3)" }}>+{cat.laws.length-3}</span>}
-                      </div>
-                    </div>
-                  ))}
+          <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(238px,1fr))",gap:12,padding:"0 28px 48px",maxWidth:1140,margin:"0 auto",position:"relative",zIndex:1 }}>
+            {cats.map((cat,idx) => (
+              <div key={cat.id} style={{ background:"rgba(255,255,255,0.02)",border:`1px solid ${cat.color}20`,borderRadius:13,padding:16,cursor:"pointer",transition:"all 0.2s",animation:`fadeUp 0.35s ease ${idx*0.04}s both` }}
+                onMouseEnter={e => { e.currentTarget.style.background=`${cat.color}0D`; e.currentTarget.style.borderColor=`${cat.color}45`; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow=`0 8px 24px ${cat.color}18`; }}
+                onMouseLeave={e => { e.currentTarget.style.background="rgba(255,255,255,0.02)"; e.currentTarget.style.borderColor=`${cat.color}20`; e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}
+                onClick={() => { setSelCat(cat.id); setScreen("category"); }}>
+                <div style={{ fontSize:26,marginBottom:9 }}>{cat.icon}</div>
+                <div style={{ fontSize:14,fontWeight:700,marginBottom:4,color:cat.color }}>{cat.title}</div>
+                <div style={{ fontSize:11,color:"rgba(240,237,232,0.37)",marginBottom:9,lineHeight:1.55 }}>{cat.desc}</div>
+                <div>
+                  {cat.laws.slice(0,4).map((l,i) => <span key={i} style={{ fontSize:9,padding:"2px 6px",borderRadius:3,background:`${cat.color}10`,color:`${cat.color}BB`,border:`1px solid ${cat.color}22`,display:"inline-block",margin:"1px" }}>{l.section}</span>)}
+                  {cat.laws.length>4 && <span style={{ fontSize:9,padding:"2px 6px",borderRadius:3,background:`${cat.color}10`,color:`${cat.color}BB`,border:`1px solid ${cat.color}22`,display:"inline-block",margin:"1px" }}>+{cat.laws.length-4}</span>}
                 </div>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
       {/* ── SCENARIOS ── */}
