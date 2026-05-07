@@ -52,21 +52,21 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             value={query} onChange={e => setQuery(e.target.value)} placeholder={t.searchPH} dir={activeLang.dir} />
           <button style={{ padding:'12px 18px',background:'linear-gradient(135deg,#FF6B00,#FF9500)',border:'none',color:'#fff',cursor:'pointer',fontSize:13 }}>🔍</button>
         </div>
-        <div style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
+        <div className="hero-actions" style={{ display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap' }}>
           <button className="btn btn-primary btn-lg" onClick={() => onChat(null)}>{t.askBtn}</button>
           <button className="btn btn-secondary btn-lg" onClick={() => document.getElementById('main')?.scrollIntoView({ behavior:'smooth' })}>{t.browseLaws}</button>
         </div>
 
         {/* Quick Tools */}
-        <div style={{ display:'flex',gap:10,justifyContent:'center',flexWrap:'wrap',marginTop:18 }}>
+        <div className="grid-responsive" style={{ display:'flex',gap:10,justifyContent:'center',flexWrap:'wrap',marginTop:18 }}>
           {[
             ['📄','Analyze Document','Upload any legal doc for AI explanation', onAnalyzer],
             ['📝','Draft Generator','Generate FIR, RTI, Legal Notice', onDrafts],
             ['🎙️','Voice Mode','Speak-only mode — no typing needed', onVoiceOnly],
           ].map(([icon,title,desc,handler]) => (
-            <button key={title} onClick={handler}
+            <button key={title} onClick={handler} className="tool-card"
               style={{ padding:'10px 16px',borderRadius:12,background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',display:'flex',alignItems:'center',gap:10,color:'#F0EDE8',transition:'all 0.2s',maxWidth:220 }}
-              onMouseEnter={e => { e.currentTarget.style.background='rgba(255,107,0,0.07)'; e.currentTarget.style.borderColor='rgba(255,107,0,0.25)'; }}
+              onMouseEnter={e => { e.currentTarget.style.background='rgba(232,168,56,0.07)'; e.currentTarget.style.borderColor='rgba(232,168,56,0.25)'; }}
               onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.025)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'; }}>
               <span style={{ fontSize:22 }}>{icon}</span>
               <div>
@@ -79,11 +79,11 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
       </div>
 
       {/* Stats */}
-      <div style={{ display:'flex',justifyContent:'center',gap:40,padding:'20px 24px',borderTop:'1px solid rgba(255,255,255,0.05)',borderBottom:'1px solid rgba(255,255,255,0.05)',marginBottom:44,flexWrap:'wrap',position:'relative',zIndex:1 }}>
+      <div className="stats-bar" style={{ display:'flex',justifyContent:'center',gap:40,padding:'20px 24px',borderTop:'1px solid rgba(255,255,255,0.05)',borderBottom:'1px solid rgba(255,255,255,0.05)',marginBottom:44,flexWrap:'wrap',position:'relative',zIndex:1 }}>
         {[['180+','Laws & Sections'],['20','Categories'],['9','What If Guides'],['10','Women Safety'],['10','Disability Rights']].map(([n,l]) => (
-          <div key={n} style={{ textAlign:'center' }}>
-            <div style={{ fontSize:24,fontWeight:700,background:'linear-gradient(90deg,#FF6B00,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
-            <div style={{ fontSize:11,color:'rgba(240,237,232,0.32)',marginTop:2 }}>{l}</div>
+          <div key={n} className="stats-item" style={{ textAlign:'center' }}>
+            <div style={{ fontSize:24,fontWeight:700,background:'linear-gradient(90deg,#E8A838,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
+            <div style={{ fontSize:11,color:'rgba(232,230,225,0.32)',marginTop:2 }}>{l}</div>
           </div>
         ))}
       </div>
@@ -455,11 +455,11 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
           <div style={{ fontSize:13,color:'rgba(240,237,232,0.44)',maxWidth:480,margin:'0 auto 24px',lineHeight:1.8 }}>
             3 out of 4 Indians have no idea what laws protect them. KanoonSaathi puts the entire Indian legal system in your hands — free, instant, and in plain English.
           </div>
-          <div style={{ display:'flex',gap:24,justifyContent:'center',flexWrap:'wrap',marginBottom:24 }}>
+          <div className="stats-bar" style={{ display:'flex',gap:24,justifyContent:'center',flexWrap:'wrap',marginBottom:24 }}>
             {[['1.4B','Indians who deserve to know their rights'],['80%','Cases dismissed due to lack of awareness'],['₹0','Cost to use KanoonSaathi']].map(([n,l]) => (
-              <div key={n} style={{ textAlign:'center' }}>
-                <div style={{ fontSize:26,fontWeight:700,background:'linear-gradient(90deg,#FF6B00,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
-                <div style={{ fontSize:11,color:'rgba(240,237,232,0.35)',maxWidth:140,lineHeight:1.4 }}>{l}</div>
+              <div key={n} className="stats-item" style={{ textAlign:'center' }}>
+                <div style={{ fontSize:26,fontWeight:700,background:'linear-gradient(90deg,#E8A838,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
+                <div style={{ fontSize:11,color:'rgba(232,230,225,0.35)',maxWidth:140,lineHeight:1.4 }}>{l}</div>
               </div>
             ))}
           </div>

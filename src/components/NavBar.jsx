@@ -10,17 +10,19 @@ export default function NavBar({ loggedIn, user, lang, theme, fontSize, setTheme
       <div className="navbar-actions">
         {back && <button className="btn btn-ghost" onClick={back} style={{ fontSize:11 }}>{backLabel}</button>}
         
-        <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="btn" style={{ padding:'5px 8px',borderRadius:7,background:'rgba(255,107,0,0.08)',border:'1px solid rgba(255,107,0,0.25)',color:'#FF9500',fontSize:13 }}>
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </button>
+        <div className="hide-on-mobile" style={{ display:'flex', gap: 7 }}>
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="btn" style={{ padding:'5px 8px',borderRadius:7,background:'rgba(232,168,56,0.08)',border:'1px solid rgba(232,168,56,0.25)',color:'#E8A838',fontSize:13 }}>
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
 
-        <button onClick={() => setFontSize(fontSize === 'normal' ? 'large' : 'normal')} className="btn" style={{ padding:'5px 8px',borderRadius:7,background:'rgba(255,107,0,0.08)',border:'1px solid rgba(255,107,0,0.25)',color:'#FF9500',fontSize:12,fontWeight:'bold' }}>
-          {fontSize === 'normal' ? 'A+' : 'A-'}
-        </button>
+          <button onClick={() => setFontSize(fontSize === 'normal' ? 'large' : 'normal')} className="btn" style={{ padding:'5px 8px',borderRadius:7,background:'rgba(232,168,56,0.08)',border:'1px solid rgba(232,168,56,0.25)',color:'#E8A838',fontSize:12,fontWeight:'bold' }}>
+            {fontSize === 'normal' ? 'A+' : 'A-'}
+          </button>
 
-        <button onClick={onLangPick} className="btn" style={{ padding:'5px 10px',borderRadius:7,background:'rgba(255,107,0,0.08)',border:'1px solid rgba(255,107,0,0.25)',color:'#FF9500',fontSize:11,display:'flex',alignItems:'center',gap:5 }}>
-          🌐 <span style={{ direction: LANGUAGES.find(l => l.code === lang)?.dir || 'ltr' }}>{LANGUAGES.find(l => l.code === lang)?.native || 'EN'}</span>
-        </button>
+          <button onClick={onLangPick} className="btn" style={{ padding:'5px 10px',borderRadius:7,background:'rgba(232,168,56,0.08)',border:'1px solid rgba(232,168,56,0.25)',color:'#E8A838',fontSize:11,display:'flex',alignItems:'center',gap:5 }}>
+            🌐 <span style={{ direction: LANGUAGES.find(l => l.code === lang)?.dir || 'ltr' }}>{LANGUAGES.find(l => l.code === lang)?.native || 'EN'}</span>
+          </button>
+        </div>
         {loggedIn ? (
           <>
             <div onClick={onProfile} style={{ display:'flex',alignItems:'center',gap:5,padding:'5px 10px',borderRadius:20,background:'rgba(255,107,0,0.1)',border:'1px solid rgba(255,107,0,0.2)',cursor:'pointer' }}>
