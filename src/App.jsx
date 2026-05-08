@@ -9,6 +9,7 @@ import CategoryPage from './pages/CategoryPage';
 import DocumentAnalyzer from './pages/DocumentAnalyzer';
 import DraftPage from './pages/DraftPage';
 import VoiceOnlyPage from './pages/VoiceOnlyPage';
+import BNSTranslator from './pages/BNSTranslator';
 import AdminDashboard from './pages/AdminDashboard';
 import { LoginPage, SignupPage, ForgotPasswordPage } from './pages/AuthPages';
 import ProfilePage from './pages/ProfilePage';
@@ -100,11 +101,14 @@ export default function App() {
     case 'voiceonly':
       content = <VoiceOnlyPage lang={lang} speech={speech} onHome={goHome} />;
       break;
+    case 'bns':
+      content = <BNSTranslator {...commonProps} />;
+      break;
     case 'admin':
       content = <AdminDashboard token={auth.token} onBack={goHome} />;
       break;
     default:
-      content = <HomePage {...commonProps} onChat={goChat} onCategory={goCategory} speech={speech} bookmarkHook={bookmarkHook} onAnalyzer={() => setScreen('analyzer')} onDrafts={() => setScreen('drafts')} onVoiceOnly={() => setScreen('voiceonly')} onAdmin={auth.isAdmin ? () => setScreen('admin') : null} />;
+      content = <HomePage {...commonProps} onChat={goChat} onCategory={goCategory} speech={speech} bookmarkHook={bookmarkHook} onAnalyzer={() => setScreen('analyzer')} onDrafts={() => setScreen('drafts')} onVoiceOnly={() => setScreen('voiceonly')} onBNS={() => setScreen('bns')} onAdmin={auth.isAdmin ? () => setScreen('admin') : null} />;
   }
 
   return (

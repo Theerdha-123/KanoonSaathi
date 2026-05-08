@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import NavBar from '../components/NavBar';
 import { SCENARIOS, HELPLINES, RIGHTS, WOMEN_APPS, DISABILITY_LAWS, WHAT_IF, LAW_FACTS } from '../data/index';
+import DailyLegalFactCard from '../components/DailyLegalFactCard';
 import { LAW_DB } from '../data/lawDatabase';
 import { LANGUAGES, getT } from '../data/languages';
 
-export default function HomePage({ loggedIn, user, lang, theme, fontSize, setTheme, setFontSize, onLangPick, onLogin, onSignup, onLogout, onHome, onProfile, onAdmin, onChat, onCategory, speech, bookmarkHook, onAnalyzer, onDrafts, onVoiceOnly }) {
+export default function HomePage({ loggedIn, user, lang, theme, fontSize, setTheme, setFontSize, onLangPick, onLogin, onSignup, onLogout, onHome, onProfile, onAdmin, onChat, onCategory, speech, bookmarkHook, onAnalyzer, onDrafts, onVoiceOnly, onBNS }) {
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState('categories');
   const [openSc, setOpenSc] = useState(null);
@@ -23,7 +24,6 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
     s.tag.toLowerCase().includes(query.toLowerCase()) || s.situation.toLowerCase().includes(query.toLowerCase())
   );
 
-  const fact = LAW_FACTS[new Date().getDate() % LAW_FACTS.length];
 
   const TABS = [
     ['categories', t.tab_cat], ['scenarios', t.tab_sc], ['whatif', t.tab_wi],
@@ -62,6 +62,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
           {[
             ['📄','Analyze Document','Upload any legal doc for AI explanation', onAnalyzer],
             ['📝','Draft Generator','Generate FIR, RTI, Legal Notice', onDrafts],
+            ['🔄','IPC → BNS','Convert old IPC to new BNS sections', onBNS],
             ['🎙️','Voice Mode','Speak-only mode — no typing needed', onVoiceOnly],
           ].map(([icon,title,desc,handler]) => (
             <button key={title} onClick={handler} className="tool-card"
@@ -88,20 +89,9 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
         ))}
       </div>
 
-      {/* Daily Fact */}
-      <div style={{ margin:'0 28px 32px',padding:'16px 20px',background:'linear-gradient(135deg,rgba(255,107,0,0.09),rgba(46,64,87,0.12))',border:'1px solid rgba(255,107,0,0.2)',borderRadius:14,display:'flex',alignItems:'flex-start',gap:14,position:'relative',zIndex:1,animation:'fadeUp 0.4s ease' }}>
-        <div style={{ fontSize:28,flexShrink:0 }}>{fact.icon}</div>
-        <div style={{ flex:1 }}>
-          <div style={{ fontSize:10,color:'#FF9500',fontWeight:700,letterSpacing:'0.8px',marginBottom:5 }}>{t.dailyFact}</div>
-          <div style={{ fontSize:13,color:'rgba(240,237,232,0.85)',lineHeight:1.65,marginBottom:6 }}>{fact.fact}</div>
-          <span className="tag" style={{ background:'rgba(255,107,0,0.1)',color:'#FF9500',border:'1px solid rgba(255,107,0,0.2)' }}>{fact.law}</span>
-        </div>
-        {supported.tts && (
-          <button onClick={() => speaking ? stopSpeaking() : speak(`${t.dailyFact}. ${fact.fact}. Law: ${fact.law}`)}
-            style={{ width:36,height:36,borderRadius:8,border:`1px solid ${speaking?'rgba(76,175,80,0.5)':'rgba(255,107,0,0.25)'}`,background:speaking?'rgba(76,175,80,0.12)':'rgba(255,107,0,0.08)',color:speaking?'#4CAF50':'#FF9500',cursor:'pointer',fontSize:17,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
-            {speaking ? '⏹' : '🔊'}
-          </button>
-        )}
+      {/* Daily Legal Fact — Premium Card */}
+      <div style={{ margin:'0 28px 32px', position:'relative', zIndex:1 }}>
+        <DailyLegalFactCard speech={speech} />
       </div>
 
       {/* Tabs */}
