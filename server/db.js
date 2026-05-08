@@ -99,6 +99,12 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_law_searches_term ON law_searches(search_term);
 `);
 
+// ─── Legal News Stubs (MongoDB primary) ──────────────────────────────────────
+
+let inMemoryNews = [];
+export async function getLatestNews() { return inMemoryNews; }
+export async function saveNewsList(newsArray) { inMemoryNews = newsArray; return true; }
+
 // ─── User Management ─────────────────────────────────────────────────────────
 
 const userStmts = {

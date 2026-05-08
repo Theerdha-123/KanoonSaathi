@@ -92,6 +92,19 @@ const draftUsageSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
 });
 
+const legalNewsSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  court: { type: String, required: true },
+  bench: { type: String, default: null },
+  date: { type: String, required: true },
+  caseNo: { type: String, default: null },
+  category: { type: String, required: true },
+  summaryPoints: [{ type: String }],
+  impact: { type: String, default: 'Medium' },
+  tags: [{ type: String }],
+  created_at: { type: Date, default: Date.now }
+});
+
 // Indexes for analytics performance
 querySchema.index({ created_at: -1 });
 querySchema.index({ language: 1 });
@@ -105,6 +118,33 @@ const Query = mongoose.model('Query', querySchema);
 const PageView = mongoose.model('PageView', pageViewSchema);
 const LawSearch = mongoose.model('LawSearch', lawSearchSchema);
 const DraftUsage = mongoose.model('DraftUsage', draftUsageSchema);
+const LegalNews = mongoose.model('LegalNews', legalNewsSchema);
+
+// ─── Legal News Management ───────────────────────────────────────────────────
+
+export async function getLatestNews() {
+  try {
+    const news = await LegalNews.find().sort({ created_at: -1 }).limit(10).lean();
+    // Format _id back to id if needed, but lean() mostly keeps it as _id
+    return news.map(n => ({ ...n, id: n._id.toString() }));
+  } catch (e) {
+    console.error('Error fetching latest news:', e);
+    return [];
+  }
+}
+
+export async function saveNewsList(newsArray) {
+  try {
+    await LegalNews.deleteMany({}); // Clear old news
+    if (newsArray && newsArray.length > 0) {
+      await LegalNews.insertMany(newsArray);
+    }
+    return true;
+  } catch (e) {
+    console.error('Error saving news list:', e);
+    return false;
+  }
+}
 
 // ─── User Management ─────────────────────────────────────────────────────────
 

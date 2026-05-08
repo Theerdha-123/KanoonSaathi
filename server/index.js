@@ -14,8 +14,9 @@ import {
   getOverviewStats, getTopQueries, getTopLawSearches,
   getUsageByLanguage, getUsageByState, getUsageByFeature,
   getDraftUsageStats, getPageViewStats, getQueryTimeline,
-  getRecentQueries, getAllUsers, getDbStatus, disconnectDb,
+  getRecentQueries, getAllUsers, getDbStatus, disconnectDb, getLatestNews,
 } from './dbProvider.js';
+import { updateLegalNews } from './newsService.js';
 import { IPC_BNS_MAPPING } from '../src/data/lawMapping.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -726,6 +727,17 @@ app.get('/api/provider', (req, res) => {
   res.json({ provider: AI_PROVIDER, configured: !!apiKey, supported: ['anthropic', 'openai', 'gemini', 'nvidia', 'mock'] });
 });
 
+// ─── Legal News Feed ────────────────────────────────────────────────────────────
+
+app.get('/api/news', async (req, res) => {
+  try {
+    const news = await getLatestNews();
+    res.json(news);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch legal news' });
+  }
+});
+
 // ─── Health Check ───────────────────────────────────────────────────────────────
 
 app.get('/api/health', (req, res) => {
@@ -777,6 +789,14 @@ const server = app.listen(PORT, () => {
   }
   console.log(`   Health:      http://localhost:${PORT}/api/health`);
   console.log(`   Ready at:    http://localhost:${PORT}\n`);
+
+  // Start background jobs
+  if (DB_PROVIDER === 'mongodb') {
+    // Run once after 5 seconds to ensure DB is connected, then every 6 hours
+    setTimeout(updateLegalNews, 5000);
+    setInterval(updateLegalNews, 6 * 60 * 60 * 1000);
+    console.log(`   ⏳ Background jobs: Scheduled Legal News fetcher (every 6h)`);
+  }
 });
 
 // ─── Graceful Shutdown ──────────────────────────────────────────────────────────

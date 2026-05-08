@@ -45,7 +45,7 @@ export const getPageViewStats = dbModule.getPageViewStats;
 export const getQueryTimeline = dbModule.getQueryTimeline;
 export const getRecentQueries = dbModule.getRecentQueries;
 export const getAllUsers = dbModule.getAllUsers;
-
-// Provider-specific exports with fallbacks
-export const getDbStatus = dbModule.getDbStatus || dbModule.getMongoStatus || (() => ({ connected: true }));
-export const disconnectDb = dbModule.disconnectDb || dbModule.disconnectMongo || (() => {});
+export const getDbStatus = dbModule.getDbStatus || (() => ({ connected: true, provider: DB_PROVIDER }));
+export const disconnectDb = dbModule.disconnectMongo || dbModule.disconnectDb || (async () => {});
+export const getLatestNews = dbModule.getLatestNews;
+export const saveNewsList = dbModule.saveNewsList;
