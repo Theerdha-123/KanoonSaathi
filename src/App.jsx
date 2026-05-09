@@ -11,6 +11,7 @@ import DraftPage from './pages/DraftPage';
 import VoiceOnlyPage from './pages/VoiceOnlyPage';
 import BNSTranslator from './pages/BNSTranslator';
 import LegalNewsFeed from './pages/LegalNewsFeed';
+import DocumentVault from './pages/DocumentVault';
 import AdminDashboard from './pages/AdminDashboard';
 import { LoginPage, SignupPage, ForgotPasswordPage } from './pages/AuthPages';
 import ProfilePage from './pages/ProfilePage';
@@ -108,11 +109,14 @@ export default function App() {
     case 'news':
       content = <LegalNewsFeed {...commonProps} />;
       break;
+    case 'vault':
+      content = <DocumentVault {...commonProps} />;
+      break;
     case 'admin':
       content = <AdminDashboard token={auth.token} onBack={goHome} />;
       break;
     default:
-      content = <HomePage {...commonProps} onChat={goChat} onCategory={goCategory} speech={speech} bookmarkHook={bookmarkHook} onAnalyzer={() => setScreen('analyzer')} onDrafts={() => setScreen('drafts')} onVoiceOnly={() => setScreen('voiceonly')} onBNS={() => setScreen('bns')} onNews={() => setScreen('news')} onAdmin={auth.isAdmin ? () => setScreen('admin') : null} />;
+      content = <HomePage {...commonProps} onChat={goChat} onCategory={goCategory} speech={speech} bookmarkHook={bookmarkHook} onAnalyzer={() => setScreen('analyzer')} onDrafts={() => setScreen('drafts')} onVoiceOnly={() => setScreen('voiceonly')} onBNS={() => setScreen('bns')} onNews={() => setScreen('news')} onVault={() => setScreen('vault')} onAdmin={auth.isAdmin ? () => setScreen('admin') : null} />;
   }
 
   return (

@@ -60,25 +60,42 @@ function ResultCard({ entry, index }) {
         </div>
       </div>
 
+      {/* Mapping Type Badge */}
+      <div style={{ marginBottom: 14 }}>
+        {entry.mappingType === '1:1' && <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 700, background: 'rgba(52,211,153,0.1)', color: '#34D399', border: '1px solid rgba(52,211,153,0.2)' }}>1:1 Direct Mapping</span>}
+        {entry.mappingType === 'Many:1' && <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 700, background: 'rgba(232,168,56,0.1)', color: '#E8A838', border: '1px solid rgba(232,168,56,0.2)' }}>Many-to-One Consolidation</span>}
+        {entry.mappingType === 'Modified' && <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 700, background: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: '1px solid rgba(59,130,246,0.2)' }}>Modified / Redefined</span>}
+        {entry.mappingType === 'Omitted' && <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 700, background: 'rgba(239,68,68,0.1)', color: '#EF4444', border: '1px solid rgba(239,68,68,0.2)' }}>Omitted / Decriminalized</span>}
+        {entry.mappingType === 'New' && <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 700, background: 'rgba(168,85,247,0.1)', color: '#A855F7', border: '1px solid rgba(168,85,247,0.2)' }}>Entirely New Section</span>}
+      </div>
+
       {/* IPC vs BNS Comparison */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 12, alignItems: 'center' }}>
         {/* OLD IPC */}
-        <div style={{ padding: '14px 16px', borderRadius: 12, background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.12)', textAlign: 'center' }}>
-          <div style={{ fontSize: 9, fontWeight: 700, color: '#EF4444', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>Old · IPC</div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#EF4444' }}>§ {entry.ipcSection}</div>
+        <div style={{ padding: '14px 16px', borderRadius: 12, background: entry.mappingType === 'New' ? 'rgba(255,255,255,0.02)' : 'rgba(239,68,68,0.06)', border: entry.mappingType === 'New' ? '1px dashed rgba(255,255,255,0.1)' : '1px solid rgba(239,68,68,0.12)', textAlign: 'center', opacity: entry.mappingType === 'New' ? 0.5 : 1 }}>
+          <div style={{ fontSize: 9, fontWeight: 700, color: entry.mappingType === 'New' ? '#888' : '#EF4444', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>Old · IPC</div>
+          <div style={{ fontSize: entry.ipcSection.length > 8 ? 16 : 22, fontWeight: 800, color: entry.mappingType === 'New' ? '#888' : '#EF4444', textDecoration: entry.mappingType === 'Omitted' ? 'line-through' : 'none' }}>
+            {entry.ipcSection === 'None' ? 'N/A' : `§ ${entry.ipcSection}`}
+          </div>
           <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.25)', marginTop: 4 }}>Indian Penal Code 1860</div>
         </div>
 
         {/* Arrow */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-          <div style={{ fontSize: 20, color: '#FF9500', animation: 'pulse 2s infinite' }}>→</div>
+          {entry.mappingType === 'Omitted' ? (
+            <div style={{ fontSize: 20, color: '#EF4444' }}>×</div>
+          ) : (
+            <div style={{ fontSize: 20, color: '#FF9500', animation: 'pulse 2s infinite' }}>→</div>
+          )}
           <div style={{ fontSize: 8, color: 'rgba(240,237,232,0.2)', fontWeight: 700, letterSpacing: 0.5 }}>NOW</div>
         </div>
 
         {/* NEW BNS */}
-        <div style={{ padding: '14px 16px', borderRadius: 12, background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.12)', textAlign: 'center' }}>
-          <div style={{ fontSize: 9, fontWeight: 700, color: '#34D399', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>New · BNS</div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#34D399' }}>§ {entry.bnsSection}</div>
+        <div style={{ padding: '14px 16px', borderRadius: 12, background: entry.mappingType === 'Omitted' ? 'rgba(255,255,255,0.02)' : 'rgba(52,211,153,0.06)', border: entry.mappingType === 'Omitted' ? '1px dashed rgba(255,255,255,0.1)' : '1px solid rgba(52,211,153,0.12)', textAlign: 'center', opacity: entry.mappingType === 'Omitted' ? 0.5 : 1 }}>
+          <div style={{ fontSize: 9, fontWeight: 700, color: entry.mappingType === 'Omitted' ? '#888' : '#34D399', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>New · BNS</div>
+          <div style={{ fontSize: entry.bnsSection.length > 8 ? 16 : 22, fontWeight: 800, color: entry.mappingType === 'Omitted' ? '#888' : '#34D399' }}>
+            {entry.bnsSection === 'Omitted' ? 'Removed' : `§ ${entry.bnsSection}`}
+          </div>
           <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.25)', marginTop: 4 }}>Bharatiya Nyaya Sanhita 2023</div>
         </div>
       </div>
@@ -136,7 +153,8 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
       e.bnsSection.toLowerCase().includes(q) ||
       e.crimeNameEnglish.toLowerCase().includes(q) ||
       e.crimeNameHindi.includes(q) ||
-      e.simpleDescription.toLowerCase().includes(q)
+      e.simpleDescription.toLowerCase().includes(q) ||
+      e.mappingType.toLowerCase().includes(q)
     );
   }, [search]);
 
@@ -178,7 +196,7 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
 
         {/* Quick Filter Chips */}
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 22, justifyContent: 'center' }}>
-          {['Murder', 'Theft', 'Cheating', 'Rape', 'Kidnapping', 'Dowry', '498A', '420'].map(chip => (
+          {['1:1', 'Many:1', 'Omitted', 'New', 'Murder', 'Theft', 'Cheating', 'Rape'].map(chip => (
             <button key={chip} onClick={() => setSearch(chip)}
               style={{
                 padding: '5px 12px', borderRadius: 20, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s',

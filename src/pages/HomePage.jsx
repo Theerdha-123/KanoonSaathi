@@ -5,7 +5,7 @@ import DailyLegalFactCard from '../components/DailyLegalFactCard';
 import { LAW_DB } from '../data/lawDatabase';
 import { LANGUAGES, getT } from '../data/languages';
 
-export default function HomePage({ loggedIn, user, lang, theme, fontSize, setTheme, setFontSize, onLangPick, onLogin, onSignup, onLogout, onHome, onProfile, onAdmin, onChat, onCategory, speech, bookmarkHook, onAnalyzer, onDrafts, onVoiceOnly, onBNS, onNews }) {
+export default function HomePage({ loggedIn, user, lang, theme, fontSize, setTheme, setFontSize, onLangPick, onLogin, onSignup, onLogout, onHome, onProfile, onAdmin, onChat, onCategory, speech, bookmarkHook, onAnalyzer, onDrafts, onVoiceOnly, onBNS, onNews, onVault }) {
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState('categories');
   const [openSc, setOpenSc] = useState(null);
@@ -64,6 +64,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             ['📝','Draft Generator','Generate FIR, RTI, Legal Notice', onDrafts],
             ['🔄','IPC → BNS','Convert old IPC to new BNS sections', onBNS],
             ['📰','Legal News','SC/HC judgments in 3 simple points', onNews],
+            ['🛡️','Secure Vault','E2EE encrypted document storage', onVault],
             ['🎙️','Voice Mode','Speak-only mode — no typing needed', onVoiceOnly],
           ].map(([icon,title,desc,handler]) => (
             <button key={title} onClick={handler} className="tool-card"
