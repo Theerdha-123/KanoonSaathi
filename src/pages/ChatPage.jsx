@@ -155,7 +155,7 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
       // Fallback for non-JSON or older messages
       return content.split('\n').map((line, i) => {
         const isH = ['⚖️','📖','✅','🔨','💡','📞','⚠️'].some(e => line.startsWith(e));
-        if (isH) return <div key={i} style={{ marginTop:16,marginBottom:5,fontWeight:700,fontSize:13,color:'#FF9500',borderBottom:'1px solid rgba(255,149,0,0.15)',paddingBottom:3 }}>{line}</div>;
+        if (isH) return <div key={i} style={{ marginTop:16,marginBottom:5,fontWeight:700,fontSize:13,color:'var(--accent)',borderBottom:'1px solid var(--accent-border)',paddingBottom:3 }}>{line}</div>;
         const bold = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         return <div key={i} dangerouslySetInnerHTML={{ __html: bold || '&nbsp;' }} style={{ marginBottom:2,fontSize:14,lineHeight:1.65 }} />;
       });
@@ -179,7 +179,7 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
           }}>
             {isHigh ? '🟢 High Confidence' : isMed ? '🟡 Medium Confidence' : '🔴 Low Confidence'}
           </div>
-          <span style={{ fontSize: '11px', color: 'rgba(240,237,232,0.4)' }}>AI Match Score: {confidenceScore}/100</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>AI Match Score: {confidenceScore}/100</span>
         </div>
 
         {/* Legal Position */}
@@ -190,11 +190,11 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
 
         {/* Relevant Law (Hide specific sections if Low/Medium confidence to prevent bad advice) */}
         {(isHigh) && relevantLaw && (relevantLaw.ipc || relevantLaw.bns) && (
-          <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', borderLeft: '3px solid #FF6B00' }}>
-            <strong style={{ color: '#FF6B00', fontSize: '12px', display: 'block', marginBottom: '4px' }}>📖 Applicable Law</strong>
+          <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-primary)', borderRadius: '8px', borderLeft: '3px solid var(--accent)' }}>
+            <strong style={{ color: 'var(--accent)', fontSize: '12px', display: 'block', marginBottom: '4px' }}>📖 Applicable Law</strong>
             {relevantLaw.bns && <div style={{ fontSize: '13px' }}><strong>BNS:</strong> {relevantLaw.bns}</div>}
-            {relevantLaw.ipc && <div style={{ fontSize: '12px', color: 'rgba(240,237,232,0.5)' }}>Historical IPC: {relevantLaw.ipc}</div>}
-            {relevantLaw.framework && <div style={{ fontSize: '11px', color: 'rgba(240,237,232,0.3)', marginTop: '4px' }}>{relevantLaw.framework}</div>}
+            {relevantLaw.ipc && <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Historical IPC: {relevantLaw.ipc}</div>}
+            {relevantLaw.framework && <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginTop: '4px' }}>{relevantLaw.framework}</div>}
           </div>
         )}
 
@@ -220,7 +220,7 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
 
         {/* Caveats / Warnings */}
         {caveat && (
-          <div style={{ marginTop: '4px', padding: '8px 10px', backgroundColor: 'rgba(255, 149, 0, 0.05)', borderRadius: '6px', fontSize: '12px', color: 'rgba(240,237,232,0.8)' }}>
+          <div style={{ marginTop: '4px', padding: '8px 10px', backgroundColor: 'var(--accent-bg)', borderRadius: '6px', fontSize: '12px', color: 'var(--text-secondary)' }}>
             <strong>⚠️ Note:</strong> {caveat}
           </div>
         )}
@@ -238,17 +238,17 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
   const conversations = chatHistory?.conversations || [];
 
   return (
-    <div className="chat-container" style={{ background:'#07070F',color:'#F0EDE8',fontFamily:'Georgia,serif' }}>
+    <div className="chat-container" style={{ background:'var(--bg-primary)',color:'var(--text-primary)',fontFamily:'var(--font-serif)' }}>
       <NavBar loggedIn={loggedIn} user={user} onLogin={onLogin} onSignup={onSignup} lang={lang} theme={theme} fontSize={fontSize} setTheme={setTheme} setFontSize={setFontSize} onLangPick={onLangPick} onLogout={onLogout} onProfile={onProfile} onHome={onHome} onAdmin={onAdmin} back={onHome} backLabel="← Home" />
 
       {/* Chat History Sidebar */}
       {sidebarOpen && (
         <div style={{ position:'fixed',inset:0,zIndex:100,display:'flex' }}>
           <div onClick={() => setSidebarOpen(false)} style={{ flex:1,background:'rgba(0,0,0,0.5)' }} />
-          <div style={{ width:320,maxWidth:'85vw',background:'#0E0E1A',borderLeft:'1px solid rgba(255,107,0,0.15)',padding:'20px 16px',overflowY:'auto',animation:'slideIn 0.2s ease' }}>
+          <div style={{ width:320,maxWidth:'85vw',background:'var(--bg-secondary)',borderLeft:'1px solid var(--accent-border)',padding:'20px 16px',overflowY:'auto',animation:'slideIn 0.2s ease' }}>
             <div style={{ display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:18 }}>
               <div style={{ fontSize:15,fontWeight:700 }}>💬 Chat History</div>
-              <button onClick={() => setSidebarOpen(false)} style={{ background:'none',border:'none',color:'rgba(240,237,232,0.4)',cursor:'pointer',fontSize:18 }}>✕</button>
+              <button onClick={() => setSidebarOpen(false)} style={{ background:'none',border:'none',color:'var(--text-muted)',cursor:'pointer',fontSize:18 }}>✕</button>
             </div>
 
             <button onClick={newConversation} className="btn btn-primary" style={{ width:'100%',marginBottom:16,padding:10,borderRadius:8,fontSize:12 }}>
@@ -256,7 +256,7 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
             </button>
 
             {conversations.length === 0 ? (
-              <div style={{ textAlign:'center',padding:'24px 0',color:'rgba(240,237,232,0.3)',fontSize:12 }}>
+              <div style={{ textAlign:'center',padding:'24px 0',color:'var(--text-faint)',fontSize:12 }}>
                 <div style={{ fontSize:32,marginBottom:8 }}>💬</div>
                 No conversations yet.<br/>Start chatting to save history.
               </div>
@@ -264,12 +264,12 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
               <>
                 {conversations.map((conv) => (
                   <div key={conv.id} onClick={() => loadConversation(conv)}
-                    style={{ padding:'10px 12px',borderRadius:10,marginBottom:6,cursor:'pointer',border:`1px solid ${activeConvId === conv.id ? 'rgba(255,107,0,0.35)' : 'rgba(255,255,255,0.06)'}`,background: activeConvId === conv.id ? 'rgba(255,107,0,0.08)' : 'rgba(255,255,255,0.02)',transition:'all 0.15s' }}
-                    onMouseEnter={e => { if (activeConvId !== conv.id) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
-                    onMouseLeave={e => { if (activeConvId !== conv.id) e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}>
-                    <div style={{ fontSize:12,fontWeight:600,color:'rgba(240,237,232,0.8)',marginBottom:3,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>{conv.title}</div>
+                    style={{ padding:'10px 12px',borderRadius:10,marginBottom:6,cursor:'pointer',border:`1px solid ${activeConvId === conv.id ? 'var(--accent-border)' : 'var(--border-light)'}`,background: activeConvId === conv.id ? 'var(--accent-bg)' : 'var(--bg-card)',transition:'all 0.15s' }}
+                    onMouseEnter={e => { if (activeConvId !== conv.id) e.currentTarget.style.background = 'var(--bg-secondary)'; }}
+                    onMouseLeave={e => { if (activeConvId !== conv.id) e.currentTarget.style.background = 'var(--bg-card)'; }}>
+                    <div style={{ fontSize:12,fontWeight:600,color:'var(--text-primary)',marginBottom:3,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>{conv.title}</div>
                     <div style={{ display:'flex',alignItems:'center',justifyContent:'space-between' }}>
-                      <span style={{ fontSize:10,color:'rgba(240,237,232,0.25)' }}>{conv.messageCount} msgs · {new Date(conv.updatedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>
+                      <span style={{ fontSize:10,color:'var(--text-faint)' }}>{conv.messageCount} msgs · {new Date(conv.updatedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>
                       <button onClick={(e) => { e.stopPropagation(); chatHistory.deleteConversation(conv.id); if (activeConvId === conv.id) newConversation(); }}
                         style={{ background:'none',border:'none',color:'rgba(231,76,60,0.4)',cursor:'pointer',fontSize:12,padding:'2px 4px' }} title="Delete">🗑</button>
                     </div>
@@ -288,10 +288,10 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
 
       <div style={{ flex:1,display:'flex',flexDirection:'column',maxWidth:760,width:'100%',margin:'0 auto',minHeight:0 }}>
         {/* Header */}
-        <div style={{ padding:'12px 20px 10px',borderBottom:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0 }}>
+        <div style={{ padding:'12px 20px 10px',borderBottom:'1px solid var(--border-light)',display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0 }}>
           <div>
             <div style={{ fontSize:15,fontWeight:700 }}>⚖️ Legal Query Assistant</div>
-            <div style={{ fontSize:11,color:'rgba(240,237,232,0.35)' }}>Describe your problem in plain language — private & encrypted</div>
+            <div style={{ fontSize:11,color:'var(--text-muted)' }}>Describe your problem in plain language — private & encrypted</div>
           </div>
           <div style={{ display:'flex',alignItems:'center',gap:8 }}>
             {chatHistory && (
@@ -321,14 +321,14 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
             <div style={{ textAlign:'center',padding:'16px 0',animation:'fadeIn 0.5s ease' }}>
               <div style={{ fontSize:44,marginBottom:10,animation:'glow 3s infinite',display:'inline-block' }}>⚖️</div>
               <div style={{ fontSize:17,fontWeight:700,marginBottom:5 }}>{t.chatWelcome}</div>
-              <div style={{ fontSize:13,color:'rgba(240,237,232,0.38)',marginBottom:12,lineHeight:1.7,direction:activeLang.dir }}>{t.chatSub}</div>
+              <div style={{ fontSize:13,color:'var(--text-muted)',marginBottom:12,lineHeight:1.7,direction:activeLang.dir }}>{t.chatSub}</div>
               {supported.stt && (
-                <div style={{ display:'inline-flex',alignItems:'center',gap:9,padding:'10px 18px',borderRadius:20,background:'rgba(231,76,60,0.09)',border:'1px solid rgba(231,76,60,0.25)',marginBottom:16,animation:'glow 3s infinite' }}>
+                <div style={{ display:'inline-flex',alignItems:'center',gap:9,padding:'10px 18px',borderRadius:20,background:'var(--red-bg)',border:'1px solid var(--red-border)',marginBottom:16,animation:'glow 3s infinite' }}>
                   <span style={{ fontSize:20 }}>🎙️</span>
-                  <span style={{ fontSize:12,color:'rgba(240,237,232,0.75)' }}>Can't type? <strong style={{ color:'#E74C3C' }}>Tap the red mic button</strong> below and speak your problem</span>
+                  <span style={{ fontSize:12,color:'var(--text-secondary)' }}>Can't type? <strong style={{ color:'var(--red)' }}>Tap the red mic button</strong> below and speak your problem</span>
                 </div>
               )}
-              <div style={{ fontSize:11,color:'rgba(240,237,232,0.25)',marginBottom:10 }}>Try a quick scenario:</div>
+              <div style={{ fontSize:11,color:'var(--text-faint)',marginBottom:10 }}>Try a quick scenario:</div>
               <div style={{ display:'flex',flexWrap:'wrap',gap:7,justifyContent:'center' }}>
                 {QUICK_Q.map((sc, i) => (
                   <button key={i} onClick={() => ask(sc.q, true)}
@@ -340,12 +340,12 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
 
               {/* Show past conversations */}
               {conversations.length > 0 && (
-                <div style={{ marginTop:20,paddingTop:16,borderTop:'1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ fontSize:11,color:'rgba(240,237,232,0.25)',marginBottom:8 }}>Recent conversations:</div>
+                <div style={{ marginTop:20,paddingTop:16,borderTop:'1px solid var(--border-light)' }}>
+                  <div style={{ fontSize:11,color:'var(--text-faint)',marginBottom:8 }}>Recent conversations:</div>
                   <div style={{ display:'flex',flexWrap:'wrap',gap:6,justifyContent:'center' }}>
                     {conversations.slice(0, 5).map((conv) => (
                       <button key={conv.id} onClick={() => loadConversation(conv)}
-                        style={{ padding:'5px 10px',borderRadius:12,background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.08)',color:'rgba(240,237,232,0.55)',fontSize:10,cursor:'pointer',fontFamily:'inherit',maxWidth:180,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>
+                        style={{ padding:'5px 10px',borderRadius:12,background:'var(--bg-card)',border:'1px solid var(--border-light)',color:'var(--text-muted)',fontSize:10,cursor:'pointer',fontFamily:'inherit',maxWidth:180,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>
                         💬 {conv.title}
                       </button>
                     ))}
@@ -368,12 +368,12 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
                         {speaking ? '⏹' : '🔊'}
                       </button>
                     )}
-                    <button onClick={() => { navigator.clipboard?.writeText(m.content); }}
-                      style={{ background:'none',border:'none',cursor:'pointer',fontSize:11,padding:'0 2px',opacity:0.45,color:'#F0EDE8' }}
-                      title="Copy this message">📋</button>
-                    <button onClick={() => { const text = encodeURIComponent(`⚖️ KanoonSaathi:\n\n${m.content.slice(0,2000)}`); window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank'); }}
-                      style={{ background:'none',border:'none',cursor:'pointer',fontSize:11,padding:'0 2px',opacity:0.45,color:'#F0EDE8' }}
-                      title="Share via WhatsApp">📱</button>
+                      <button onClick={() => { navigator.clipboard?.writeText(m.content); }}
+                        style={{ background:'none',border:'none',cursor:'pointer',fontSize:11,padding:'0 2px',opacity:0.65,color:'var(--text-primary)' }}
+                        title="Copy this message">📋</button>
+                      <button onClick={() => { const text = encodeURIComponent(`⚖️ KanoonSaathi:\n\n${m.content.slice(0,2000)}`); window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank'); }}
+                        style={{ background:'none',border:'none',cursor:'pointer',fontSize:11,padding:'0 2px',opacity:0.65,color:'var(--text-primary)' }}
+                        title="Share via WhatsApp">📱</button>
                   </div>
                 </div>
               )}
@@ -385,8 +385,8 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
             <div className="chat-ai-msg">
               <div style={{ fontSize:10,color:'#FF9500',fontWeight:700,marginBottom:8 }}>⚖️ KanoonSaathi</div>
               <div style={{ display:'flex',gap:5,alignItems:'center' }}>
-                {[0,1,2].map(j => <div key={j} style={{ width:7,height:7,borderRadius:'50%',background:'#FF6B00',animation:`pulse 1.2s ${j*0.2}s infinite` }} />)}
-                <span style={{ fontSize:11,color:'rgba(240,237,232,0.33)',marginLeft:6 }}>Researching applicable laws…</span>
+                {[0,1,2].map(j => <div key={j} style={{ width:7,height:7,borderRadius:'50%',background:'var(--accent)',animation:`pulse 1.2s ${j*0.2}s infinite` }} />)}
+                <span style={{ fontSize:11,color:'var(--text-faint)',marginLeft:6 }}>Researching applicable laws…</span>
               </div>
             </div>
           )}
@@ -400,9 +400,9 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
               {[0,1,2,3,4].map(i => <div key={i} style={{ width:3,borderRadius:3,background:'#E74C3C',animation:`wave 0.9s ${i*0.12}s ease-in-out infinite` }} />)}
             </div>
             <div style={{ flex:1 }}>
-              <div style={{ fontSize:12,fontWeight:700,color:'#E74C3C' }}>🎙️ Listening… speak now</div>
-              {transcript ? <div style={{ fontSize:11,color:'rgba(240,237,232,0.8)',marginTop:2 }}>"{transcript}"</div>
-                : <div style={{ fontSize:11,color:'rgba(240,237,232,0.4)',marginTop:2 }}>Will send automatically when you stop speaking</div>}
+              <div style={{ fontSize:12,fontWeight:700,color:'var(--red)' }}>🎙️ Listening… speak now</div>
+              {transcript ? <div style={{ fontSize:11,color:'var(--text-secondary)',marginTop:2 }}>"{transcript}"</div>
+                : <div style={{ fontSize:11,color:'var(--text-muted)',marginTop:2 }}>Will send automatically when you stop speaking</div>}
             </div>
             <button className="btn" onClick={stopListening} style={{ background:'rgba(231,76,60,0.2)',border:'1px solid rgba(231,76,60,0.4)',color:'#E74C3C',fontSize:11 }}>Cancel</button>
           </div>
@@ -427,10 +427,10 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
         )}
 
         {/* Disclaimer Banner */}
-        <div style={{ margin:'0 20px 8px',padding:'10px 14px',background:'rgba(255,149,0,0.08)',border:'1px solid rgba(255,149,0,0.25)',borderRadius:10,display:'flex',alignItems:'flex-start',gap:10,flexShrink:0 }}>
+        <div style={{ margin:'0 20px 8px',padding:'10px 14px',background:'var(--accent-bg)',border:'1px solid var(--accent-border)',borderRadius:10,display:'flex',alignItems:'flex-start',gap:10,flexShrink:0 }}>
           <span style={{ fontSize:16 }}>⚠️</span>
-          <div style={{ flex:1,fontSize:11,color:'rgba(240,237,232,0.7)',lineHeight:1.4 }}>
-            <strong style={{ color:'#FF9500' }}>Not legal advice.</strong> KanoonSaathi is an AI assistant, not a lawyer. Information provided is for educational purposes. Consult a qualified advocate or DLSA for official legal counsel.
+          <div style={{ flex:1,fontSize:11,color:'var(--text-muted)',lineHeight:1.4 }}>
+            <strong style={{ color:'var(--accent)' }}>Not legal advice.</strong> KanoonSaathi is an AI assistant, not a lawyer. Information provided is for educational purposes. Consult a qualified advocate or DLSA for official legal counsel.
           </div>
         </div>
 
@@ -470,9 +470,9 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
               title={autoSpeak ? 'Voice ON — tap to mute' : 'Voice OFF — tap to enable'}
               style={{
                 width:48,height:48,borderRadius:12,cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,fontSize:18,flexShrink:0,
-                border:`1px solid ${autoSpeak ? 'rgba(76,175,80,0.4)' : 'rgba(255,255,255,0.1)'}`,
-                background: autoSpeak ? 'rgba(76,175,80,0.12)' : 'rgba(255,255,255,0.03)',
-                color: autoSpeak ? '#4CAF50' : 'rgba(240,237,232,0.3)',transition:'all 0.2s',
+                border:`1px solid ${autoSpeak ? 'var(--green-border)' : 'var(--border-light)'}`,
+                background: autoSpeak ? 'var(--green-bg)' : 'var(--bg-card)',
+                color: autoSpeak ? 'var(--green)' : 'var(--text-muted)',transition:'all 0.2s',
               }}>
               <span>{autoSpeak ? '🔊' : '🔇'}</span>
               <span style={{ fontSize:7,opacity:0.75 }}>{autoSpeak ? 'ON' : 'OFF'}</span>

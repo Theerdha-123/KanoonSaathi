@@ -38,19 +38,19 @@ function ResultCard({ entry, index }) {
   const [expanded, setExpanded] = useState(false);
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.08)',
+      background: 'var(--bg-card)', border: '1px solid var(--border-light)',
       borderRadius: 16, padding: '20px', transition: 'all 0.25s', cursor: 'pointer',
       animation: `fadeUp 0.3s ${index * 0.05}s ease both`,
     }}
       onClick={() => setExpanded(!expanded)}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,107,0,0.3)'; e.currentTarget.style.background = 'rgba(255,107,0,0.04)'; }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.background = 'rgba(255,255,255,0.025)'; }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-border)'; e.currentTarget.style.background = 'var(--accent-bg)'; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-light)'; e.currentTarget.style.background = 'var(--bg-card)'; }}
     >
       {/* Crime Name Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 16, fontWeight: 700, color: '#F0EDE8', marginBottom: 2 }}>{entry.crimeNameEnglish}</div>
-          <div style={{ fontSize: 13, color: 'rgba(240,237,232,0.45)' }}>{entry.crimeNameHindi}</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>{entry.crimeNameEnglish}</div>
+          <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{entry.crimeNameHindi}</div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
           {entry.cognizable && <span style={{ padding: '3px 8px', borderRadius: 8, fontSize: 9, fontWeight: 700, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#EF4444' }}>COGNIZABLE</span>}
@@ -72,43 +72,43 @@ function ResultCard({ entry, index }) {
       {/* IPC vs BNS Comparison */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 12, alignItems: 'center' }}>
         {/* OLD IPC */}
-        <div style={{ padding: '14px 16px', borderRadius: 12, background: entry.mappingType === 'New' ? 'rgba(255,255,255,0.02)' : 'rgba(239,68,68,0.06)', border: entry.mappingType === 'New' ? '1px dashed rgba(255,255,255,0.1)' : '1px solid rgba(239,68,68,0.12)', textAlign: 'center', opacity: entry.mappingType === 'New' ? 0.5 : 1 }}>
-          <div style={{ fontSize: 9, fontWeight: 700, color: entry.mappingType === 'New' ? '#888' : '#EF4444', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>Old · IPC</div>
-          <div style={{ fontSize: entry.ipcSection.length > 8 ? 16 : 22, fontWeight: 800, color: entry.mappingType === 'New' ? '#888' : '#EF4444', textDecoration: entry.mappingType === 'Omitted' ? 'line-through' : 'none' }}>
+        <div style={{ padding: '14px 16px', borderRadius: 12, background: entry.mappingType === 'New' ? 'var(--bg-primary)' : 'var(--red-bg)', border: entry.mappingType === 'New' ? '1px dashed var(--border-light)' : '1px solid var(--red-border)', textAlign: 'center', opacity: entry.mappingType === 'New' ? 0.5 : 1 }}>
+          <div style={{ fontSize: 9, fontWeight: 700, color: entry.mappingType === 'New' ? 'var(--text-faint)' : 'var(--red)', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>Old · IPC</div>
+          <div style={{ fontSize: entry.ipcSection.length > 8 ? 16 : 22, fontWeight: 800, color: entry.mappingType === 'New' ? 'var(--text-faint)' : 'var(--red)', textDecoration: entry.mappingType === 'Omitted' ? 'line-through' : 'none' }}>
             {entry.ipcSection === 'None' ? 'N/A' : `§ ${entry.ipcSection}`}
           </div>
-          <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.25)', marginTop: 4 }}>Indian Penal Code 1860</div>
+          <div style={{ fontSize: 9, color: 'var(--text-faint)', marginTop: 4 }}>Indian Penal Code 1860</div>
         </div>
 
         {/* Arrow */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
           {entry.mappingType === 'Omitted' ? (
-            <div style={{ fontSize: 20, color: '#EF4444' }}>×</div>
+            <div style={{ fontSize: 20, color: 'var(--red)' }}>×</div>
           ) : (
-            <div style={{ fontSize: 20, color: '#FF9500', animation: 'pulse 2s infinite' }}>→</div>
+            <div style={{ fontSize: 20, color: 'var(--accent)', animation: 'pulse 2s infinite' }}>→</div>
           )}
-          <div style={{ fontSize: 8, color: 'rgba(240,237,232,0.2)', fontWeight: 700, letterSpacing: 0.5 }}>NOW</div>
+          <div style={{ fontSize: 8, color: 'var(--text-faint)', fontWeight: 700, letterSpacing: 0.5 }}>NOW</div>
         </div>
 
         {/* NEW BNS */}
-        <div style={{ padding: '14px 16px', borderRadius: 12, background: entry.mappingType === 'Omitted' ? 'rgba(255,255,255,0.02)' : 'rgba(52,211,153,0.06)', border: entry.mappingType === 'Omitted' ? '1px dashed rgba(255,255,255,0.1)' : '1px solid rgba(52,211,153,0.12)', textAlign: 'center', opacity: entry.mappingType === 'Omitted' ? 0.5 : 1 }}>
-          <div style={{ fontSize: 9, fontWeight: 700, color: entry.mappingType === 'Omitted' ? '#888' : '#34D399', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>New · BNS</div>
-          <div style={{ fontSize: entry.bnsSection.length > 8 ? 16 : 22, fontWeight: 800, color: entry.mappingType === 'Omitted' ? '#888' : '#34D399' }}>
+        <div style={{ padding: '14px 16px', borderRadius: 12, background: entry.mappingType === 'Omitted' ? 'var(--bg-primary)' : 'var(--green-bg)', border: entry.mappingType === 'Omitted' ? '1px dashed var(--border-light)' : '1px solid var(--green-border)', textAlign: 'center', opacity: entry.mappingType === 'Omitted' ? 0.5 : 1 }}>
+          <div style={{ fontSize: 9, fontWeight: 700, color: entry.mappingType === 'Omitted' ? 'var(--text-faint)' : 'var(--green)', letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>New · BNS</div>
+          <div style={{ fontSize: entry.bnsSection.length > 8 ? 16 : 22, fontWeight: 800, color: entry.mappingType === 'Omitted' ? 'var(--text-faint)' : 'var(--green)' }}>
             {entry.bnsSection === 'Omitted' ? 'Removed' : `§ ${entry.bnsSection}`}
           </div>
-          <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.25)', marginTop: 4 }}>Bharatiya Nyaya Sanhita 2023</div>
+          <div style={{ fontSize: 9, color: 'var(--text-faint)', marginTop: 4 }}>Bharatiya Nyaya Sanhita 2023</div>
         </div>
       </div>
 
       {/* Expanded Description */}
       {expanded && (
-        <div style={{ marginTop: 14, padding: '12px 14px', background: 'rgba(255,149,0,0.04)', border: '1px solid rgba(255,149,0,0.1)', borderRadius: 10, fontSize: 13, color: 'rgba(240,237,232,0.7)', lineHeight: 1.7, animation: 'fadeUp 0.2s ease' }}>
+        <div style={{ marginTop: 14, padding: '12px 14px', background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', borderRadius: 10, fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, animation: 'fadeUp 0.2s ease' }}>
           📖 {entry.simpleDescription}
         </div>
       )}
 
       <div style={{ textAlign: 'center', marginTop: 10 }}>
-        <span style={{ fontSize: 10, color: 'rgba(240,237,232,0.2)' }}>{expanded ? '▲ Click to collapse' : '▼ Click for details'}</span>
+        <span style={{ fontSize: 10, color: 'var(--text-faint)' }}>{expanded ? '▲ Click to collapse' : '▼ Click for details'}</span>
       </div>
     </div>
   );
@@ -126,15 +126,15 @@ function StatsBar({ total, filtered }) {
       ].map(([icon, val, label]) => (
         <div key={label} style={{ textAlign: 'center', minWidth: 80 }}>
           <div style={{ fontSize: 12 }}>{icon}</div>
-          <div style={{ fontSize: 16, fontWeight: 800, color: '#FF9500' }}>{val}</div>
-          <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.3)' }}>{label}</div>
+          <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--accent)' }}>{val}</div>
+          <div style={{ fontSize: 9, color: 'var(--text-faint)' }}>{label}</div>
         </div>
       ))}
       {filtered !== total && (
         <div style={{ textAlign: 'center', minWidth: 80 }}>
           <div style={{ fontSize: 12 }}>🔍</div>
-          <div style={{ fontSize: 16, fontWeight: 800, color: '#34D399' }}>{filtered}</div>
-          <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.3)' }}>Matches</div>
+          <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--green)' }}>{filtered}</div>
+          <div style={{ fontSize: 9, color: 'var(--text-faint)' }}>Matches</div>
         </div>
       )}
     </div>
@@ -161,19 +161,19 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
   const commonProps = { loggedIn, user, onLogin, onSignup, lang, theme, fontSize, setTheme, setFontSize, onLangPick, onLogout, onProfile, onHome, onAdmin, back: onHome, backLabel: '← Home' };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#07070F', color: '#F0EDE8', fontFamily: "'Inter',-apple-system,sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: "'Inter',-apple-system,sans-serif" }}>
       <SeoHead />
       <NavBar {...commonProps} />
 
       <div style={{ maxWidth: 780, margin: '0 auto', padding: '28px 20px' }}>
         {/* Hero */}
         <div style={{ textAlign: 'center', marginBottom: 28, animation: 'fadeUp 0.3s ease' }}>
-          <div style={{ fontSize: 48, marginBottom: 10, filter: 'drop-shadow(0 0 14px rgba(255,107,0,0.3))' }}>🔄</div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 6, background: 'linear-gradient(90deg,#FF6B00,#FFD700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <div style={{ fontSize: 48, marginBottom: 10, filter: 'drop-shadow(0 0 14px var(--accent-border))' }}>🔄</div>
+          <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 6, background: 'var(--accent-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             IPC → BNS Translator
           </h1>
-          <p style={{ fontSize: 13, color: 'rgba(240,237,232,0.45)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
-            India's criminal law changed on 1 July 2024. The Indian Penal Code (1860) is now replaced by the <strong style={{ color: '#FF9500' }}>Bharatiya Nyaya Sanhita (BNS) 2023</strong>. Search any crime, IPC section, or BNS section below.
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
+            India's criminal law changed on 1 July 2024. The Indian Penal Code (1860) is now replaced by the <strong style={{ color: 'var(--accent)' }}>Bharatiya Nyaya Sanhita (BNS) 2023</strong>. Search any crime, IPC section, or BNS section below.
           </p>
         </div>
 
@@ -185,10 +185,10 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder='Search: "Theft", "302", "Murder", "चोरी", or any BNS section...'
-            style={{ paddingLeft: 46, fontSize: 14, padding: '14px 16px 14px 46px', borderRadius: 14, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,107,0,0.15)', width: '100%' }}
+            style={{ paddingLeft: 46, fontSize: 14, padding: '14px 16px 14px 46px', borderRadius: 14, background: 'var(--bg-card)', border: '1px solid var(--accent-border)', width: '100%' }}
           />
           {search && (
-            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 6, padding: '4px 10px', color: 'rgba(240,237,232,0.5)', cursor: 'pointer', fontSize: 11, fontFamily: 'inherit' }}>
+            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'var(--border-light)', border: 'none', borderRadius: 6, padding: '4px 10px', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 11, fontFamily: 'inherit' }}>
               ✕ Clear
             </button>
           )}
@@ -200,9 +200,9 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
             <button key={chip} onClick={() => setSearch(chip)}
               style={{
                 padding: '5px 12px', borderRadius: 20, fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s',
-                background: search === chip ? 'rgba(255,107,0,0.15)' : 'rgba(255,255,255,0.03)',
-                border: search === chip ? '1px solid rgba(255,107,0,0.3)' : '1px solid rgba(255,255,255,0.06)',
-                color: search === chip ? '#FF9500' : 'rgba(240,237,232,0.4)',
+                background: search === chip ? 'var(--accent-bg)' : 'var(--bg-card)',
+                border: search === chip ? '1px solid var(--accent-border)' : '1px solid var(--border-light)',
+                color: search === chip ? 'var(--accent)' : 'var(--text-muted)',
               }}>
               {chip}
             </button>
@@ -216,7 +216,7 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
           <div style={{ textAlign: 'center', padding: '40px 0', animation: 'fadeUp 0.3s ease' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
             <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>No matching sections found</div>
-            <div style={{ fontSize: 13, color: 'rgba(240,237,232,0.4)' }}>Try searching by crime name, IPC number, or BNS number</div>
+            <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Try searching by crime name, IPC number, or BNS number</div>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -225,21 +225,21 @@ export default function BNSTranslator({ loggedIn, user, lang, theme, fontSize, s
         )}
 
         {/* Legal Disclaimer */}
-        <div style={{ marginTop: 32, padding: '18px 20px', background: 'rgba(255,149,0,0.04)', border: '1px solid rgba(255,149,0,0.12)', borderRadius: 14, textAlign: 'center' }}>
+        <div style={{ marginTop: 32, padding: '18px 20px', background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', borderRadius: 14, textAlign: 'center' }}>
           <div style={{ fontSize: 28, marginBottom: 8 }}>⚖️</div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#FF9500', marginBottom: 6 }}>Legal Disclaimer</div>
-          <div style={{ fontSize: 12, color: 'rgba(240,237,232,0.45)', lineHeight: 1.8, maxWidth: 560, margin: '0 auto' }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--accent)', marginBottom: 6 }}>Legal Disclaimer</div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.8, maxWidth: 560, margin: '0 auto' }}>
             <strong>I am not a lawyer.</strong> This tool is for <em>educational and informational purposes only</em> and does NOT constitute legal advice. While we strive for accuracy, section mappings may not cover all sub-clauses, provisos, or exceptions. Always consult a qualified advocate or your nearest <strong>DLSA (15100)</strong> for legal matters. Data based on the Bharatiya Nyaya Sanhita, 2023 (Act No. 45 of 2023), effective 1 July 2024.
           </div>
         </div>
 
         {/* SEO-friendly content block */}
-        <div style={{ marginTop: 24, padding: '16px 18px', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: 12 }}>
-          <h2 style={{ fontSize: 14, fontWeight: 700, color: '#FF9500', marginBottom: 10 }}>About the IPC to BNS Transition</h2>
-          <p style={{ fontSize: 12, color: 'rgba(240,237,232,0.4)', lineHeight: 1.8, marginBottom: 10 }}>
+        <div style={{ marginTop: 24, padding: '16px 18px', background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 12 }}>
+          <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--accent)', marginBottom: 10 }}>About the IPC to BNS Transition</h2>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: 10 }}>
             On 1 July 2024, India replaced its 164-year-old Indian Penal Code (IPC) with the <strong>Bharatiya Nyaya Sanhita (BNS) 2023</strong>. Similarly, the Code of Criminal Procedure (CrPC) was replaced by the <strong>Bharatiya Nagarik Suraksha Sanhita (BNSS) 2023</strong>, and the Indian Evidence Act by the <strong>Bharatiya Sakshya Adhiniyam (BSA) 2023</strong>.
           </p>
-          <p style={{ fontSize: 12, color: 'rgba(240,237,232,0.4)', lineHeight: 1.8 }}>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.8 }}>
             This free IPC to BNS converter tool by KanoonSaathi helps Indian citizens, law students, journalists, and legal professionals quickly find the new BNS section equivalent for any old IPC section. Search by crime name (in English or Hindi), old IPC number, or new BNS number.
           </p>
         </div>

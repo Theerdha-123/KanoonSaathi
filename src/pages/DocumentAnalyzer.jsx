@@ -191,7 +191,7 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
 
   const fmt = (text) => text.split('\n').map((line, i) => {
     const isH = ['📄', '⚖️', '📖', '⚠️', '✅', '💡', '📞'].some(e => line.startsWith(e));
-    if (isH) return <div key={i} style={{ marginTop: 16, marginBottom: 5, fontWeight: 700, fontSize: 13, color: '#FF9500', borderBottom: '1px solid rgba(255,149,0,0.15)', paddingBottom: 3 }}>{line}</div>;
+    if (isH) return <div key={i} style={{ marginTop: 16, marginBottom: 5, fontWeight: 700, fontSize: 13, color: 'var(--accent)', borderBottom: '1px solid var(--accent-border)', paddingBottom: 3 }}>{line}</div>;
     const bold = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     return <div key={i} dangerouslySetInnerHTML={{ __html: bold || '&nbsp;' }} style={{ marginBottom: 2, fontSize: 14, lineHeight: 1.65 }} />;
   });
@@ -206,17 +206,17 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
   const commonProps = { loggedIn, user, onLogin, onSignup, lang, theme, fontSize, setTheme, setFontSize, onLangPick, onLogout, onProfile, onHome, onAdmin, back: onHome, backLabel: '← Home' };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#07070F', color: '#F0EDE8', fontFamily: 'Georgia,serif' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'var(--font-serif)' }}>
       <NavBar {...commonProps} />
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '28px 20px' }}>
         <div style={{ textAlign: 'center', marginBottom: 28, animation: 'fadeUp 0.3s ease' }}>
           <div style={{ fontSize: 44, marginBottom: 10 }}>📄</div>
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 6 }}>Document Analyzer</div>
-          <div style={{ fontSize: 13, color: 'rgba(240,237,232,0.4)', lineHeight: 1.7 }}>
+          <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7 }}>
             Upload or paste any legal document — FIR, notice, contract, court order — and get a plain-language explanation with your rights and next steps.
           </div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 10, padding: '6px 14px', borderRadius: 20, background: 'rgba(76,175,80,0.08)', border: '1px solid rgba(76,175,80,0.2)', fontSize: 11, color: '#4CAF50' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 10, padding: '6px 14px', borderRadius: 20, background: 'var(--green-bg)', border: '1px solid var(--green-border)', fontSize: 11, color: 'var(--green)' }}>
             📷 Now supports photos! Take a picture of any document with your camera
           </div>
         </div>
@@ -224,16 +224,16 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
         {/* Step 1: Document Type */}
         {!docType ? (
           <div style={{ animation: 'fadeUp 0.3s ease' }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#FF9500', marginBottom: 14 }}>Step 1: What type of document is this?</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--accent)', marginBottom: 14 }}>Step 1: What type of document is this?</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 10 }}>
               {DOC_TYPES.map((dt) => (
                 <button key={dt.id} onClick={() => setDocType(dt.id)}
-                  style={{ padding: '14px 16px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', transition: 'all 0.2s', color: '#F0EDE8' }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,107,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,107,0,0.3)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
+                  style={{ padding: '14px 16px', borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border-light)', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit', transition: 'all 0.2s', color: 'var(--text-primary)' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-bg)'; e.currentTarget.style.borderColor = 'var(--accent-border)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.borderColor = 'var(--border-light)'; }}>
                   <div style={{ fontSize: 22, marginBottom: 6 }}>{dt.icon}</div>
                   <div style={{ fontSize: 13, fontWeight: 700 }}>{dt.label}</div>
-                  <div style={{ fontSize: 11, color: 'rgba(240,237,232,0.4)', marginTop: 2 }}>{dt.desc}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{dt.desc}</div>
                 </button>
               ))}
             </div>
@@ -248,7 +248,7 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
             </div>
 
             {/* Step 2: Upload or Paste */}
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#FF9500', marginBottom: 12 }}>Step 2: Upload document (PDF, photo, or text)</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--accent)', marginBottom: 12 }}>Step 2: Upload document (PDF, photo, or text)</div>
 
             {/* Upload buttons row */}
             <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
@@ -257,16 +257,16 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
                 onClick={() => fileRef.current?.click()}
                 style={{
                   flex: 1, padding: '16px 14px', borderRadius: 12, cursor: 'pointer', textAlign: 'center',
-                  border: '2px dashed rgba(255,107,0,0.2)', background: 'rgba(255,107,0,0.02)',
-                  fontFamily: 'inherit', color: '#F0EDE8', transition: 'all 0.2s',
+                  border: '2px dashed var(--accent-border)', background: 'var(--accent-bg)',
+                  fontFamily: 'inherit', color: 'var(--text-primary)', transition: 'all 0.2s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#FF6B00'; e.currentTarget.style.background = 'rgba(255,107,0,0.06)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,107,0,0.2)'; e.currentTarget.style.background = 'rgba(255,107,0,0.02)'; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.background = 'var(--accent-bg)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--accent-border)'; e.currentTarget.style.background = 'var(--accent-bg)'; }}
               >
                 <input type="file" ref={fileRef} accept=".txt,.pdf,image/*" onChange={handleFile} style={{ display: 'none' }} />
                 <div style={{ fontSize: 24, marginBottom: 4 }}>📎</div>
                 <div style={{ fontSize: 12, fontWeight: 600 }}>Upload File</div>
-                <div style={{ fontSize: 10, color: 'rgba(240,237,232,0.3)', marginTop: 2 }}>PDF, TXT, Image</div>
+                <div style={{ fontSize: 10, color: 'var(--text-faint)', marginTop: 2 }}>PDF, TXT, Image</div>
               </button>
 
               {/* Camera button */}
@@ -274,29 +274,29 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
                 onClick={() => cameraRef.current?.click()}
                 style={{
                   flex: 1, padding: '16px 14px', borderRadius: 12, cursor: 'pointer', textAlign: 'center',
-                  border: '2px dashed rgba(76,175,80,0.25)', background: 'rgba(76,175,80,0.03)',
-                  fontFamily: 'inherit', color: '#F0EDE8', transition: 'all 0.2s',
+                  border: '2px dashed var(--green-border)', background: 'var(--green-bg)',
+                  fontFamily: 'inherit', color: 'var(--text-primary)', transition: 'all 0.2s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#4CAF50'; e.currentTarget.style.background = 'rgba(76,175,80,0.08)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(76,175,80,0.25)'; e.currentTarget.style.background = 'rgba(76,175,80,0.03)'; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--green)'; e.currentTarget.style.background = 'var(--green-bg)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--green-border)'; e.currentTarget.style.background = 'var(--green-bg)'; }}
               >
                 <input type="file" ref={cameraRef} accept="image/*" capture="environment" onChange={handleFile} style={{ display: 'none' }} />
                 <div style={{ fontSize: 24, marginBottom: 4 }}>📷</div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: '#4CAF50' }}>Take Photo</div>
-                <div style={{ fontSize: 10, color: 'rgba(240,237,232,0.3)', marginTop: 2 }}>Use camera</div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--green)' }}>Take Photo</div>
+                <div style={{ fontSize: 10, color: 'var(--text-faint)', marginTop: 2 }}>Use camera</div>
               </button>
             </div>
 
             {/* Extraction in progress */}
             {extracting && (
-              <div style={{ padding: '14px 16px', borderRadius: 12, background: 'rgba(255,107,0,0.05)', border: '1px solid rgba(255,107,0,0.15)', marginBottom: 14, textAlign: 'center' }}>
+              <div style={{ padding: '14px 16px', borderRadius: 12, background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', marginBottom: 14, textAlign: 'center' }}>
                 <div style={{ display: 'flex', gap: 5, justifyContent: 'center', marginBottom: 8 }}>
-                  {[0, 1, 2].map(j => <div key={j} style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF6B00', animation: `pulse 1.2s ${j * 0.2}s infinite` }} />)}
+                  {[0, 1, 2].map(j => <div key={j} style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--accent)', animation: `pulse 1.2s ${j * 0.2}s infinite` }} />)}
                 </div>
-                <div style={{ fontSize: 12, color: '#FF9500' }}>
+                <div style={{ fontSize: 12, color: 'var(--accent)' }}>
                   {isImage ? '🔍 Reading document with AI Vision…' : '📄 Extracting text…'}
                 </div>
-                <div style={{ fontSize: 10, color: 'rgba(240,237,232,0.3)', marginTop: 4 }}>
+                <div style={{ fontSize: 10, color: 'var(--text-faint)', marginTop: 4 }}>
                   {isImage ? 'Gemini Vision is scanning your photo for text' : `Processing ${file?.name}`}
                 </div>
               </div>
@@ -320,17 +320,17 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
 
             {/* File info (non-image) */}
             {file && !isImage && !extracting && (
-              <div style={{ marginBottom: 14, padding: '10px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ marginBottom: 14, padding: '10px 14px', borderRadius: 10, background: 'var(--bg-card)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ fontSize: 22 }}>{file.type === 'application/pdf' ? '📕' : '📄'}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: '#FF9500' }}>{file.name}</div>
-                  <div style={{ fontSize: 10, color: 'rgba(240,237,232,0.4)' }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)' }}>{file.name}</div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>
                     {(file.size / 1024).toFixed(1)} KB
                     {pdfInfo?.pages ? ` · ${pdfInfo.pages} page${pdfInfo.pages > 1 ? 's' : ''}` : ''}
                     {pdfInfo?.source === 'pdf' && !pdfInfo?.warning ? ' · ✅ Text extracted' : ''}
                   </div>
                 </div>
-                <button onClick={() => fileRef.current?.click()} style={{ background: 'none', border: 'none', color: 'rgba(240,237,232,0.3)', cursor: 'pointer', fontSize: 10, fontFamily: 'inherit' }}>Change</button>
+                <button onClick={() => fileRef.current?.click()} style={{ background: 'none', border: 'none', color: 'var(--text-faint)', cursor: 'pointer', fontSize: 10, fontFamily: 'inherit' }}>Change</button>
               </div>
             )}
 
@@ -389,8 +389,8 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
 
             {/* Result */}
             {result && (
-              <div style={{ padding: '18px 20px', background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,107,0,0.15)', borderRadius: 14, animation: 'fadeUp 0.3s ease' }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#FF9500', marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ padding: '18px 20px', background: 'var(--bg-card)', border: '1px solid var(--accent-border)', borderRadius: 14, animation: 'fadeUp 0.3s ease' }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent)', marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span>⚖️ DOCUMENT ANALYSIS</span>
                   <div style={{ display: 'flex', gap: 6 }}>
                     <button onClick={() => navigator.clipboard?.writeText(result)} className="btn btn-ghost" style={{ fontSize: 10, padding: '4px 8px' }}>📋 Copy</button>

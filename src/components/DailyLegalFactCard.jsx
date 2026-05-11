@@ -106,52 +106,54 @@ export default function DailyLegalFactCard({ onShare, speech, compact = false })
         animation: 'fadeUp 0.4s ease',
       }}
     >
-      {/* Gradient Background */}
+      {/* Theme-aware Gradient Background */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
-        background: 'linear-gradient(135deg, rgba(255,107,0,0.12) 0%, rgba(232,168,56,0.08) 40%, rgba(52,211,153,0.06) 100%)',
+        background: 'var(--accent-bg)',
+        opacity: 0.6
       }} />
 
       {/* Animated Accent Orb */}
       <div style={{
         position: 'absolute', top: -30, right: -30, width: 120, height: 120, borderRadius: '50%', zIndex: 0,
-        background: 'radial-gradient(circle, rgba(255,107,0,0.15) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, var(--accent-border) 0%, transparent 70%)',
         animation: 'pulse 4s infinite',
+        opacity: 0.4
       }} />
 
       {/* Glass Card */}
       <div style={{
         position: 'relative', zIndex: 1,
         padding: compact ? '16px 18px' : '22px 24px',
-        background: 'rgba(255,255,255,0.03)',
+        background: 'var(--bg-card)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        border: `1px solid ${isHovered ? 'rgba(255,107,0,0.25)' : 'rgba(255,255,255,0.08)'}`,
+        border: `1px solid ${isHovered ? 'var(--accent-border)' : 'var(--border-light)'}`,
         borderRadius: compact ? 16 : 20,
-        transition: 'border-color 0.3s',
+        transition: 'all 0.3s',
       }}>
         {/* Top Row: Badge + Timer */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: compact ? 10 : 14 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{
               padding: '3px 10px', borderRadius: 20,
-              background: 'linear-gradient(135deg, rgba(255,107,0,0.15), rgba(255,149,0,0.1))',
-              border: '1px solid rgba(255,107,0,0.2)',
-              fontSize: 10, fontWeight: 700, color: '#FF9500', letterSpacing: 0.8,
+              background: 'var(--accent-bg)',
+              border: '1px solid var(--accent-border)',
+              fontSize: 10, fontWeight: 700, color: 'var(--accent)', letterSpacing: 0.8,
             }}>
               ⚡ DAILY LEGAL FACT
             </div>
             <span style={{
               padding: '2px 8px', borderRadius: 12,
-              background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.15)',
-              fontSize: 9, fontWeight: 600, color: '#34D399',
+              background: 'var(--green-bg)', border: '1px solid var(--green-border)',
+              fontSize: 9, fontWeight: 600, color: 'var(--green)',
             }}>
               {fact.category}
             </span>
           </div>
           {timeLeft && (
-            <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.25)', display: 'flex', alignItems: 'center', gap: 4 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34D399', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+            <div style={{ fontSize: 9, color: 'var(--text-faint)', display: 'flex', alignItems: 'center', gap: 4 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', animation: 'pulse 2s infinite' }} />
               Next in {timeLeft}
             </div>
           )}
@@ -163,22 +165,22 @@ export default function DailyLegalFactCard({ onShare, speech, compact = false })
             fontSize: compact ? 28 : 36, flexShrink: 0,
             width: compact ? 44 : 56, height: compact ? 44 : 56,
             borderRadius: compact ? 12 : 16,
-            background: 'rgba(255,107,0,0.08)',
+            background: 'var(--accent-bg)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            border: '1px solid rgba(255,107,0,0.12)',
+            border: '1px solid var(--accent-border)',
           }}>
             {fact.icon}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{
-              fontSize: compact ? 14 : 16, fontWeight: 700, color: '#F0EDE8',
+              fontSize: compact ? 14 : 16, fontWeight: 700, color: 'var(--text-primary)',
               marginBottom: 6, lineHeight: 1.4,
             }}>
               {fact.title}
             </div>
             <div style={{
               fontSize: compact ? 12 : 13,
-              color: 'rgba(240,237,232,0.65)',
+              color: 'var(--text-muted)',
               lineHeight: 1.7,
               marginBottom: 8,
               maxHeight: showFull ? 'none' : (compact ? 40 : 48),
@@ -191,8 +193,8 @@ export default function DailyLegalFactCard({ onShare, speech, compact = false })
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
               padding: '4px 10px', borderRadius: 8,
-              background: 'rgba(232,168,56,0.06)', border: '1px solid rgba(232,168,56,0.12)',
-              fontSize: 10, color: '#E8A838', fontWeight: 600,
+              background: 'var(--accent-bg)', border: '1px solid var(--accent-border)',
+              fontSize: 10, color: 'var(--accent)', fontWeight: 600,
             }}>
               📖 {fact.legalReference}
             </div>
@@ -203,18 +205,18 @@ export default function DailyLegalFactCard({ onShare, speech, compact = false })
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginTop: compact ? 10 : 14, paddingTop: compact ? 10 : 12,
-          borderTop: '1px solid rgba(255,255,255,0.04)',
+          borderTop: '1px solid var(--border-light)',
         }}>
-          <div style={{ fontSize: 9, color: 'rgba(240,237,232,0.2)' }}>
+          <div style={{ fontSize: 9, color: 'var(--text-faint)' }}>
             {showFull ? '▲ Tap to collapse' : '▼ Tap to read more'}
           </div>
           <div style={{ display: 'flex', gap: 6 }} onClick={e => e.stopPropagation()}>
             {speech?.supported?.tts && (
               <button onClick={handleSpeak} style={{
                 padding: '5px 10px', borderRadius: 8, fontSize: 10, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-                background: speech.speaking ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.04)',
-                border: speech.speaking ? '1px solid rgba(239,68,68,0.2)' : '1px solid rgba(255,255,255,0.06)',
-                color: speech.speaking ? '#EF4444' : 'rgba(240,237,232,0.4)',
+                background: speech.speaking ? 'var(--red-bg)' : 'var(--bg-primary)',
+                border: speech.speaking ? '1px solid var(--red-border)' : '1px solid var(--border-light)',
+                color: speech.speaking ? 'var(--red)' : 'var(--text-secondary)',
                 transition: 'all 0.2s',
               }}>
                 {speech.speaking ? '⏹ Stop' : '🔊 Listen'}
@@ -222,8 +224,8 @@ export default function DailyLegalFactCard({ onShare, speech, compact = false })
             )}
             <button onClick={handleShare} style={{
               padding: '5px 10px', borderRadius: 8, fontSize: 10, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-              background: 'rgba(255,107,0,0.06)', border: '1px solid rgba(255,107,0,0.15)',
-              color: '#FF9500', transition: 'all 0.2s',
+              background: 'var(--accent-bg)', border: '1px solid var(--accent-border)',
+              color: 'var(--accent)', transition: 'all 0.2s',
             }}>
               📤 Share
             </button>

@@ -199,14 +199,14 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             <div style={{ fontSize:32 }}>🚨</div>
             <div>
               <div style={{ fontWeight:700,fontSize:16,color:'#E74C3C',marginBottom:2 }}>Life-Threatening Emergency?</div>
-              <div style={{ fontSize:13,color:'rgba(240,237,232,0.58)' }}>Call <strong style={{ color:'#fff',fontSize:20 }}>112</strong> — India's universal emergency number. Works 24×7.</div>
+              <div style={{ fontSize:13,color:'var(--text-muted)' }}>Call <strong style={{ color:'var(--red)',fontSize:20 }}>112</strong> — India's universal emergency number. Works 24×7.</div>
             </div>
           </div>
           <div className="grid-container grid-helpline">
             {HELPLINES.map((h,i) => (
               <div key={i} className="card" style={{ borderColor:`${h.color}20` }}
                 onMouseEnter={e => { e.currentTarget.style.background=`${h.color}0C`; e.currentTarget.style.borderColor=`${h.color}40`; }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor=`${h.color}20`; }}>
+                onMouseLeave={e => { e.currentTarget.style.background='var(--bg-card)'; e.currentTarget.style.borderColor=`${h.color}20`; }}>
                 <div style={{ display:'flex',alignItems:'center',gap:8,marginBottom:7 }}>
                   <span style={{ fontSize:20 }}>{h.icon}</span>
                   <span style={{ fontSize:12,fontWeight:700,color:'var(--text-primary)' }}>{h.name}</span>
@@ -228,7 +228,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             {WHAT_IF.map((wi,idx) => {
               const open = openSc===wi.id;
               return (
-                <div key={wi.id} className="card" style={{ padding:0,overflow:'hidden',borderColor:open?wi.color+'50':wi.color+'22',background:open?`${wi.color}0C`:'rgba(255,255,255,0.02)' }}>
+                <div key={wi.id} className="card" style={{ padding:0,overflow:'hidden',borderColor:open?wi.color+'50':wi.color+'22',background:open?`${wi.color}0C`:'var(--bg-card)' }}>
                   <div style={{ padding:'15px 17px 13px',display:'flex',alignItems:'flex-start',gap:12,cursor:'pointer' }} onClick={() => setOpenSc(open?null:wi.id)}>
                     <div style={{ width:44,height:44,borderRadius:11,background:`${wi.color}18`,border:`1px solid ${wi.color}35`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0 }}>{wi.icon}</div>
                     <div style={{ flex:1 }}>
@@ -236,9 +236,9 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                         <span style={{ fontSize:14,fontWeight:700 }}>{wi.title}</span>
                         <span className="tag tag-pill" style={{ background:`${wi.color}15`,color:wi.color,border:`1px solid ${wi.color}30` }}>{wi.tag}</span>
                       </div>
-                      <div style={{ fontSize:11,color:'rgba(240,237,232,0.42)',lineHeight:1.5 }}>{wi.situation}</div>
+                      <div style={{ fontSize:11,color:'var(--text-muted)',lineHeight:1.5 }}>{wi.situation}</div>
                     </div>
-                    <div style={{ color:'rgba(240,237,232,0.3)',fontSize:13,marginTop:4 }}>{open?'▲':'▼'}</div>
+                    <div style={{ color:'var(--text-faint)',fontSize:13,marginTop:4 }}>{open?'▲':'▼'}</div>
                   </div>
                   {open && (
                     <div style={{ padding:'0 17px 16px',animation:'fadeIn 0.2s ease' }}>
@@ -318,7 +318,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             {WOMEN_APPS.map((app,idx) => (
               <div key={idx} className="card" style={{ borderColor:`${app.color}22` }}
                 onMouseEnter={e => { e.currentTarget.style.background=`${app.color}0C`; e.currentTarget.style.borderColor=`${app.color}44`; }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor=`${app.color}22`; }}>
+                onMouseLeave={e => { e.currentTarget.style.background='var(--bg-card)'; e.currentTarget.style.borderColor=`${app.color}22`; }}>
                 <div style={{ display:'flex',alignItems:'flex-start',gap:11,marginBottom:11 }}>
                   <div style={{ width:42,height:42,borderRadius:10,background:`${app.color}18`,border:`1px solid ${app.color}35`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0 }}>{app.icon}</div>
                   <div style={{ flex:1 }}>
@@ -357,7 +357,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             {DISABILITY_LAWS.map((d,idx) => (
               <div key={idx} className="card" style={{ borderColor:`${d.color}22` }}
                 onMouseEnter={e => { e.currentTarget.style.background=`${d.color}0D`; e.currentTarget.style.borderColor=`${d.color}45`; }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor=`${d.color}22`; }}>
+                onMouseLeave={e => { e.currentTarget.style.background='var(--bg-card)'; e.currentTarget.style.borderColor=`${d.color}22`; }}>
                 <div style={{ display:'flex',alignItems:'center',gap:10,marginBottom:10 }}>
                   <div style={{ width:40,height:40,borderRadius:9,background:`${d.color}16`,border:`1px solid ${d.color}30`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0 }}>{d.icon}</div>
                   <div>
@@ -365,8 +365,8 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                     <span className="tag" style={{ background:`${d.color}12`,color:d.color,border:`1px solid ${d.color}28` }}>{d.article}</span>
                   </div>
                 </div>
-                <div style={{ fontSize:12,color:'rgba(240,237,232,0.52)',lineHeight:1.65,marginBottom:10 }}>{d.desc}</div>
-                <div style={{ fontSize:11,padding:'8px 11px',background:'rgba(76,175,80,0.07)',border:'1px solid rgba(76,175,80,0.17)',borderRadius:7,color:'rgba(240,237,232,0.65)',lineHeight:1.55 }}>✅ {d.action}</div>
+                <div style={{ fontSize:12,color:'var(--text-muted)',lineHeight:1.65,marginBottom:10 }}>{d.desc}</div>
+                <div style={{ fontSize:11,padding:'8px 11px',background:'var(--green-bg)',border:'1px solid var(--green-border)',borderRadius:7,color:'var(--text-secondary)',lineHeight:1.55 }}>✅ {d.action}</div>
               </div>
             ))}
           </div>
@@ -406,9 +406,9 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                           <span className="tag tag-pill" style={{ background:`${bm.color}14`,color:bm.color,border:`1px solid ${bm.color}28` }}>{bm.tag || bm.section}</span>
                         </div>
                       </div>
-                      <button onClick={() => toggleBookmark(bm)} style={{ background:'none',border:'none',cursor:'pointer',fontSize:16,padding:0,color:'#FFD700' }}>⭐</button>
+                      <button onClick={() => toggleBookmark(bm)} style={{ background:'none',border:'none',cursor:'pointer',fontSize:16,padding:0,color:'var(--accent-gold)' }}>⭐</button>
                     </div>
-                    <div style={{ fontSize:11,color:'rgba(240,237,232,0.48)',lineHeight:1.55,marginBottom:8 }}>{bm.situation || bm.desc || ''}</div>
+                    <div style={{ fontSize:11,color:'var(--text-muted)',lineHeight:1.55,marginBottom:8 }}>{bm.situation || bm.desc || ''}</div>
                     <button className="btn" style={{ width:'100%',padding:'7px 10px',borderRadius:7,background:`${bm.color}10`,border:`1px solid ${bm.color}28`,color:bm.color,fontSize:11,fontWeight:600 }}
                       onClick={() => onChat(`I need help: ${bm.title}. ${bm.situation || bm.desc || ''} Give detailed advice.`)}>
                       Ask AI →
@@ -433,11 +433,11 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
           ].map((tool) => (
             <div key={tool.title} className="card" style={{ borderColor:`${tool.color}20`,cursor:'pointer' }}
               onMouseEnter={e => { e.currentTarget.style.background=`${tool.color}0C`; e.currentTarget.style.borderColor=`${tool.color}40`; }}
-              onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor=`${tool.color}20`; }}
+              onMouseLeave={e => { e.currentTarget.style.background='var(--bg-card)'; e.currentTarget.style.borderColor=`${tool.color}20`; }}
               onClick={tool.action}>
               <div style={{ fontSize:32,marginBottom:10 }}>{tool.icon}</div>
               <div style={{ fontSize:15,fontWeight:700,color:tool.color,marginBottom:6 }}>{tool.title}</div>
-              <div style={{ fontSize:12,color:'rgba(240,237,232,0.45)',lineHeight:1.65,marginBottom:14 }}>{tool.desc}</div>
+              <div style={{ fontSize:12,color:'var(--text-muted)',lineHeight:1.65,marginBottom:14 }}>{tool.desc}</div>
               <button className="btn" style={{ padding:'8px 14px',borderRadius:8,background:`${tool.color}12`,border:`1px solid ${tool.color}30`,color:tool.color,fontSize:12,fontWeight:600,width:'100%' }}>
                 {tool.btn}
               </button>
