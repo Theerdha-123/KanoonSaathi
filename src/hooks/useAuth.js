@@ -5,26 +5,21 @@ import { useState, useCallback, useEffect } from 'react';
  * Manages JWT tokens, login, signup, logout, and profile updates.
  */
 export function useAuth() {
-  const [token, setToken] = useState(() => localStorage.getItem('ks_token'));
   const [user, setUser] = useState(() => {
     try { return JSON.parse(localStorage.getItem('ks_user')); } catch { return null; }
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const isLoggedIn = !!token && !!user;
+  const isLoggedIn = !!user;
   const isAdmin = user?.role === 'admin';
 
-  // Validate token on mount
+  // Validate session on mount
   useEffect(() => {
-    if (!token) return;
-    fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+    fetch('/api/auth/me', { credentials: 'include' })
       .then(res => {
         if (!res.ok) {
-          // Token expired or invalid
-          localStorage.removeItem('ks_token');
           localStorage.removeItem('ks_user');
-          setToken(null);
           setUser(null);
         }
         return res.json();
@@ -45,13 +40,12 @@ export function useAuth() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Login failed');
-      setToken(data.token);
       setUser(data.user);
-      localStorage.setItem('ks_token', data.token);
       localStorage.setItem('ks_user', JSON.stringify(data.user));
       return data.user;
     } catch (e) {
@@ -69,13 +63,12 @@ export function useAuth() {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ name, email, phone, password, state, language }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Signup failed');
-      setToken(data.token);
       setUser(data.user);
-      localStorage.setItem('ks_token', data.token);
       localStorage.setItem('ks_user', JSON.stringify(data.user));
       return data.user;
     } catch (e) {
@@ -86,20 +79,23 @@ export function useAuth() {
     }
   }, []);
 
-  const logout = useCallback(() => {
-    setToken(null);
+  const logout = useCallback(async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch (e) {
+      console.error('Logout error', e);
+    }
     setUser(null);
-    localStorage.removeItem('ks_token');
     localStorage.removeItem('ks_user');
   }, []);
 
   const updateProfile = useCallback(async ({ name, phone, state, language }) => {
-    if (!token) return;
     setLoading(true);
     try {
       const res = await fetch('/api/auth/profile', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ name, phone, state, language }),
       });
       const data = await res.json();
@@ -113,7 +109,7 @@ export function useAuth() {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, []);
 
   const resetPassword = useCallback(async (email, newPassword) => {
     setLoading(true);
@@ -139,40 +135,34 @@ export function useAuth() {
   const trackPage = useCallback((page, language, state) => {
     fetch('/api/analytics/pageview', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ page, language, state }),
     }).catch(() => {});
-  }, [token]);
+  }, []);
 
   // Send analytics law search
   const trackLawSearch = useCallback((term, category, section, language) => {
     fetch('/api/analytics/law-search', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ term, category, section, language }),
     }).catch(() => {});
-  }, [token]);
+  }, []);
 
   // Send analytics draft usage
   const trackDraft = useCallback((templateType, language) => {
     fetch('/api/analytics/draft', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ templateType, language }),
     }).catch(() => {});
-  }, [token]);
+  }, []);
 
   return {
-    token, user, isLoggedIn, isAdmin,
+    token: null, user, isLoggedIn, isAdmin,
     loading, error,
     login, signup, logout,
     updateProfile, resetPassword,

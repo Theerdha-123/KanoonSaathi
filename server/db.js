@@ -30,6 +30,11 @@ db.pragma('synchronous = NORMAL');   // Good balance of safety + speed
 db.pragma('temp_store = MEMORY');    // Store temp tables in memory
 db.pragma('mmap_size = 268435456');  // 256MB memory-mapped I/O
 
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  console.error('FATAL ERROR: JWT_SECRET is not defined in production environment.');
+  process.exit(1);
+}
+
 const JWT_SECRET = process.env.JWT_SECRET || 'kanoonsaathi-dev-secret-change-in-prod';
 
 // ─── Schema ──────────────────────────────────────────────────────────────────

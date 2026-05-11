@@ -11,6 +11,7 @@ export async function updateLegalNews() {
   try {
     // 1. Fetch and parse RSS
     const feed = await parser.parseURL(RSS_URL);
+    console.log(`📰 [NewsService] RSS feed parsed. Found ${feed.items?.length || 0} items.`);
     
     // Get top 5 items to give the model some context
     const topItems = feed.items.slice(0, 5).map(item => ({
@@ -93,6 +94,7 @@ Rules:
       const newsArray = JSON.parse(replyText);
       if (Array.isArray(newsArray) && newsArray.length > 0) {
         // 3. Save to database
+        console.log('📰 [NewsService] Saving new judgments to database...');
         const success = await saveNewsList(newsArray);
         if (success) {
           console.log(`✅ [NewsService] Successfully updated ${newsArray.length} news items.`);

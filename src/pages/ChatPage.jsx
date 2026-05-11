@@ -55,6 +55,7 @@ export default function ChatPage({ loggedIn, user, lang, theme, fontSize, setThe
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           messages: msgs,
           system: SYSTEM_PROMPT + langSuffix,

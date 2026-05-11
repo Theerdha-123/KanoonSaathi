@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { existsSync } from 'fs';
@@ -35,20 +36,40 @@ if (IS_PROD) {
 
 // Security headers (CSP, XSS protection, etc.)
 app.use(helmet({
-  contentSecurityPolicy: false,       // Disabled — we serve a SPA with inline styles
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"], // required for Vite/React inline scripts
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "https://integrate.api.nvidia.com", "https://generativelanguage.googleapis.com", "https://api.openai.com", "https://api.anthropic.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https:"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
   crossOriginEmbedderPolicy: false,   // Allow image loading
 }));
 
-// CORS — flexible by default, can be locked down via CORS_ORIGIN
+// CORS — strictly define allowed origins
 const corsOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',')
-  : true; // Allow all origins if not specified (simplifies initial deployment)
+  : ['http://localhost:5173']; // Default to strict localhost instead of wildcard
 
 app.use(cors({
-  origin: corsOrigins,
+  origin: function(origin, callback) {
+    if (!origin || corsOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
+
+// Parse cookies
+app.use(cookieParser());
 
 // Body size limits
 app.use(express.json({ limit: '1mb' }));
@@ -90,7 +111,10 @@ app.use('/api/auth/', authLimiter);
 // ─── Auth Middleware ────────────────────────────────────────────────────────────
 
 function authMiddleware(req, res, next) {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+  let token = req.cookies.token;
+  if (!token && req.headers.authorization) {
+    token = req.headers.authorization.replace('Bearer ', '');
+  }
   if (!token) return res.status(401).json({ error: 'Authentication required' });
   const decoded = verifyToken(token);
   if (!decoded) return res.status(401).json({ error: 'Invalid or expired token' });
@@ -108,7 +132,10 @@ function adminMiddleware(req, res, next) {
 
 // Optional auth — sets userId if token present, but doesn't block
 function optionalAuth(req, res, next) {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+  let token = req.cookies.token;
+  if (!token && req.headers.authorization) {
+    token = req.headers.authorization.replace('Bearer ', '');
+  }
   if (token) {
     const decoded = verifyToken(token);
     if (decoded) { req.userId = decoded.id; req.userRole = decoded.role; }
@@ -238,24 +265,28 @@ function mockAIResponse(userMessage) {
 app.post('/api/auth/signup', async (req, res) => {
   try {
     const { name, email, phone, password, state, language } = req.body;
-    console.log(`📝 Signup attempt: ${email}`);
     
     if (!name || !email || !password) return res.status(400).json({ error: 'Name, email, and password are required' });
     if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
     
     await createUser({ name: name.trim(), email, phone, password, state, language });
-    console.log(`✅ User created: ${email}. Attempting auto-login...`);
     
     const loginResult = await loginUser(email, password);
     if (!loginResult) {
-      console.error(`❌ Auto-login failed for ${email}`);
       return res.status(500).json({ error: 'Account created but auto-login failed. Please login manually.' });
     }
     
-    console.log(`✨ Signup successful: ${email}`);
-    res.json(loginResult);
+    res.cookie('token', loginResult.token, {
+      httpOnly: true,
+      secure: IS_PROD,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+    
+    // Do not send token in JSON response
+    res.json({ user: loginResult.user });
   } catch (e) {
-    console.error(`❌ Signup error for ${req.body.email}:`, e.message);
+    console.error(`❌ Signup error:`, e.message);
     res.status(400).json({ error: e.message });
   }
 });
@@ -263,32 +294,39 @@ app.post('/api/auth/signup', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(`🔑 Login attempt: ${email}`);
     
     if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
     
     const result = await loginUser(email, password);
     if (!result) {
-      console.warn(`⚠️ Invalid login: ${email}`);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
     
-    console.log(`✅ Login successful: ${email} (${result.user.role})`);
-    res.json(result);
+    res.cookie('token', result.token, {
+      httpOnly: true,
+      secure: IS_PROD,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+    
+    res.json({ user: result.user });
   } catch (e) {
-    console.error(`❌ Login error for ${req.body.email}:`, e.message);
+    console.error(`❌ Login error:`, e.message);
     res.status(500).json({ error: 'Login failed. Please try again.' });
   }
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ success: true });
 });
 
 app.get('/api/auth/me', authMiddleware, async (req, res) => {
   try {
     const user = await getUserById(req.userId);
     if (!user) {
-      console.warn(`⚠️ Session verify: User ${req.userId} not found`);
       return res.status(404).json({ error: 'User not found' });
     }
-    console.log(`👤 Session verified: ${user.email}`);
     res.json({ user });
   } catch (e) {
     console.error('❌ Session verification error:', e.message);
@@ -457,7 +495,7 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB max
 });
 
-app.post('/api/extract-text', upload.single('file'), async (req, res) => {
+app.post('/api/extract-text', authMiddleware, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -790,13 +828,11 @@ const server = app.listen(PORT, () => {
   console.log(`   Health:      http://localhost:${PORT}/api/health`);
   console.log(`   Ready at:    http://localhost:${PORT}\n`);
 
-  // Start background jobs
-  if (DB_PROVIDER === 'mongodb') {
-    // Run once after 5 seconds to ensure DB is connected, then every 6 hours
-    setTimeout(updateLegalNews, 5000);
-    setInterval(updateLegalNews, 6 * 60 * 60 * 1000);
-    console.log(`   ⏳ Background jobs: Scheduled Legal News fetcher (every 6h)`);
-  }
+  // Start background jobs (News Feed fetcher)
+  // Run once after 5 seconds to ensure DB is connected, then every 6 hours
+  setTimeout(updateLegalNews, 5000);
+  setInterval(updateLegalNews, 6 * 60 * 60 * 1000);
+  console.log(`   ⏳ Background jobs: Scheduled Legal News fetcher (every 6h)`);
 });
 
 // ─── Graceful Shutdown ──────────────────────────────────────────────────────────

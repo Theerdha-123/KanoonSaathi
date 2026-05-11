@@ -2,16 +2,19 @@
 
 :root {
   /* Core palette — Midnight Indigo & Warm Amber */
-  --bg-primary: #0A1628;
-  --bg-card: rgba(255,255,255,0.04);
-  --bg-card-hover: rgba(255,255,255,0.08);
+  --bg-primary: #07070F;
+  --bg-card: rgba(255,255,255,0.025);
+  --bg-card-hover: rgba(255,255,255,0.05);
   --bg-elevated: rgba(255,255,255,0.06);
-  --bg-glass: rgba(10,22,40,0.88);
+  --bg-glass: rgba(7,7,15,0.88);
 
-  --text-primary: #E8E6E1;
-  --text-secondary: rgba(232,230,225,0.68);
-  --text-muted: rgba(232,230,225,0.45);
-  --text-faint: rgba(232,230,225,0.25);
+  --text-primary: #F0EDE8;
+  --text-secondary: rgba(240,237,232,0.68);
+  --text-muted: rgba(240,237,232,0.45);
+  --text-faint: rgba(240,237,232,0.25);
+  
+  --border-light: rgba(255,255,255,0.07);
+  --border-medium: rgba(255,255,255,0.15);
 
   --accent: #E8A838;
   --accent-light: #F5D590;
@@ -48,21 +51,24 @@
 }
 
 :root[data-theme="light"] {
-  --bg-primary: #F7F8FA;
+  --bg-primary: #F4F6F8;
   --bg-card: #FFFFFF;
-  --bg-card-hover: #EDEEF2;
-  --bg-elevated: #F9FAFC;
-  --bg-glass: rgba(247,248,250,0.92);
+  --bg-card-hover: #Eef0f3;
+  --bg-elevated: #FFFFFF;
+  --bg-glass: rgba(255,255,255,0.92);
 
   --text-primary: #1A1D23;
-  --text-secondary: rgba(26,29,35,0.65);
-  --text-muted: rgba(26,29,35,0.45);
-  --text-faint: rgba(26,29,35,0.25);
+  --text-secondary: rgba(26,29,35,0.75);
+  --text-muted: rgba(26,29,35,0.55);
+  --text-faint: rgba(26,29,35,0.35);
 
-  --border-subtle: rgba(0,0,0,0.06);
-  --border-medium: rgba(0,0,0,0.12);
+  --border-light: rgba(0,0,0,0.08);
+  --border-medium: rgba(0,0,0,0.15);
   
-  --accent-bg: rgba(232,168,56,0.1);
+  --accent-bg: rgba(232,168,56,0.15);
+  --green-bg: rgba(52,211,153,0.15);
+  --red-bg: rgba(239,68,68,0.15);
+
   --accent-gradient: linear-gradient(135deg, #0E2243, #1A3A6B);
   --accent: #0E2243;
 }

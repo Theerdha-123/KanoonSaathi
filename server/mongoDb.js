@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  console.error('FATAL ERROR: JWT_SECRET is not defined in production environment.');
+  process.exit(1);
+}
+
 const JWT_SECRET = process.env.JWT_SECRET || 'kanoonsaathi-dev-secret-change-in-prod';
 const MONGODB_URI = process.env.MONGODB_URI;
 

@@ -169,7 +169,7 @@ export default function LegalNewsFeed({ loggedIn, user, lang, theme, fontSize, s
   useEffect(() => {
     async function fetchNews() {
       try {
-        const res = await fetch('/api/news');
+        const res = await fetch('/api/news', { credentials: 'include' });
         if (!res.ok) throw new Error('Failed to fetch');
         const data = await res.json();
         setNews(data);
@@ -221,7 +221,10 @@ export default function LegalNewsFeed({ loggedIn, user, lang, theme, fontSize, s
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#34D399', display: 'inline-block', animation: 'pulse 2s infinite' }} />
           <span style={{ fontSize: 11, color: 'rgba(240,237,232,0.35)', fontWeight: 600 }}>
-            {filtered.length} judgment{filtered.length !== 1 ? 's' : ''} · Updated May 2026
+            {filtered.length} judgment{filtered.length !== 1 ? 's' : ''} · 
+            {news.length > 0 ? (
+              `Updated ${new Date(Math.max(...news.map(n => new Date(n.created_at || n.date)))).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`
+            ) : 'Updated May 2026'}
           </span>
         </div>
 

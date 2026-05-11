@@ -60,6 +60,7 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
 
       const res = await fetch('/api/extract-text', {
         method: 'POST',
+        credentials: 'include',
         body: formData,
       });
 
@@ -130,6 +131,7 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
 
       const res = await fetch('/api/analyze-document', {
         method: 'POST',
+        credentials: 'include',
         body: formData,
       });
 
@@ -173,6 +175,7 @@ export default function DocumentAnalyzer({ loggedIn, user, lang, theme, fontSize
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           messages: [{ role: 'user', content: `I have received a ${docLabel}. Please analyze this document and explain it to me in simple language:\n\n---\n${content}\n---` }],
           system: ANALYZE_PROMPT,

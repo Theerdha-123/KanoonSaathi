@@ -155,6 +155,7 @@ export default function DraftPage({ loggedIn, user, lang, theme, fontSize, setTh
 
       const res = await fetch('/api/chat', {
         method: 'POST', headers,
+        credentials: 'include',
         body: JSON.stringify({
           messages: [{ role: 'user', content: `Generate a ${tpl.title} draft based on this information:\n\n${fieldText}\n\nFill in all standard legal language, proper formatting, section headers, and placeholders marked as [TO BE FILLED] for any missing details. Output the document as properly formatted text with clear section headers.` }],
           system: DRAFT_PROMPTS[templateId] || 'You are a legal document drafter for Indian law. Use BNS 2023 references.',

@@ -33,7 +33,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
   ];
 
   return (
-    <div style={{ minHeight:'100vh',background:'#07070F',color:'#F0EDE8',fontFamily:'Georgia,serif',position:'relative',overflowX:'hidden' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: "'Inter',-apple-system,sans-serif" }}>
       {[500,350,200].map((sz,i) => (
         <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid rgba(255,107,0,${0.03+i*0.015})`,transform:'translate(-50%,-50%)',animation:`orbit ${20+i*8}s linear infinite` }} />
       ))}
@@ -60,17 +60,17 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
         {/* Quick Tools */}
         <div className="grid-responsive" style={{ display:'flex',gap:10,justifyContent:'center',flexWrap:'wrap',marginTop:18 }}>
           {[
-            ['📄','Analyze Document','Upload any legal doc for AI explanation', onAnalyzer],
-            ['📝','Draft Generator','Generate FIR, RTI, Legal Notice', onDrafts],
-            ['🔄','IPC → BNS','Convert old IPC to new BNS sections', onBNS],
-            ['📰','Legal News','SC/HC judgments in 3 simple points', onNews],
-            ['🛡️','Secure Vault','E2EE encrypted document storage', onVault],
-            ['🎙️','Voice Mode','Speak-only mode — no typing needed', onVoiceOnly],
+            ['📄', t.qt_analyze, t.qt_analyze_desc, onAnalyzer],
+            ['📝', t.qt_drafts, t.qt_drafts_desc, onDrafts],
+            ['🔄', t.qt_bns, t.qt_bns_desc, onBNS],
+            ['📰', t.qt_news, t.qt_news_desc, onNews],
+            ['🛡️', t.qt_vault, t.qt_vault_desc, onVault],
+            ['🎙️', t.qt_voice, t.qt_voice_desc, onVoiceOnly],
           ].map(([icon,title,desc,handler]) => (
             <button key={title} onClick={handler} className="tool-card"
-              style={{ padding:'10px 16px',borderRadius:12,background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,255,255,0.07)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',display:'flex',alignItems:'center',gap:10,color:'#F0EDE8',transition:'all 0.2s',maxWidth:220 }}
-              onMouseEnter={e => { e.currentTarget.style.background='rgba(232,168,56,0.07)'; e.currentTarget.style.borderColor='rgba(232,168,56,0.25)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.025)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'; }}>
+              style={{ padding:'10px 16px',borderRadius:12,background:'var(--bg-card)',border:'1px solid var(--border-light)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',display:'flex',alignItems:'center',gap:10,color:'var(--text-primary)',transition:'all 0.2s',maxWidth:220 }}
+              onMouseEnter={e => { e.currentTarget.style.background='var(--accent-bg)'; e.currentTarget.style.borderColor='var(--accent-border)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background='var(--bg-card)'; e.currentTarget.style.borderColor='var(--border-light)'; }}>
               <span style={{ fontSize:22 }}>{icon}</span>
               <div>
                 <div style={{ fontSize:12,fontWeight:700 }}>{title}</div>
@@ -112,9 +112,9 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
           <div className="section-subtitle">{query ? `Results for "${query}" — ${cats.length} categories` : 'Click any category to explore all laws, sections & your rights'}</div>
           <div className="grid-container grid-cards">
             {cats.map((cat,idx) => (
-              <div key={cat.id} className="card" style={{ borderColor:`${cat.color}20`,animationDelay:`${idx*0.04}s`,cursor:'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.background=`${cat.color}0D`; e.currentTarget.style.borderColor=`${cat.color}45`; }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor=`${cat.color}20`; }}
+              <div key={cat.id} className="card" style={{ borderColor:`var(--border-light)`,animationDelay:`${idx*0.04}s`,cursor:'pointer' }}
+                onMouseEnter={e => { e.currentTarget.style.background=`var(--bg-card-hover)`; e.currentTarget.style.borderColor=`var(--border-medium)`; }}
+                onMouseLeave={e => { e.currentTarget.style.background='var(--bg-card)'; e.currentTarget.style.borderColor=`var(--border-light)`; }}
                 onClick={() => onCategory(cat.id)}>
                 <div style={{ fontSize:26,marginBottom:9 }}>{cat.icon}</div>
                 <div style={{ fontSize:14,fontWeight:700,marginBottom:4,color:cat.color }}>{cat.title}</div>
@@ -138,13 +138,20 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
             {scs.map((sc,idx) => {
               const open = openSc===sc.id;
               return (
-                <div key={sc.id} className="card" style={{ padding:0,overflow:'hidden',borderColor:open?sc.color+'45':sc.color+'20',background:open?`${sc.color}0A`:'rgba(255,255,255,0.02)' }}>
-                  <div style={{ padding:'15px 17px 12px',display:'flex',alignItems:'flex-start',gap:11,cursor:'pointer' }} onClick={() => setOpenSc(open?null:sc.id)}>
+                <div key={sc.id} className="card" style={{ padding:0,overflow:'hidden',borderColor:open?'var(--border-medium)':'var(--border-light)' }}>
+                  <div style={{ padding:'18px 24px',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',background:open?'var(--bg-card-hover)':'transparent' }} onClick={() => setOpenSc(open?null:sc.id)}>
                     <div style={{ width:40,height:40,borderRadius:10,background:`${sc.color}16`,border:`1px solid ${sc.color}30`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0 }}>{sc.icon}</div>
                     <div style={{ flex:1 }}>
                       <div style={{ display:'flex',alignItems:'center',gap:8,marginBottom:3 }}>
                         <span style={{ fontSize:14,fontWeight:700 }}>{sc.title}</span>
                         <span className="tag tag-pill" style={{ background:`${sc.color}14`,color:sc.color,border:`1px solid ${sc.color}28` }}>{sc.tag}</span>
+                        <div style={{ color:'rgba(240,237,232,0.3)',fontSize:13,marginLeft:'auto' }}>
+                          <button onClick={e => { e.stopPropagation(); toggleBookmark({ id:`sc_${sc.id}`,type:'scenario',title:sc.title,tag:sc.tag,situation:sc.situation,color:sc.color,icon:sc.icon,helpline:sc.helpline,laws:sc.laws }); }}
+                            style={{ background:'none',border:'none',cursor:'pointer',fontSize:17,padding:0,opacity:isBookmarked(`sc_${sc.id}`)?1:0.3,color:isBookmarked(`sc_${sc.id}`)?'#FFD700':'#F0EDE8' }}>
+                            {isBookmarked(`sc_${sc.id}`) ? '⭐' : '☆'}
+                          </button>
+                          {open ? ' ▲' : ' ▼'}
+                        </div>
                       </div>
                       <div style={{ fontSize:11,color:'rgba(240,237,232,0.42)',lineHeight:1.5 }}>{sc.situation}</div>
                     </div>
