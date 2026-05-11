@@ -23,6 +23,8 @@
   --accent-bg: rgba(232,168,56,0.08);
   --accent-border: rgba(232,168,56,0.25);
 
+  --hero-gradient: linear-gradient(160deg, #FFFFFF 20%, #E8A838 100%);
+
   --green: #34D399;
   --green-bg: rgba(52,211,153,0.07);
   --green-border: rgba(52,211,153,0.17);
@@ -51,26 +53,24 @@
 }
 
 :root[data-theme="light"] {
-  --bg-primary: #F4F6F8;
+  --bg-primary: #F7F9FC;
   --bg-card: #FFFFFF;
-  --bg-card-hover: #Eef0f3;
+  --bg-card-hover: #F0F2F5;
   --bg-elevated: #FFFFFF;
-  --bg-glass: rgba(255,255,255,0.92);
+  --bg-glass: rgba(247,249,252,0.92);
 
-  --text-primary: #1A1D23;
-  --text-secondary: rgba(26,29,35,0.75);
-  --text-muted: rgba(26,29,35,0.55);
-  --text-faint: rgba(26,29,35,0.35);
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-faint: #94A3B8;
 
-  --border-light: rgba(0,0,0,0.08);
-  --border-medium: rgba(0,0,0,0.15);
+  --border-light: rgba(0,0,0,0.06);
+  --border-medium: rgba(0,0,0,0.12);
   
-  --accent-bg: rgba(232,168,56,0.15);
-  --green-bg: rgba(52,211,153,0.15);
-  --red-bg: rgba(239,68,68,0.15);
-
+  --accent-bg: rgba(14,34,67,0.05);
   --accent-gradient: linear-gradient(135deg, #0E2243, #1A3A6B);
   --accent: #0E2243;
+  --hero-gradient: linear-gradient(160deg, #0E2243 20%, #1A3A6B 100%);
 }
 
 :root[data-font-size="large"] body {
@@ -471,7 +471,7 @@ body {
   font-weight: 700;
   line-height: 1.15;
   margin-bottom: 14px;
-  background: linear-gradient(160deg, #FFFFFF 20%, #E8C87A 100%);
+  background: var(--hero-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

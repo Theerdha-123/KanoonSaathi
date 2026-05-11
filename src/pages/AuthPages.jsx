@@ -24,61 +24,61 @@ export function LoginPage({ auth, onLogin, onGoSignup, onGuest, onForgot }) {
   };
 
   return (
-    <div style={{ minHeight:'100vh',background:'#07070F',color:'#F0EDE8',fontFamily:'Georgia,serif',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,position:'relative',overflow:'hidden' }}>
+    <div style={{ minHeight:'100vh',background:'var(--bg-primary)',color:'var(--text-primary)',fontFamily:'var(--font-serif)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,position:'relative',overflow:'hidden' }}>
       {[380,250,140].map((sz,i) => (
-        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid rgba(255,107,0,${0.04+i*0.02})`,animation:`orbit ${20+i*7}s linear infinite` }} />
+        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid var(--accent-border)`,animation:`orbit ${20+i*7}s linear infinite`, opacity: 0.2 }} />
       ))}
       <div style={{ display:'flex',alignItems:'center',gap:9,marginBottom:36,cursor:'pointer',animation:'fadeUp 0.4s ease' }} onClick={onGuest}>
-        <div style={{ width:36,height:36,background:'linear-gradient(135deg,#FF6B00,#FF9500)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19,animation:'glow 3s infinite' }}>⚖️</div>
-        <span style={{ fontSize:20,fontWeight:700,background:'linear-gradient(90deg,#FF6B00,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>KanoonSaathi</span>
+        <div style={{ width:36,height:36,background:'var(--accent-gradient)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19 }}>⚖️</div>
+        <span style={{ fontSize:20,fontWeight:700,background:'var(--accent-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>KanoonSaathi</span>
       </div>
 
-      <div style={{ width:'100%',maxWidth:400,background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,107,0,0.18)',borderRadius:20,padding:'36px 32px',animation:'fadeUp 0.45s ease' }}>
+      <div style={{ width:'100%',maxWidth:400,background:'var(--bg-card)',border:'1px solid var(--border-medium)',borderRadius:20,padding:'36px 32px',animation:'fadeUp 0.45s ease', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
         <div style={{ fontSize:24,fontWeight:700,marginBottom:4 }}>Welcome back 👋</div>
-        <div style={{ fontSize:13,color:'rgba(240,237,232,0.4)',marginBottom:28 }}>Log in to your KanoonSaathi account</div>
+        <div style={{ fontSize:13,color:'var(--text-muted)',marginBottom:28 }}>Log in to your KanoonSaathi account</div>
 
         <div style={{ marginBottom:16 }}>
-          <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Email Address</label>
+          <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Email Address</label>
           <input value={form.email} onChange={e => setForm(f => ({...f,email:e.target.value}))} onKeyDown={e => e.key === 'Enter' && handle()}
             className="input" type="email" placeholder="you@example.com" />
         </div>
 
         <div style={{ marginBottom:8 }}>
-          <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Password</label>
+          <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Password</label>
           <div style={{ position:'relative' }}>
             <input value={form.password} onChange={e => setForm(f => ({...f,password:e.target.value}))} onKeyDown={e => e.key === 'Enter' && handle()}
               className="input" style={{ paddingRight:44 }} type={show ? 'text' : 'password'} placeholder="Enter your password" />
-            <button onClick={() => setShow(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'rgba(240,237,232,0.4)',cursor:'pointer',fontSize:15,padding:0 }}>{show ? '🙈' : '👁️'}</button>
+            <button onClick={() => setShow(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'var(--text-faint)',cursor:'pointer',fontSize:15,padding:0 }}>{show ? '🙈' : '👁️'}</button>
           </div>
         </div>
 
         <div style={{ textAlign:'right',marginBottom:20 }}>
-          <span onClick={onForgot} style={{ fontSize:11,color:'rgba(255,149,0,0.6)',cursor:'pointer' }}>Forgot password? →</span>
+          <span onClick={onForgot} style={{ fontSize:11,color:'var(--accent)',cursor:'pointer' }}>Forgot password? →</span>
         </div>
 
-        {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'rgba(231,76,60,0.08)',border:'1px solid rgba(231,76,60,0.25)',borderRadius:8,fontSize:12,color:'#E74C3C' }}>⚠️ {err}</div>}
+        {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--red)' }}>⚠️ {err}</div>}
 
         <button onClick={handle} disabled={busy} className="btn btn-primary btn-lg" style={{ width:'100%',marginBottom:16 }}>
           {busy ? 'Logging in…' : 'Login →'}
         </button>
 
         <div style={{ display:'flex',alignItems:'center',gap:10,marginBottom:16 }}>
-          <div style={{ flex:1,height:1,background:'rgba(255,255,255,0.07)' }} />
-          <span style={{ fontSize:11,color:'rgba(240,237,232,0.25)' }}>OR</span>
-          <div style={{ flex:1,height:1,background:'rgba(255,255,255,0.07)' }} />
+          <div style={{ flex:1,height:1,background:'var(--border-light)' }} />
+          <span style={{ fontSize:11,color:'var(--text-faint)' }}>OR</span>
+          <div style={{ flex:1,height:1,background:'var(--border-light)' }} />
         </div>
 
         <button onClick={onGuest} className="btn btn-secondary" style={{ width:'100%',padding:11,borderRadius:10,fontSize:13,marginBottom:20 }}>
           Continue as Guest (Limited Access)
         </button>
 
-        <div style={{ textAlign:'center',fontSize:13,color:'rgba(240,237,232,0.4)' }}>
+        <div style={{ textAlign:'center',fontSize:13,color:'var(--text-muted)' }}>
           Don't have an account?{' '}
-          <span onClick={onGoSignup} style={{ color:'#FF9500',cursor:'pointer',fontWeight:600 }}>Sign up free →</span>
+          <span onClick={onGoSignup} style={{ color:'var(--accent)',cursor:'pointer',fontWeight:600 }}>Sign up free →</span>
         </div>
       </div>
 
-      <div style={{ marginTop:20,fontSize:11,color:'rgba(240,237,232,0.2)',textAlign:'center',lineHeight:1.7 }}>
+      <div style={{ marginTop:20,fontSize:11,color:'var(--text-faint)',textAlign:'center',lineHeight:1.7 }}>
         🔒 JWT secured · bcrypt passwords · IT Act 2000 compliant · Zero data selling
       </div>
     </div>
@@ -123,95 +123,95 @@ export function SignupPage({ auth, onSignup, onGoLogin }) {
   };
 
   const pwStrength = password.length >= 10 ? 'Strong' : password.length >= 6 ? 'Medium' : 'Weak';
-  const pwColor = password.length >= 10 ? '#4CAF50' : password.length >= 6 ? '#FF9500' : '#E74C3C';
+  const pwColor = password.length >= 10 ? 'var(--green)' : password.length >= 6 ? 'var(--accent)' : 'var(--red)';
 
   return (
-    <div style={{ minHeight:'100vh',background:'#07070F',color:'#F0EDE8',fontFamily:'Georgia,serif',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,position:'relative',overflow:'hidden' }}>
+    <div style={{ minHeight:'100vh',background:'var(--bg-primary)',color:'var(--text-primary)',fontFamily:'var(--font-serif)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,position:'relative',overflow:'hidden' }}>
       {[380,250,140].map((sz,i) => (
-        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid rgba(255,107,0,${0.04+i*0.02})`,animation:`orbit ${20+i*7}s linear infinite` }} />
+        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid var(--accent-border)`,animation:`orbit ${20+i*7}s linear infinite`, opacity: 0.2 }} />
       ))}
 
       <div style={{ display:'flex',alignItems:'center',gap:9,marginBottom:28,animation:'fadeUp 0.4s ease' }}>
-        <div style={{ width:36,height:36,background:'linear-gradient(135deg,#FF6B00,#FF9500)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19,animation:'glow 3s infinite' }}>⚖️</div>
-        <span style={{ fontSize:20,fontWeight:700,background:'linear-gradient(90deg,#FF6B00,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>KanoonSaathi</span>
+        <div style={{ width:36,height:36,background:'var(--accent-gradient)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19 }}>⚖️</div>
+        <span style={{ fontSize:20,fontWeight:700,background:'var(--accent-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>KanoonSaathi</span>
       </div>
 
-      <div style={{ width:'100%',maxWidth:420,background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,107,0,0.18)',borderRadius:20,padding:'32px 28px',animation:'fadeUp 0.45s ease' }}>
+      <div style={{ width:'100%',maxWidth:420,background:'var(--bg-card)',border:'1px solid var(--border-medium)',borderRadius:20,padding:'32px 28px',animation:'fadeUp 0.45s ease', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
         {success ? (
           <div style={{ textAlign:'center',padding:'20px 0',animation:'fadeUp 0.4s ease' }}>
-            <div style={{ fontSize:52,marginBottom:16,animation:'glow 2s infinite',display:'inline-block' }}>✅</div>
+            <div style={{ fontSize:52,marginBottom:16,display:'inline-block' }}>✅</div>
             <div style={{ fontSize:20,fontWeight:700,marginBottom:8 }}>Account Created!</div>
-            <div style={{ fontSize:13,color:'rgba(240,237,232,0.45)',lineHeight:1.7 }}>
-              Welcome, <strong style={{ color:'#FF9500' }}>{name}</strong>! Logging you in…
+            <div style={{ fontSize:13,color:'var(--text-muted)',lineHeight:1.7 }}>
+              Welcome, <strong style={{ color:'var(--accent)' }}>{name}</strong>! Logging you in…
             </div>
             <div style={{ marginTop:20,display:'flex',justifyContent:'center',gap:6 }}>
-              {[0,1,2].map(i => <div key={i} style={{ width:8,height:8,borderRadius:'50%',background:'#FF6B00',animation:`pulse 1.2s ${i*0.2}s infinite` }} />)}
+              {[0,1,2].map(i => <div key={i} style={{ width:8,height:8,borderRadius:'50%',background:'var(--accent)',animation:`pulse 1.2s ${i*0.2}s infinite` }} />)}
             </div>
           </div>
         ) : (
           <>
             <div style={{ fontSize:24,fontWeight:700,marginBottom:4 }}>Create Account 🚀</div>
-            <div style={{ fontSize:13,color:'rgba(240,237,232,0.4)',marginBottom:22 }}>Free access to India's legal knowledge base</div>
+            <div style={{ fontSize:13,color:'var(--text-muted)',marginBottom:22 }}>Free access to India's legal knowledge base</div>
 
             {[
               ['Full Name','text',name,setName,'Your full name'],
               ['Email Address','email',email,setEmail,'you@example.com'],
             ].map(([label,type,val,setter,ph]) => (
               <div key={label} style={{ marginBottom:15 }}>
-                <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>{label}</label>
+                <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>{label}</label>
                 <input className="input" type={type} placeholder={ph} value={val} onChange={e => setter(e.target.value)} />
               </div>
             ))}
 
             <div style={{ marginBottom:15 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Mobile Number</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Mobile Number</label>
               <input className="input" type="tel" placeholder="10-digit mobile number" value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0,10))} />
             </div>
 
             <div style={{ marginBottom:15 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Password</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Password</label>
               <div style={{ position:'relative' }}>
                 <input className="input" style={{ paddingRight:44 }} type={showPass ? 'text' : 'password'} placeholder="Min. 6 characters" value={password} onChange={e => setPassword(e.target.value)} />
-                <button type="button" onClick={() => setShowPass(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'rgba(240,237,232,0.4)',cursor:'pointer',fontSize:15,padding:0 }}>{showPass ? '🙈' : '👁️'}</button>
+                <button type="button" onClick={() => setShowPass(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'var(--text-faint)',cursor:'pointer',fontSize:15,padding:0 }}>{showPass ? '🙈' : '👁️'}</button>
               </div>
             </div>
 
             {password.length > 0 && (
               <div style={{ marginTop:-8,marginBottom:14 }}>
-                <div style={{ fontSize:11,color:'rgba(240,237,232,0.35)',marginBottom:4 }}>Strength: <span style={{ color:pwColor,fontWeight:600 }}>{pwStrength}</span></div>
-                <div style={{ height:3,background:'rgba(255,255,255,0.07)',borderRadius:3,overflow:'hidden' }}>
+                <div style={{ fontSize:11,color:'var(--text-faint)',marginBottom:4 }}>Strength: <span style={{ color:pwColor,fontWeight:600 }}>{pwStrength}</span></div>
+                <div style={{ height:3,background:'var(--border-light)',borderRadius:3,overflow:'hidden' }}>
                   <div style={{ height:'100%',width:`${Math.min(100, (password.length / 12) * 100)}%`,background:pwColor,borderRadius:3,transition:'width 0.3s ease' }} />
                 </div>
               </div>
             )}
 
             <div style={{ marginBottom:15 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Confirm Password</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Confirm Password</label>
               <div style={{ position:'relative' }}>
                 <input className="input" style={{ paddingRight:44 }} type={showConf ? 'text' : 'password'} placeholder="Re-enter password" value={confirm} onChange={e => setConfirm(e.target.value)} />
-                <button type="button" onClick={() => setShowConf(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'rgba(240,237,232,0.4)',cursor:'pointer',fontSize:15,padding:0 }}>{showConf ? '🙈' : '👁️'}</button>
+                <button type="button" onClick={() => setShowConf(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'var(--text-faint)',cursor:'pointer',fontSize:15,padding:0 }}>{showConf ? '🙈' : '👁️'}</button>
               </div>
-              {confirm.length > 0 && <div style={{ fontSize:11,marginTop:5,color: password === confirm ? '#4CAF50' : '#E74C3C' }}>{password === confirm ? '✅ Passwords match' : '❌ Passwords do not match'}</div>}
+              {confirm.length > 0 && <div style={{ fontSize:11,marginTop:5,color: password === confirm ? 'var(--green)' : 'var(--red)' }}>{password === confirm ? '✅ Passwords match' : '❌ Passwords do not match'}</div>}
             </div>
 
-            <div style={{ marginBottom:14,padding:'9px 12px',background:'rgba(255,107,0,0.05)',border:'1px solid rgba(255,107,0,0.12)',borderRadius:8,fontSize:11,color:'rgba(240,237,232,0.4)',lineHeight:1.6 }}>
+            <div style={{ marginBottom:14,padding:'9px 12px',background:'var(--accent-bg)',border:'1px solid var(--accent-border)',borderRadius:8,fontSize:11,color:'var(--text-muted)',lineHeight:1.6 }}>
               🇮🇳 By signing up, you agree to our Terms of Service. Data protected under IT Act 2000 & DPDP Act 2023.
             </div>
 
-            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'rgba(231,76,60,0.08)',border:'1px solid rgba(231,76,60,0.25)',borderRadius:8,fontSize:12,color:'#E74C3C' }}>⚠️ {err}</div>}
+            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--red)' }}>⚠️ {err}</div>}
 
             <button onClick={handle} disabled={busy} className="btn btn-primary btn-lg" style={{ width:'100%',marginBottom:16,opacity:busy?0.7:1 }}>
               {busy ? 'Creating Account…' : 'Create Free Account →'}
             </button>
 
-            <div style={{ textAlign:'center',fontSize:13,color:'rgba(240,237,232,0.4)' }}>
+            <div style={{ textAlign:'center',fontSize:13,color:'var(--text-muted)' }}>
               Already have an account?{' '}
-              <span onClick={onGoLogin} style={{ color:'#FF9500',cursor:'pointer',fontWeight:600 }}>Log in →</span>
+              <span onClick={onGoLogin} style={{ color:'var(--accent)',cursor:'pointer',fontWeight:600 }}>Log in →</span>
             </div>
           </>
         )}
       </div>
-      <div style={{ marginTop:20,fontSize:11,color:'rgba(240,237,232,0.2)',textAlign:'center',lineHeight:1.7 }}>🔒 bcrypt · JWT · OTP ready · IT Act 2000 · DPDP Act 2023 compliant</div>
+      <div style={{ marginTop:20,fontSize:11,color:'var(--text-faint)',textAlign:'center',lineHeight:1.7 }}>🔒 bcrypt · JWT · OTP ready · IT Act 2000 · DPDP Act 2023 compliant</div>
     </div>
   );
 }
@@ -231,7 +231,6 @@ export function ForgotPasswordPage({ auth, onGoLogin }) {
     setErr('');
     if (!email.includes('@')) return setErr('Enter a valid email address.');
     setBusy(true);
-    // In production: send real OTP. For now, generate mock OTP for the flow.
     setTimeout(() => {
       const mockOtp = String(Math.floor(100000 + Math.random() * 900000));
       setGeneratedOtp(mockOtp);
@@ -263,26 +262,26 @@ export function ForgotPasswordPage({ auth, onGoLogin }) {
   };
 
   return (
-    <div style={{ minHeight:'100vh',background:'#07070F',color:'#F0EDE8',fontFamily:'Georgia,serif',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,position:'relative',overflow:'hidden' }}>
+    <div style={{ minHeight:'100vh',background:'var(--bg-primary)',color:'var(--text-primary)',fontFamily:'var(--font-serif)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24,position:'relative',overflow:'hidden' }}>
       {[380,250,140].map((sz,i) => (
-        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid rgba(255,107,0,${0.04+i*0.02})`,animation:`orbit ${20+i*7}s linear infinite` }} />
+        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid var(--accent-border)`,animation:`orbit ${20+i*7}s linear infinite`, opacity: 0.2 }} />
       ))}
 
       <div style={{ display:'flex',alignItems:'center',gap:9,marginBottom:36,animation:'fadeUp 0.4s ease' }}>
-        <div style={{ width:36,height:36,background:'linear-gradient(135deg,#FF6B00,#FF9500)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19,animation:'glow 3s infinite' }}>⚖️</div>
-        <span style={{ fontSize:20,fontWeight:700,background:'linear-gradient(90deg,#FF6B00,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>KanoonSaathi</span>
+        <div style={{ width:36,height:36,background:'var(--accent-gradient)',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19 }}>⚖️</div>
+        <span style={{ fontSize:20,fontWeight:700,background:'var(--accent-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>KanoonSaathi</span>
       </div>
 
-      <div style={{ width:'100%',maxWidth:400,background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,107,0,0.18)',borderRadius:20,padding:'36px 32px',animation:'fadeUp 0.45s ease' }}>
+      <div style={{ width:'100%',maxWidth:400,background:'var(--bg-card)',border:'1px solid var(--border-medium)',borderRadius:20,padding:'36px 32px',animation:'fadeUp 0.45s ease', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
         {step === 1 && (
           <>
             <div style={{ fontSize:24,fontWeight:700,marginBottom:4 }}>Reset Password 🔐</div>
-            <div style={{ fontSize:13,color:'rgba(240,237,232,0.4)',marginBottom:24 }}>Enter your registered email. We'll send an OTP.</div>
+            <div style={{ fontSize:13,color:'var(--text-muted)',marginBottom:24 }}>Enter your registered email. We'll send an OTP.</div>
             <div style={{ marginBottom:16 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Email Address</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Email Address</label>
               <input value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendOtp()} className="input" type="email" placeholder="you@example.com" />
             </div>
-            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'rgba(231,76,60,0.08)',border:'1px solid rgba(231,76,60,0.25)',borderRadius:8,fontSize:12,color:'#E74C3C' }}>⚠️ {err}</div>}
+            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--red)' }}>⚠️ {err}</div>}
             <button onClick={sendOtp} disabled={busy} className="btn btn-primary btn-lg" style={{ width:'100%',marginBottom:16 }}>{busy ? 'Sending OTP…' : 'Send OTP →'}</button>
           </>
         )}
@@ -290,13 +289,13 @@ export function ForgotPasswordPage({ auth, onGoLogin }) {
         {step === 2 && (
           <>
             <div style={{ fontSize:24,fontWeight:700,marginBottom:4 }}>Verify OTP ✉️</div>
-            <div style={{ fontSize:13,color:'rgba(240,237,232,0.4)',marginBottom:12 }}>OTP sent to <strong style={{ color:'#FF9500' }}>{email}</strong></div>
-            <div style={{ marginBottom:12,padding:'10px 14px',background:'rgba(76,175,80,0.08)',border:'1px solid rgba(76,175,80,0.2)',borderRadius:8,fontSize:12,color:'#4CAF50',lineHeight:1.6 }}>📱 <strong>Demo Mode:</strong> Your OTP is <strong style={{ fontFamily:'monospace',fontSize:18 }}>{generatedOtp}</strong><br/><span style={{ fontSize:10,color:'rgba(76,175,80,0.6)' }}>In production, this will be sent via SMS/Email.</span></div>
+            <div style={{ fontSize:13,color:'var(--text-muted)',marginBottom:12 }}>OTP sent to <strong style={{ color:'var(--accent)' }}>{email}</strong></div>
+            <div style={{ marginBottom:12,padding:'10px 14px',background:'var(--green-bg)',border:'1px solid var(--green-border)',borderRadius:8,fontSize:12,color:'var(--green)',lineHeight:1.6 }}>📱 <strong>Demo Mode:</strong> Your OTP is <strong style={{ fontFamily:'monospace',fontSize:18 }}>{generatedOtp}</strong><br/><span style={{ fontSize:10,color:'var(--green)' }}>In production, this will be sent via SMS/Email.</span></div>
             <div style={{ marginBottom:16 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Enter 6-Digit OTP</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Enter 6-Digit OTP</label>
               <input value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0,6))} onKeyDown={e => e.key === 'Enter' && verifyOtp()} className="input" type="text" placeholder="000000" style={{ fontSize:24,letterSpacing:8,textAlign:'center',fontFamily:'monospace' }} />
             </div>
-            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'rgba(231,76,60,0.08)',border:'1px solid rgba(231,76,60,0.25)',borderRadius:8,fontSize:12,color:'#E74C3C' }}>⚠️ {err}</div>}
+            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--red)' }}>⚠️ {err}</div>}
             <button onClick={verifyOtp} className="btn btn-primary btn-lg" style={{ width:'100%',marginBottom:10 }}>Verify OTP →</button>
             <button onClick={() => { setStep(1); setOtp(''); setErr(''); }} className="btn btn-ghost" style={{ width:'100%',fontSize:12 }}>← Change Email</button>
           </>
@@ -305,37 +304,37 @@ export function ForgotPasswordPage({ auth, onGoLogin }) {
         {step === 3 && (
           <>
             <div style={{ fontSize:24,fontWeight:700,marginBottom:4 }}>New Password 🔒</div>
-            <div style={{ fontSize:13,color:'rgba(240,237,232,0.4)',marginBottom:24 }}>Create a new strong password for your account.</div>
+            <div style={{ fontSize:13,color:'var(--text-muted)',marginBottom:24 }}>Create a new strong password for your account.</div>
             <div style={{ marginBottom:15 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>New Password</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>New Password</label>
               <div style={{ position:'relative' }}>
                 <input value={newPass} onChange={e => setNewPass(e.target.value)} className="input" style={{ paddingRight:44 }} type={showPass ? 'text' : 'password'} placeholder="Min. 6 characters" />
-                <button type="button" onClick={() => setShowPass(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'rgba(240,237,232,0.4)',cursor:'pointer',fontSize:15,padding:0 }}>{showPass ? '🙈' : '👁️'}</button>
+                <button type="button" onClick={() => setShowPass(s => !s)} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'var(--text-faint)',cursor:'pointer',fontSize:15,padding:0 }}>{showPass ? '🙈' : '👁️'}</button>
               </div>
             </div>
             <div style={{ marginBottom:15 }}>
-              <label style={{ fontSize:12,color:'rgba(240,237,232,0.5)',display:'block',marginBottom:6 }}>Confirm New Password</label>
+              <label style={{ fontSize:12,color:'var(--text-secondary)',display:'block',marginBottom:6 }}>Confirm New Password</label>
               <input value={confirmPass} onChange={e => setConfirmPass(e.target.value)} onKeyDown={e => e.key === 'Enter' && resetPassword()} className="input" type="password" placeholder="Re-enter new password" />
-              {confirmPass.length > 0 && <div style={{ fontSize:11,marginTop:5,color: newPass === confirmPass ? '#4CAF50' : '#E74C3C' }}>{newPass === confirmPass ? '✅ Passwords match' : '❌ Passwords do not match'}</div>}
+              {confirmPass.length > 0 && <div style={{ fontSize:11,marginTop:5,color: newPass === confirmPass ? 'var(--green)' : 'var(--red)' }}>{newPass === confirmPass ? '✅ Passwords match' : '❌ Passwords do not match'}</div>}
             </div>
-            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'rgba(231,76,60,0.08)',border:'1px solid rgba(231,76,60,0.25)',borderRadius:8,fontSize:12,color:'#E74C3C' }}>⚠️ {err}</div>}
+            {err && <div style={{ marginBottom:14,padding:'9px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--red)' }}>⚠️ {err}</div>}
             <button onClick={resetPassword} disabled={busy} className="btn btn-primary btn-lg" style={{ width:'100%' }}>{busy ? 'Resetting…' : 'Reset Password →'}</button>
           </>
         )}
 
         {step === 4 && (
           <div style={{ textAlign:'center',padding:'20px 0',animation:'fadeUp 0.4s ease' }}>
-            <div style={{ fontSize:52,marginBottom:16,animation:'glow 2s infinite',display:'inline-block' }}>✅</div>
+            <div style={{ fontSize:52,marginBottom:16,display:'inline-block' }}>✅</div>
             <div style={{ fontSize:20,fontWeight:700,marginBottom:8 }}>Password Reset!</div>
-            <div style={{ fontSize:13,color:'rgba(240,237,232,0.45)',lineHeight:1.7,marginBottom:24 }}>Your password has been updated. You can now log in with your new password.</div>
+            <div style={{ fontSize:13,color:'var(--text-muted)',lineHeight:1.7,marginBottom:24 }}>Your password has been updated. You can now log in with your new password.</div>
             <button onClick={onGoLogin} className="btn btn-primary btn-lg" style={{ width:'100%' }}>← Back to Login</button>
           </div>
         )}
 
         {step < 4 && (
-          <div style={{ textAlign:'center',fontSize:13,color:'rgba(240,237,232,0.4)',marginTop:16 }}>
+          <div style={{ textAlign:'center',fontSize:13,color:'var(--text-muted)',marginTop:16 }}>
             Remember your password?{' '}
-            <span onClick={onGoLogin} style={{ color:'#FF9500',cursor:'pointer',fontWeight:600 }}>Log in →</span>
+            <span onClick={onGoLogin} style={{ color:'var(--accent)',cursor:'pointer',fontWeight:600 }}>Log in →</span>
           </div>
         )}
       </div>

@@ -17,7 +17,7 @@ import {
   getDraftUsageStats, getPageViewStats, getQueryTimeline,
   getRecentQueries, getAllUsers, getDbStatus, disconnectDb, getLatestNews,
 } from './dbProvider.js';
-import { updateLegalNews } from './newsService.js';
+import { updateLegalNews, checkAndTriggerUpdate } from './newsService.js';
 import { IPC_BNS_MAPPING } from '../src/data/lawMapping.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -771,6 +771,9 @@ app.get('/api/news', async (req, res) => {
   try {
     const news = await getLatestNews();
     res.json(news);
+    
+    // Background check: If news is stale, trigger an update
+    checkAndTriggerUpdate(news).catch(err => console.error('Stale news trigger failed:', err));
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch legal news' });
   }

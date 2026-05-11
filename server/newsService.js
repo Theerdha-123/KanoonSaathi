@@ -1,12 +1,18 @@
 import Parser from 'rss-parser';
-import { saveNewsList } from './dbProvider.js';
+import { saveNewsList, getLatestNews } from './dbProvider.js';
 
 const parser = new Parser();
-
-// The RSS feed URL for Indian Supreme Court/High Court judgments
 const RSS_URL = 'https://news.google.com/rss/search?q=Supreme+Court+of+India+Judgments+OR+High+Court+Judgments&hl=en-IN&gl=IN&ceid=IN:en';
 
+let isUpdating = false;
+
 export async function updateLegalNews() {
+  if (isUpdating) {
+    console.log('📰 [NewsService] Update already in progress, skipping...');
+    return;
+  }
+  
+  isUpdating = true;
   console.log('📰 [NewsService] Fetching latest legal news...');
   try {
     // 1. Fetch and parse RSS
@@ -110,5 +116,26 @@ Rules:
 
   } catch (error) {
     console.error('❌ [NewsService] Error fetching or processing news:', error.message);
+  } finally {
+    isUpdating = false;
+  }
+}
+
+/**
+ * Checks if news is older than 6 hours and triggers an update in the background
+ */
+export async function checkAndTriggerUpdate(currentNews) {
+  if (isUpdating) return;
+
+  const SIX_HOURS = 6 * 60 * 60 * 1000;
+  const latestItem = currentNews?.[0];
+  
+  const lastUpdated = latestItem?.created_at ? new Date(latestItem.created_at) : new Date(0);
+  const now = new Date();
+
+  if (now - lastUpdated > SIX_HOURS) {
+    console.log('📰 [NewsService] News is stale (>6h), triggering background update...');
+    // Run in background, don't await
+    updateLegalNews().catch(err => console.error('Background news update failed:', err));
   }
 }

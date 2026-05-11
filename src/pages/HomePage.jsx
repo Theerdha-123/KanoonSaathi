@@ -74,7 +74,7 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
               <span style={{ fontSize:22 }}>{icon}</span>
               <div>
                 <div style={{ fontSize:12,fontWeight:700 }}>{title}</div>
-                <div style={{ fontSize:10,color:'rgba(240,237,232,0.35)' }}>{desc}</div>
+                <div style={{ fontSize:10,color:'var(--text-muted)' }}>{desc}</div>
               </div>
             </button>
           ))}
@@ -82,11 +82,11 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
       </div>
 
       {/* Stats */}
-      <div className="stats-bar" style={{ display:'flex',justifyContent:'center',gap:40,padding:'20px 24px',borderTop:'1px solid rgba(255,255,255,0.05)',borderBottom:'1px solid rgba(255,255,255,0.05)',marginBottom:44,flexWrap:'wrap',position:'relative',zIndex:1 }}>
+      <div className="stats-bar" style={{ display:'flex',justifyContent:'center',gap:40,padding:'20px 24px',borderTop:'1px solid var(--border-light)',borderBottom:'1px solid var(--border-light)',marginBottom:44,flexWrap:'wrap',position:'relative',zIndex:1 }}>
         {[['180+','Laws & Sections'],['20','Categories'],['9','What If Guides'],['10','Women Safety'],['10','Disability Rights']].map(([n,l]) => (
           <div key={n} className="stats-item" style={{ textAlign:'center' }}>
-            <div style={{ fontSize:24,fontWeight:700,background:'linear-gradient(90deg,#E8A838,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
-            <div style={{ fontSize:11,color:'rgba(232,230,225,0.32)',marginTop:2 }}>{l}</div>
+            <div style={{ fontSize:24,fontWeight:700,background:'var(--accent-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
+            <div style={{ fontSize:11,color:'var(--text-muted)',marginTop:2 }}>{l}</div>
           </div>
         ))}
       </div>
@@ -118,10 +118,10 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                 onClick={() => onCategory(cat.id)}>
                 <div style={{ fontSize:26,marginBottom:9 }}>{cat.icon}</div>
                 <div style={{ fontSize:14,fontWeight:700,marginBottom:4,color:cat.color }}>{cat.title}</div>
-                <div style={{ fontSize:11,color:'rgba(240,237,232,0.37)',marginBottom:9,lineHeight:1.55 }}>{cat.desc}</div>
+                <div style={{ fontSize:11,color:'var(--text-secondary)',marginBottom:9,lineHeight:1.55 }}>{cat.desc}</div>
                 <div>
-                  {cat.laws.slice(0,4).map((l,i) => <span key={i} className="tag" style={{ background:`${cat.color}10`,color:`${cat.color}BB`,border:`1px solid ${cat.color}22` }}>{l.section}</span>)}
-                  {cat.laws.length>4 && <span className="tag" style={{ background:`${cat.color}10`,color:`${cat.color}BB`,border:`1px solid ${cat.color}22` }}>+{cat.laws.length-4}</span>}
+                  {cat.laws.slice(0,4).map((l,i) => <span key={i} className="tag" style={{ background:`${cat.color}10`,color:`${cat.color}`,border:`1px solid ${cat.color}22` }}>{l.section}</span>)}
+                  {cat.laws.length>4 && <span className="tag" style={{ background:`${cat.color}10`,color:`${cat.color}`,border:`1px solid ${cat.color}22` }}>+{cat.laws.length-4}</span>}
                 </div>
               </div>
             ))}
@@ -145,19 +145,19 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                       <div style={{ display:'flex',alignItems:'center',gap:8,marginBottom:3 }}>
                         <span style={{ fontSize:14,fontWeight:700 }}>{sc.title}</span>
                         <span className="tag tag-pill" style={{ background:`${sc.color}14`,color:sc.color,border:`1px solid ${sc.color}28` }}>{sc.tag}</span>
-                        <div style={{ color:'rgba(240,237,232,0.3)',fontSize:13,marginLeft:'auto' }}>
+                        <div style={{ color:'var(--text-faint)',fontSize:13,marginLeft:'auto' }}>
                           <button onClick={e => { e.stopPropagation(); toggleBookmark({ id:`sc_${sc.id}`,type:'scenario',title:sc.title,tag:sc.tag,situation:sc.situation,color:sc.color,icon:sc.icon,helpline:sc.helpline,laws:sc.laws }); }}
-                            style={{ background:'none',border:'none',cursor:'pointer',fontSize:17,padding:0,opacity:isBookmarked(`sc_${sc.id}`)?1:0.3,color:isBookmarked(`sc_${sc.id}`)?'#FFD700':'#F0EDE8' }}>
+                            style={{ background:'none',border:'none',cursor:'pointer',fontSize:17,padding:0,opacity:isBookmarked(`sc_${sc.id}`)?1:0.3,color:isBookmarked(`sc_${sc.id}`)?'var(--accent-gold)':'var(--text-primary)' }}>
                             {isBookmarked(`sc_${sc.id}`) ? '⭐' : '☆'}
                           </button>
                           {open ? ' ▲' : ' ▼'}
                         </div>
                       </div>
-                      <div style={{ fontSize:11,color:'rgba(240,237,232,0.42)',lineHeight:1.5 }}>{sc.situation}</div>
+                      <div style={{ fontSize:11,color:'var(--text-muted)',lineHeight:1.5 }}>{sc.situation}</div>
                     </div>
-                    <div style={{ color:'rgba(240,237,232,0.3)',fontSize:13,marginTop:4,display:'flex',alignItems:'center',gap:8 }}>
+                    <div style={{ color:'var(--text-faint)',fontSize:13,marginTop:4,display:'flex',alignItems:'center',gap:8 }}>
                       <button onClick={e => { e.stopPropagation(); toggleBookmark({ id:`sc_${sc.id}`,type:'scenario',title:sc.title,tag:sc.tag,situation:sc.situation,color:sc.color,icon:sc.icon,helpline:sc.helpline,laws:sc.laws }); }}
-                        style={{ background:'none',border:'none',cursor:'pointer',fontSize:17,padding:0,opacity:isBookmarked(`sc_${sc.id}`)?1:0.3,color:isBookmarked(`sc_${sc.id}`)?'#FFD700':'#F0EDE8' }}>
+                        style={{ background:'none',border:'none',cursor:'pointer',fontSize:17,padding:0,opacity:isBookmarked(`sc_${sc.id}`)?1:0.3,color:isBookmarked(`sc_${sc.id}`)?'var(--accent-gold)':'var(--text-primary)' }}>
                         {isBookmarked(`sc_${sc.id}`) ? '⭐' : '☆'}
                       </button>
                       {open ? '▲' : '▼'}
@@ -165,18 +165,18 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                   </div>
                   {open && (
                     <div style={{ padding:'0 17px 16px',animation:'fadeIn 0.2s ease' }}>
-                      <div style={{ height:1,background:'rgba(255,255,255,0.06)',marginBottom:14 }} />
+                      <div style={{ height:1,background:'var(--border-light)',marginBottom:14 }} />
                       <div style={{ fontSize:11,fontWeight:700,color:sc.color,marginBottom:8 }}>⚖️ APPLICABLE LAWS</div>
-                      {sc.laws.map((l,i) => <div key={i} style={{ fontSize:11,padding:'5px 10px',background:`${sc.color}0C`,border:`1px solid ${sc.color}22`,borderRadius:6,marginBottom:5,color:'rgba(240,237,232,0.72)' }}>{l}</div>)}
+                      {sc.laws.map((l,i) => <div key={i} style={{ fontSize:11,padding:'5px 10px',background:`${sc.color}0C`,border:`1px solid ${sc.color}22`,borderRadius:6,marginBottom:5,color:'var(--text-primary)' }}>{l}</div>)}
                       <div style={{ fontSize:11,fontWeight:700,color:'#4CAF50',margin:'13px 0 8px' }}>✅ WHAT YOU SHOULD DO</div>
                       {sc.steps.map((step,i) => (
                         <div key={i} style={{ display:'flex',gap:9,marginBottom:7,alignItems:'flex-start' }}>
                           <div style={{ width:20,height:20,borderRadius:'50%',background:`${sc.color}16`,color:sc.color,fontSize:10,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>{i+1}</div>
-                          <div style={{ fontSize:12,color:'rgba(240,237,232,0.68)',lineHeight:1.55 }}>{step}</div>
+                          <div style={{ fontSize:12,color:'var(--text-secondary)',lineHeight:1.55 }}>{step}</div>
                         </div>
                       ))}
-                      <div style={{ marginTop:12,padding:'8px 12px',background:'rgba(192,57,43,0.07)',border:'1px solid rgba(192,57,43,0.16)',borderRadius:8,fontSize:12,color:'rgba(240,237,232,0.58)',lineHeight:1.5 }}>🔨 <strong style={{ color:'#E74C3C' }}>Punishment:</strong> {sc.punishment}</div>
-                      <div style={{ marginTop:7,padding:'8px 12px',background:'rgba(19,136,8,0.06)',border:'1px solid rgba(19,136,8,0.15)',borderRadius:8,fontSize:12,color:'rgba(240,237,232,0.58)' }}>📞 <strong style={{ color:'#4CAF50' }}>Helplines:</strong> {sc.helpline}</div>
+                      <div style={{ marginTop:12,padding:'8px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--text-secondary)',lineHeight:1.5 }}>🔨 <strong style={{ color:'var(--red)' }}>Punishment:</strong> {sc.punishment}</div>
+                      <div style={{ marginTop:7,padding:'8px 12px',background:'var(--green-bg)',border:'1px solid var(--green-border)',borderRadius:8,fontSize:12,color:'var(--text-secondary)' }}>📞 <strong style={{ color:'var(--green)' }}>Helplines:</strong> {sc.helpline}</div>
                       <button className="btn btn-primary" style={{ width:'100%',marginTop:13,padding:10,borderRadius:8,fontSize:13 }}
                         onClick={() => onChat(`I need help with: ${sc.title}. ${sc.situation} Please give me detailed advice.`)}>
                         Get Personalised AI Legal Advice →
@@ -209,10 +209,10 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                 onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor=`${h.color}20`; }}>
                 <div style={{ display:'flex',alignItems:'center',gap:8,marginBottom:7 }}>
                   <span style={{ fontSize:20 }}>{h.icon}</span>
-                  <span style={{ fontSize:12,fontWeight:700,color:'rgba(240,237,232,0.82)' }}>{h.name}</span>
+                  <span style={{ fontSize:12,fontWeight:700,color:'var(--text-primary)' }}>{h.name}</span>
                 </div>
                 <div style={{ fontSize:20,fontWeight:700,color:h.color,fontFamily:'monospace',marginBottom:3 }}>{h.number}</div>
-                <div style={{ fontSize:11,color:'rgba(240,237,232,0.36)',lineHeight:1.5 }}>{h.desc}</div>
+                <div style={{ fontSize:11,color:'var(--text-muted)',lineHeight:1.5 }}>{h.desc}</div>
               </div>
             ))}
           </div>
@@ -242,24 +242,24 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                   </div>
                   {open && (
                     <div style={{ padding:'0 17px 16px',animation:'fadeIn 0.2s ease' }}>
-                      <div style={{ height:1,background:'rgba(255,255,255,0.06)',marginBottom:14 }} />
+                      <div style={{ height:1,background:'var(--border-light)',marginBottom:14 }} />
                       <div style={{ fontSize:11,fontWeight:700,color:'#E74C3C',marginBottom:9 }}>🚨 DO THIS RIGHT NOW</div>
                       {wi.doNow.map((step,i) => (
                         <div key={i} style={{ display:'flex',gap:9,marginBottom:8,alignItems:'flex-start' }}>
                           <div style={{ width:22,height:22,borderRadius:'50%',background:`${wi.color}18`,color:wi.color,fontSize:10,fontWeight:700,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>{i+1}</div>
-                          <div style={{ fontSize:12,color:'rgba(240,237,232,0.72)',lineHeight:1.55 }}>{step}</div>
+                          <div style={{ fontSize:12,color:'var(--text-secondary)',lineHeight:1.55 }}>{step}</div>
                         </div>
                       ))}
                       <div style={{ fontSize:11,fontWeight:700,color:wi.color,margin:'14px 0 9px' }}>⚖️ APPLICABLE LAWS</div>
                       {wi.laws.map((l,i) => (
                         <div key={i} style={{ marginBottom:6,padding:'7px 10px',background:`${wi.color}0A`,border:`1px solid ${wi.color}22`,borderRadius:7 }}>
                           <span style={{ fontSize:10,fontWeight:700,color:wi.color }}>{l.s}</span>
-                          <span style={{ fontSize:11,color:'rgba(240,237,232,0.65)',marginLeft:7 }}>{l.d}</span>
+                          <span style={{ fontSize:11,color:'var(--text-muted)',marginLeft:7 }}>{l.d}</span>
                         </div>
                       ))}
-                      <div style={{ marginTop:12,padding:'9px 12px',background:'rgba(192,57,43,0.07)',border:'1px solid rgba(192,57,43,0.18)',borderRadius:8,fontSize:12,color:'rgba(240,237,232,0.6)',lineHeight:1.5 }}>🔨 <strong style={{ color:'#E74C3C' }}>Punishment:</strong> {wi.punishment}</div>
-                      <div style={{ marginTop:7,padding:'9px 12px',background:'rgba(255,149,0,0.07)',border:'1px solid rgba(255,149,0,0.2)',borderRadius:8,fontSize:12,color:'rgba(240,237,232,0.6)',lineHeight:1.5 }}>{wi.warn}</div>
-                      <div style={{ marginTop:7,padding:'8px 12px',background:'rgba(19,136,8,0.06)',border:'1px solid rgba(19,136,8,0.15)',borderRadius:8,fontSize:12,color:'rgba(240,237,232,0.6)' }}>📞 <strong style={{ color:'#4CAF50' }}>Call:</strong> {wi.helpline}</div>
+                      <div style={{ marginTop:12,padding:'9px 12px',background:'var(--red-bg)',border:'1px solid var(--red-border)',borderRadius:8,fontSize:12,color:'var(--text-secondary)',lineHeight:1.5 }}>🔨 <strong style={{ color:'var(--red)' }}>Punishment:</strong> {wi.punishment}</div>
+                      <div style={{ marginTop:7,padding:'9px 12px',background:'var(--accent-bg)',border:'1px solid var(--accent-border)',borderRadius:8,fontSize:12,color:'var(--text-secondary)',lineHeight:1.5 }}>{wi.warn}</div>
+                      <div style={{ marginTop:7,padding:'8px 12px',background:'var(--green-bg)',border:'1px solid var(--green-border)',borderRadius:8,fontSize:12,color:'var(--text-secondary)' }}>📞 <strong style={{ color:'var(--green)' }}>Call:</strong> {wi.helpline}</div>
                       <button className="btn btn-primary" style={{ width:'100%',marginTop:13,padding:10,borderRadius:8,fontSize:13 }}
                         onClick={() => onChat(`I need urgent help: ${wi.title}. ${wi.situation} What are my exact rights and what should I do?`)}>
                         Get Detailed AI Legal Advice →
@@ -290,8 +290,8 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                     <span className="tag" style={{ background:`${r.color}12`,color:r.color,border:`1px solid ${r.color}28` }}>{r.article}</span>
                   </div>
                 </div>
-                <div style={{ fontSize:12,color:'rgba(240,237,232,0.5)',lineHeight:1.65,marginBottom:10 }}>{r.desc}</div>
-                <div style={{ fontSize:11,padding:'8px 11px',background:'rgba(76,175,80,0.07)',border:'1px solid rgba(76,175,80,0.17)',borderRadius:7,color:'rgba(240,237,232,0.65)',lineHeight:1.55 }}>✅ {r.action}</div>
+                <div style={{ fontSize:12,color:'var(--text-secondary)',lineHeight:1.65,marginBottom:10 }}>{r.desc}</div>
+                <div style={{ fontSize:11,padding:'8px 11px',background:'var(--green-bg)',border:'1px solid var(--green-border)',borderRadius:7,color:'var(--text-secondary)',lineHeight:1.55 }}>✅ {r.action}</div>
               </div>
             ))}
           </div>
@@ -329,12 +329,12 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
                     </div>
                   </div>
                 </div>
-                <div style={{ fontSize:12,color:'rgba(240,237,232,0.55)',lineHeight:1.65,marginBottom:10 }}>{app.desc}</div>
+                <div style={{ fontSize:12,color:'var(--text-secondary)',lineHeight:1.65,marginBottom:10 }}>{app.desc}</div>
                 <div style={{ display:'flex',alignItems:'center',gap:7,marginBottom:8,padding:'7px 10px',background:`${app.color}0A`,borderRadius:7,border:`1px solid ${app.color}20` }}>
                   <span style={{ fontSize:11 }}>📞</span>
                   <span style={{ fontSize:13,fontWeight:700,color:app.color,fontFamily:'monospace' }}>{app.number}</span>
                 </div>
-                <div style={{ fontSize:11,padding:'8px 11px',background:'rgba(76,175,80,0.07)',border:'1px solid rgba(76,175,80,0.17)',borderRadius:7,color:'rgba(240,237,232,0.65)',lineHeight:1.55 }}>✅ {app.howto}</div>
+                <div style={{ fontSize:11,padding:'8px 11px',background:'var(--green-bg)',border:'1px solid var(--green-border)',borderRadius:7,color:'var(--text-secondary)',lineHeight:1.55 }}>✅ {app.howto}</div>
               </div>
             ))}
           </div>
@@ -448,17 +448,17 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
 
       {/* Impact Section */}
       <div style={{ margin:'0 28px 48px',position:'relative',zIndex:1 }}>
-        <div style={{ borderRadius:18,padding:'36px 32px',background:'linear-gradient(135deg,rgba(255,107,0,0.08),rgba(255,149,0,0.03))',border:'1px solid rgba(255,107,0,0.14)',textAlign:'center' }}>
+        <div style={{ borderRadius:18,padding:'36px 32px',background:'var(--accent-bg)',border:'1px solid var(--accent-border)',textAlign:'center' }}>
           <div style={{ fontSize:28,marginBottom:12 }}>⚖️</div>
           <div style={{ fontSize:22,fontWeight:700,marginBottom:10 }}>{t.impactTitle}</div>
-          <div style={{ fontSize:13,color:'rgba(240,237,232,0.44)',maxWidth:480,margin:'0 auto 24px',lineHeight:1.8 }}>
+          <div style={{ fontSize:13,color:'var(--text-secondary)',maxWidth:480,margin:'0 auto 24px',lineHeight:1.8 }}>
             3 out of 4 Indians have no idea what laws protect them. KanoonSaathi puts the entire Indian legal system in your hands — free, instant, and in plain English.
           </div>
           <div className="stats-bar" style={{ display:'flex',gap:24,justifyContent:'center',flexWrap:'wrap',marginBottom:24 }}>
             {[['1.4B','Indians who deserve to know their rights'],['80%','Cases dismissed due to lack of awareness'],['₹0','Cost to use KanoonSaathi']].map(([n,l]) => (
               <div key={n} className="stats-item" style={{ textAlign:'center' }}>
-                <div style={{ fontSize:26,fontWeight:700,background:'linear-gradient(90deg,#E8A838,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
-                <div style={{ fontSize:11,color:'rgba(232,230,225,0.35)',maxWidth:140,lineHeight:1.4 }}>{l}</div>
+                <div style={{ fontSize:26,fontWeight:700,background:'var(--accent-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent' }}>{n}</div>
+                <div style={{ fontSize:11,color:'var(--text-muted)',maxWidth:140,lineHeight:1.4 }}>{l}</div>
               </div>
             ))}
           </div>
@@ -470,8 +470,8 @@ export default function HomePage({ loggedIn, user, lang, theme, fontSize, setThe
       <div className="footer">
         <div>⚖️ <strong>KanoonSaathi</strong> — Empowering 1.4 Billion Indians with Free Legal Knowledge</div>
         <div>IPC · RERA · RTI · FSS Act · DGCA · PCA Act · Consumer Protection · IT Act · Labour Laws & Codes · Tax Laws · Medical Laws · FIR Rights · PMLA/ED · Education Laws · CBI · ARAI · Armed Forces · BSF · Railways · Disability Rights</div>
-        <div style={{ marginTop:4,fontSize:10,color:'rgba(240,237,232,0.18)' }}>🌐 Available in 23 Languages · 22 Scheduled Languages + English · Constitution of India, 8th Schedule</div>
-        <div style={{ marginTop:3,fontSize:10,color:'rgba(240,237,232,0.11)' }}>⚠️ For informational purposes only. For formal legal advice, consult a licensed advocate or DLSA.</div>
+        <div style={{ marginTop:4,fontSize:10,color:'var(--text-faint)' }}>🌐 Available in 23 Languages · 22 Scheduled Languages + English · Constitution of India, 8th Schedule</div>
+        <div style={{ marginTop:3,fontSize:10,color:'var(--text-faint)',opacity:0.5 }}>⚠️ For informational purposes only. For formal legal advice, consult a licensed advocate or DLSA.</div>
       </div>
     </div>
   );
