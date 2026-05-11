@@ -338,7 +338,7 @@ body {
 .input {
   width: 100%;
   padding: 11px 14px;
-  background: rgba(255,255,255,0.05);
+  background: var(--bg-card-hover);
   border: 1px solid var(--border-medium);
   border-radius: 9px;
   color: var(--text-primary);
@@ -460,7 +460,7 @@ body {
 
 .chat-input-area {
   padding: 13px 20px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid var(--border-light);
   display: flex;
   gap: 8px;
   align-items: flex-end;
@@ -491,7 +491,7 @@ body {
 /* ─── Footer ───────────────────────────────────────────────────────────────── */
 .footer {
   padding: 24px;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--border-light);
   text-align: center;
   color: var(--text-faint);
   font-size: 11px;
@@ -588,7 +588,7 @@ body {
   font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 400;
-  background: rgba(255,255,255,0.04);
+  background: var(--bg-card);
   color: var(--text-secondary);
   transition: all 0.2s;
   white-space: nowrap;

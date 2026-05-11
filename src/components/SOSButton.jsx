@@ -74,12 +74,12 @@ export default function SOSButton() {
       {expanded && (
         <div style={{
           position: 'fixed', bottom: 90, right: 24, zIndex: 200,
-          width: 280, background: '#0E0E1A', border: '1px solid rgba(192,57,43,0.4)',
+          width: 280, background: 'var(--bg-secondary)', border: '1px solid var(--red-border)',
           borderRadius: 16, padding: '18px 16px', animation: 'fadeUp 0.2s ease',
           boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
         }}>
-          <div style={{ fontSize: 16, fontWeight: 700, color: '#E74C3C', marginBottom: 4 }}>🚨 Emergency SOS</div>
-          <div style={{ fontSize: 11, color: 'rgba(240,237,232,0.4)', marginBottom: 14, lineHeight: 1.5 }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--red)', marginBottom: 4 }}>🚨 Emergency SOS</div>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 14, lineHeight: 1.5 }}>
             This will call 112 and share your GPS location via WhatsApp.
           </div>
 
@@ -117,7 +117,7 @@ export default function SOSButton() {
           )}
 
           <button onClick={() => setExpanded(false)}
-            style={{ width: '100%', marginTop: 10, padding: '8px', borderRadius: 8, background: 'transparent', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(240,237,232,0.4)', cursor: 'pointer', fontSize: 11, fontFamily: 'inherit' }}>
+            style={{ width: '100%', marginTop: 10, padding: '8px', borderRadius: 8, background: 'transparent', border: '1px solid var(--border-light)', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 11, fontFamily: 'inherit' }}>
             Close
           </button>
         </div>

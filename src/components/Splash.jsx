@@ -13,17 +13,17 @@ export default function Splash({ onDone }) {
   }, [onDone]);
 
   return (
-    <div style={{ position:'fixed',inset:0,background:'#07070F',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',zIndex:9999 }}>
+    <div style={{ position:'fixed',inset:0,background:'var(--bg-primary)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',zIndex:9999 }}>
       {[320,200,100].map((sz,i) => (
-        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid rgba(255,107,0,${0.06+i*0.04})`,animation:`orbit ${18+i*6}s linear infinite` }} />
+        <div key={i} className="orbit-ring" style={{ width:sz,height:sz,border:`1px solid var(--border-light)`,animation:`orbit ${18+i*6}s linear infinite` }} />
       ))}
       <div style={{ fontSize:56,marginBottom:20,animation:'glow 2s infinite' }}>⚖️</div>
-      <div style={{ fontSize:28,fontWeight:700,fontFamily:'Georgia,serif',background:'linear-gradient(90deg,#FF6B00,#FFD700)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',marginBottom:6 }}>KanoonSaathi</div>
-      <div style={{ fontSize:13,color:'rgba(240,237,232,0.4)',fontFamily:'Georgia,serif',marginBottom:36,letterSpacing:'1px' }}>India's Legal Companion</div>
-      <div style={{ width:220,height:3,background:'rgba(255,255,255,0.07)',borderRadius:3,overflow:'hidden' }}>
-        <div style={{ height:'100%',width:`${pct}%`,background:'linear-gradient(90deg,#FF6B00,#FFD700)',borderRadius:3,transition:'width 0.18s ease' }} />
+      <div style={{ fontSize:28,fontWeight:700,fontFamily:'var(--font-serif)',background:'var(--accent-gradient)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',marginBottom:6 }}>KanoonSaathi</div>
+      <div style={{ fontSize:13,color:'var(--text-muted)',fontFamily:'var(--font-serif)',marginBottom:36,letterSpacing:'1px' }}>India's Legal Companion</div>
+      <div style={{ width:220,height:3,background:'var(--border-light)',borderRadius:3,overflow:'hidden' }}>
+        <div style={{ height:'100%',width:`${pct}%`,background:'var(--accent-gradient)',borderRadius:3,transition:'width 0.18s ease' }} />
       </div>
-      <div style={{ fontSize:11,color:'rgba(240,237,232,0.3)',fontFamily:'Georgia,serif',marginTop:10 }}>Loading {pct}%</div>
+      <div style={{ fontSize:11,color:'var(--text-faint)',fontFamily:'var(--font-serif)',marginTop:10 }}>Loading {pct}%</div>
     </div>
   );
 }

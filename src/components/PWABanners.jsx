@@ -27,8 +27,8 @@ export function InstallBanner({ onInstall, onDismiss }) {
     <div style={{
       position: 'fixed', bottom: 90, left: 16, right: 16, zIndex: 150,
       padding: '14px 18px',
-      background: 'rgba(7,7,15,0.97)',
-      border: '1px solid rgba(255,107,0,0.3)',
+      background: 'var(--bg-glass)',
+      border: '1px solid var(--accent-border)',
       borderRadius: 16,
       backdropFilter: 'blur(16px)',
       display: 'flex', alignItems: 'center', gap: 14,
@@ -44,10 +44,10 @@ export function InstallBanner({ onInstall, onDismiss }) {
         fontSize: 22, flexShrink: 0,
       }}>⚖️</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#F0EDE8', marginBottom: 2 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
           Install KanoonSaathi
         </div>
-        <div style={{ fontSize: 11, color: 'rgba(240,237,232,0.5)', lineHeight: 1.5 }}>
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>
           Add to home screen for instant access, even offline. No app store needed.
         </div>
       </div>
@@ -58,8 +58,8 @@ export function InstallBanner({ onInstall, onDismiss }) {
           fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
         }}>Install</button>
         <button onClick={onDismiss} style={{
-          padding: '4px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.08)',
-          background: 'transparent', color: 'rgba(240,237,232,0.35)', cursor: 'pointer',
+          padding: '4px 10px', borderRadius: 6, border: '1px solid var(--border-light)',
+          background: 'transparent', color: 'var(--text-faint)', cursor: 'pointer',
           fontSize: 9, fontFamily: 'inherit',
         }}>Later</button>
       </div>
